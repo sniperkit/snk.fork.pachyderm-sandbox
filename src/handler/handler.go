@@ -38,7 +38,7 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 		a.files[path] = content
 	}
 
-	c.HTML(http.StatusOK, path, string(content) )
+	c.String(http.StatusOK, string(content) )
 }
 
 

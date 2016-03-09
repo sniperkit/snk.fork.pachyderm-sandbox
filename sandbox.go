@@ -2,6 +2,7 @@ package main
 
 import(
 	"net/http"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 
@@ -14,13 +15,16 @@ var assetHandler = handler.NewAssetHandler()
 func main() {
 	router := gin.Default()
 
-	router.LoadHTMLGlob("views/*")
 
 	assets := router.Group("/assets")
 	{
+		fmt.Printf("I SEE AN ASSET REQUEST")
 		assets.GET("/styles.css", assetHandler.Serve)
 		assets.GET("/main.js", assetHandler.Serve)
 	}
+
+
+	router.LoadHTMLGlob("views/*")
 
 	router.GET("/", func (c *gin.Context) {
 //		pageHandler.Serve("main", c)
