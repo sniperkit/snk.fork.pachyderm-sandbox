@@ -4,6 +4,7 @@ import(
 	"io/ioutil"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,6 +40,15 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 	}
 
 	c.String(http.StatusOK, string(content) )
+	setMIMEType(c, path)
+
 }
 
+func setMIMEType(c *gin.Context, path string) {
+	tokens := strings.Split(path, ".")
+	suffix := tokens[len(tokens)-1]
+	contentType := fmt.Sprintf("text/%v", suffix)
+	fmt.Printf("content type: %v\n", contentType)
+	c.Request.Header.Set("Content-Type", contentType)
+}
 

@@ -10,11 +10,9 @@ import(
 )
 
 var assetHandler = handler.NewAssetHandler()
-// var pageHandler = handler.NewPageHandler()
+var router = gin.Default()
 
 func main() {
-	router := gin.Default()
-
 
 	assets := router.Group("/assets")
 	{
@@ -22,6 +20,26 @@ func main() {
 		assets.GET("/main.js", assetHandler.Serve)
 	}
 
+	router.HTMLRender = loadTemplates()
+
+	router.GET("/", handle("main"))
+
+	router.Run(":5678")
+}
+
+func handle(page string) ( func (*gin.Context) ){
+	return func(c *gin.Context) {
+		if gin.Mode() == "debug" {
+			router.HTMLRender = loadTemplates()
+		}
+		
+		c.HTML(http.StatusOK, page, gin.H{
+			"title" : "thing",
+		})
+	}
+}
+
+func loadTemplates() multitemplate.Render {
 	templates := multitemplate.New()
 	templates.AddFromFiles(
 		"main",
@@ -30,13 +48,5 @@ func main() {
 		"views/data.html",
 	)
 
-	router.HTMLRender = templates
-
-	router.GET("/", func (c *gin.Context) {
-		c.HTML(http.StatusOK, "main", gin.H{
-			"title" : "thing",
-		})
-	})
-
-	router.Run(":5678")
+	return templates
 }
