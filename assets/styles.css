@@ -1,3 +1,5 @@
-div {
-  border: 10px solid pink;
+.pane {
+  border: 2px solid pink;
+  margin: 10px;
+  display:inline-block;
 }
