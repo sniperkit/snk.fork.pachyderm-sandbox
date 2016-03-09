@@ -1,3 +1,33 @@
 .pane {
   border: 2px solid pink;
+  display: inline-block;
+  margin: 10px;
+  width: 30%;
+  top: 0px;
+  position: relative;
+  vertical-align: top;
+  height: 100%;
+}
+
+.main {
+  position: relative;
+  height: 400px;
+}
+
+.navigation {
+  width: 100%;
+  clear: float;
+}
+
+.button {
+  float: right;
+  top: 40px;
+  right: 40px;
+  position: relative;
+  display: inline-block;  
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid grey;
+  color: white;
+  background-color: blue;
 }
