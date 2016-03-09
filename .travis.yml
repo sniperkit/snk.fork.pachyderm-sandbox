@@ -1,3 +1,4 @@
+sudo: false
 deploy:
   provider: gae
   keyfile: client-secret.json
@@ -5,3 +6,10 @@ deploy:
 before_install:
 - openssl aes-256-cbc -K $encrypted_a9aeb6bf1959_key -iv $encrypted_a9aeb6bf1959_iv
   -in client-secret.json.enc -out client-secret.json -d
+go:
+  - 1.6
+branches:
+  only:
+    - master
+notifications:
+  slack: pachyderm:qmSCZSX1Q2yWxc6DjNZZFLGd
