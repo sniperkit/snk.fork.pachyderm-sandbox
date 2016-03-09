@@ -23,7 +23,7 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 	path := fmt.Sprintf(".%v", c.Request.URL.Path)
 	content, ok := a.files[path]
 
-	if !ok {
+	if !ok || gin.Mode() == "debug" {
 		fmt.Println(path)
 		content, err := ioutil.ReadFile(path)
 

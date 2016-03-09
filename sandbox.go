@@ -2,7 +2,6 @@ package main
 
 import(
 	"net/http"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
