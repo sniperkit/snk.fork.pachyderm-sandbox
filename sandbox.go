@@ -1,15 +1,13 @@
 package main
 
 import(
-	"fmt"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
-	"github.com/pachyderm/sandbox/src/asset_handler"
+	"github.com/pachyderm/sandbox/src/handler"
 )
 
-var assetHandler = asset_handler.NewAssetHandler()
+var assetHandler = handler.NewAssetHandler()
+var pageHandler = handler.NewPageHandler()
 
 func main() {
 	router := gin.Default()
@@ -20,10 +18,8 @@ func main() {
 		assets.GET("/main.js", assetHandler.Serve)
 	}
 
-	router.GET("/", func(c *gin.Context) {
-		fmt.Printf("wow okzz")
-		name := c.Query("name")
-		c.String(http.StatusOK, "Hello [%s]", name)
+	router.GET("/", func (c *gin.Context) {
+		pageHandler.Serve("main", c)
 	})
 
 	router.Run(":5678")
