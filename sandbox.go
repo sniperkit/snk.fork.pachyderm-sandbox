@@ -47,6 +47,7 @@ func loadTemplates() multitemplate.Render {
 		"views/main.html",
 		"views/data.html",
 		"views/copy.html",
+		"views/code.html",
 	)
 
 	return templates

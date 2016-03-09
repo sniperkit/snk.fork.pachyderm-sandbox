@@ -2,6 +2,8 @@
 
 <h1> Pachyderm Sandbox {{.title}} </h1>
 
+<form action="/submit">
+
 <div class="main">
 
 <section class="pane copy">
@@ -13,17 +15,17 @@
 </section>
 
 <section class="pane code">
-
+  {{ template "code" . }}
 </section>
 
 </div>
 
 <div class="navigation">
 
-  <span class="button">
-    Next >>
-  </span>
+  <input type="submit" class="button" value="Next >>"/>
 
 </div>
+
+</form>
 
 {{ end }}
