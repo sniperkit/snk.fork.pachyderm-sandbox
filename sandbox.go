@@ -5,6 +5,7 @@ import(
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/contrib/renders/multitemplate"
 
 	"github.com/pachyderm/sandbox/src/handler"
 )
@@ -18,17 +19,22 @@ func main() {
 
 	assets := router.Group("/assets")
 	{
-		fmt.Printf("I SEE AN ASSET REQUEST")
 		assets.GET("/styles.css", assetHandler.Serve)
 		assets.GET("/main.js", assetHandler.Serve)
 	}
 
+	templates := multitemplate.New()
+	templates.AddFromFiles(
+		"main",
+		"views/base.html",
+		"views/main.html",
+		"views/data.html",
+	)
 
-	router.LoadHTMLGlob("views/*")
+	router.HTMLRender = templates
 
 	router.GET("/", func (c *gin.Context) {
-//		pageHandler.Serve("main", c)
-		c.HTML(http.StatusOK, "main.tmpl", gin.H{
+		c.HTML(http.StatusOK, "main", gin.H{
 			"title" : "thing",
 		})
 	})

@@ -1,11 +1,9 @@
-<head>
-  <script src="assets/main.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/styles.css">
-
-<body>
-  <div id="main">
     <h1> Pachyderm Sandbox {{.title}} </h1>
-    <section class="pane copy"></section>
-    <section class="pane data"></section>
-    <section class="pane code"></section>
+    <section class="pane copy">{{ .copy }}</section>
+    <section class="pane data">
+      {{ template "data" . }}
+    </section>
+
+    <section class="pane code">
+    </section>
 
