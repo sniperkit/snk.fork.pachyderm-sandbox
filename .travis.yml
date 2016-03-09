@@ -13,3 +13,5 @@ branches:
     - master
 notifications:
   slack: pachyderm:qmSCZSX1Q2yWxc6DjNZZFLGd
+script:
+  - echo "Magic deploy?"
