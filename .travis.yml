@@ -5,6 +5,7 @@ deploy:
   project: pachyderm-sandbox
   skip_cleanup: true
   on: master
+  config: app/app.yaml
 before_install:
   - openssl aes-256-cbc -K $encrypted_a9aeb6bf1959_key -iv $encrypted_a9aeb6bf1959_iv -in client-secret.json.enc -out client-secret.json -d
 language: python
