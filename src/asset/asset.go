@@ -1,4 +1,4 @@
-package handler
+package asset
 
 import(
 	"io/ioutil"

@@ -37,4 +37,4 @@ vendor-without-update:
 vendor: vendor-update vendor-without-update
 
 build:
-	GO15VENDOREXPERIMENT=1 go build ./src/... ./.
+	GO15VENDOREXPERIMENT=1 go build app/app.go -o sandbox

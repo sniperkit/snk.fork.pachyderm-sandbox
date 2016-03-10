@@ -6,10 +6,10 @@ import(
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 
-	"github.com/pachyderm/sandbox/src/handler"
+	"github.com/pachyderm/sandbox/src/asset"
 )
 
-var assetHandler = handler.NewAssetHandler()
+var assetHandler = asset.NewAssetHandler()
 var router = gin.Default()
 
 func main() {

@@ -1,6 +1,7 @@
 runtime: go
 api_version: go1
-
+env_variables:
+  GIN_MODE: 'release'
 handlers:
 - url: /.*
   script: _go_app
