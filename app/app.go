@@ -1,54 +1,17 @@
-package main
+package app
 
-import(
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/contrib/renders/multitemplate"
-
-	"github.com/pachyderm/sandbox/src/asset"
+import (
+        "fmt"
+        "net/http"
 )
 
-var assetHandler = asset.NewAssetHandler()
-var router = gin.Default()
-
-func main() {
-
-	assets := router.Group("/assets")
-	{
-		assets.GET("/styles.css", assetHandler.Serve)
-		assets.GET("/main.js", assetHandler.Serve)
-	}
-
-	router.HTMLRender = loadTemplates()
-
-	router.GET("/", handle("main"))
-
-	router.Run(":5678")
+// init is called before the application starts.
+func init() {
+        // Register a handler for /hello URLs.
+        http.HandleFunc("/", hello)
 }
 
-func handle(page string) ( func (*gin.Context) ){
-	return func(c *gin.Context) {
-		if gin.Mode() == "debug" {
-			router.HTMLRender = loadTemplates()
-		}
-		
-		c.HTML(http.StatusOK, page, gin.H{
-			"title" : "thing",
-		})
-	}
-}
-
-func loadTemplates() multitemplate.Render {
-	templates := multitemplate.New()
-	templates.AddFromFiles(
-		"main",
-		"views/base.html",
-		"views/main.html",
-		"views/data.html",
-		"views/copy.html",
-		"views/code.html",
-	)
-
-	return templates
+// hello is an HTTP handler that prints "Hello Gopher!"
+func hello(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprint(w, "Hello, Gopher!")
 }
