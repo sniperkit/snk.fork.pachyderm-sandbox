@@ -3,6 +3,7 @@ api_version: go1.6beta
 env_variables:
   GIN_MODE: 'release'
   GO15VENDOREXPERIMENT: 1
+  GOPATH: /go:/go/src/app/_gopath:/go/src/app/_gopath/vendor
 handlers:
 - url: /.*
   script: _go_app
