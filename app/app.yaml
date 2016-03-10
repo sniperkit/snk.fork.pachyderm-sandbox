@@ -2,6 +2,7 @@ runtime: go
 api_version: go1
 env_variables:
   GIN_MODE: 'release'
+  GO15VENDOREXPERIMENT: 1
 handlers:
 - url: /.*
   script: _go_app
