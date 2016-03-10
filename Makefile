@@ -22,3 +22,19 @@ cluster: setup
 
 pachyderm: cluster kubectl pachctl
 	pachctl manifest | kubectl create -f -
+
+vendor-update:
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=0 go get -d -v -t -u -f ./src/... ./.
+
+vendor-without-update:
+	go get -v github.com/kardianos/govendor
+	rm -rf vendor
+	govendor init
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor add +external
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor update +vendor
+	$(foreach vendor_dir, $(VENDOR_IGNORE_DIRS), rm -rf vendor/$(vendor_dir) || exit; git checkout vendor/$(vendor_dir) || exit;)
+
+vendor: vendor-update vendor-without-update
+
+build:
+	GO15VENDOREXPERIMENT=1 go build ./src/... ./.

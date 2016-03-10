@@ -1,0 +1,46 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "github.com/gin-gonic/contrib/renders/multitemplate",
+			"revision": "18e1babe51907062f82163197fe8714ce0aad81e",
+			"revisionTime": "2016-03-05T23:39:43+01:00"
+		},
+		{
+			"path": "github.com/gin-gonic/gin",
+			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
+			"revisionTime": "2016-03-08T10:27:37+01:00"
+		},
+		{
+			"path": "github.com/gin-gonic/gin/binding",
+			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
+			"revisionTime": "2016-03-08T10:27:37+01:00"
+		},
+		{
+			"path": "github.com/gin-gonic/gin/render",
+			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
+			"revisionTime": "2016-03-08T10:27:37+01:00"
+		},
+		{
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "b9504f23731d0b61ccfff7370a161d6c857ca00d",
+			"revisionTime": "2016-03-09T11:48:00+11:00"
+		},
+		{
+			"path": "github.com/manucorporat/sse",
+			"revision": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d",
+			"revisionTime": "2016-01-26T19:01:36+01:00"
+		},
+		{
+			"path": "golang.org/x/net/context",
+			"revision": "3e5cd1ed149001198e582f9d3f5bfd564cde2896",
+			"revisionTime": "2016-03-08T20:16:50-06:00"
+		},
+		{
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "014792cf3e266caff1e916876be12282b33059e0",
+			"revisionTime": "2016-02-23T15:26:51-05:00"
+		}
+	]
+}
