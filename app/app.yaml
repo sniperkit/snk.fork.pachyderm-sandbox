@@ -1,5 +1,5 @@
 runtime: go
-api_version: go1
+api_version: go1.6beta
 env_variables:
   GIN_MODE: 'release'
   GO15VENDOREXPERIMENT: 1
