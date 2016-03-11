@@ -57,6 +57,11 @@ docker-register:
 	docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
 	docker push $REPO
 
+kube-generate-credentials:
+	gcloud container clusters get-credentials pachyderm
+	cp ~/.kube/config kube-config
+	travis encrypt-file kube-config --add
+
 kube-deploy:
 	
 
