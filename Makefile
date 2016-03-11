@@ -50,7 +50,7 @@ docker-debug:
 
 docker-push:
 	docker login -e "$$DOCKER_EMAIL" -u "$$DOCKER_USERNAME" -p "$$DOCKER_PASSWORD"
-	echo "LOGIN COMPLETED"
+	echo "TRAVIS build no($$TRAVIS_BUILD_NUMBER), branch($$TRAVIS_BRANCH)"
 	export REPO=pachyderm/sandbox
 	export TAG=`if [ "$$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $$TRAVIS_BRANCH ; fi`
 	docker build -f Dockerfile -t $$REPO:$$COMMIT .
