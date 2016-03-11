@@ -1,7 +1,10 @@
 FROM gcr.io/google_appengine/golang
 ENV GO15VENDOREXPERIMENT 1
 COPY . /go/src/app
-RUN ls /go/src/app
+RUN ls /go/src/ap
+RUN echo $GOPATH
+RUN export $GOPATH=$GOPATH:$(`pwd`)/vendor
+RUN echo $GOPATH
 RUN go-wrapper install -tags appenginevm
 #RUN make build
 #RUN make vendor-for-google-app-engine
