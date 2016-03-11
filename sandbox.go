@@ -24,7 +24,8 @@ func main() {
 
 	router.GET("/", handle("main"))
 
-	router.Run(":8080")	
+	router.Run(":9080")
+	
 }
 
 func handle(page string) ( func (*gin.Context) ){
