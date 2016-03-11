@@ -52,7 +52,7 @@ docker-push:
 	docker login -e "$$DOCKER_EMAIL" -u "$$DOCKER_USERNAME" -p "$$DOCKER_PASSWORD"
 	echo "LOGIN COMPLETED"
 	export REPO=pachyderm/sandbox
-	export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+	export TAG=`if [ "$$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $$TRAVIS_BRANCH ; fi`
 	docker build -f Dockerfile -t $$REPO:$$COMMIT .
 	docker tag $$REPO:$$COMMIT $$REPO:$$TAG
 	docker tag $$REPO:$$COMMIT $$REPO:travis-$$TRAVIS_BUILD_NUMBER
