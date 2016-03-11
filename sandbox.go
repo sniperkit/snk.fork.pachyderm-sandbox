@@ -1,4 +1,4 @@
-package app
+package main
 
 import(
 	"net/http"
@@ -12,7 +12,7 @@ import(
 var assetHandler = asset.NewAssetHandler()
 var router = gin.New()
 
-func init() {
+func main() {
 
 	assets := router.Group("/assets")
 	{
@@ -24,7 +24,7 @@ func init() {
 
 	router.GET("/", handle("main"))
 
-	http.Handle("/", router)
+	router.Run(":8080")	
 }
 
 func handle(page string) ( func (*gin.Context) ){

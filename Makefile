@@ -3,7 +3,7 @@ PROJECT_NAME = pachyderm-sandbox
 REGION = us-central1-a
 
 run:
-	goapp serve app/
+	GIN_MODE=debug ./sandbox
 
 setup:
 	gcloud config set compute/zone $(REGION)
@@ -40,4 +40,4 @@ vendor-for-google-app-engine: vendor
 vendor: vendor-update vendor-without-update
 
 build:
-	GO15VENDOREXPERIMENT=1 go build -o sandbox app/app.go
+	GO15VENDOREXPERIMENT=1 go build .
