@@ -53,6 +53,7 @@ docker-push:
 	echo "TRAVIS build no($$TRAVIS_BUILD_NUMBER), branch($$TRAVIS_BRANCH)"
 	export REPO=pachyderm/sandbox
 	export TAG=`if [ "$$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $$TRAVIS_BRANCH ; fi`
+	echo "Did I set the vars correctly? repo($$REPO) tag($$TAG)"
 	docker build -f Dockerfile -t $$REPO:$$COMMIT .
 	docker tag $$REPO:$$COMMIT $$REPO:$$TAG
 	docker tag $$REPO:$$COMMIT $$REPO:travis-$$TRAVIS_BUILD_NUMBER
