@@ -33,6 +33,16 @@
 			"revisionTime": "2016-01-26T19:01:36+01:00"
 		},
 		{
+			"path": "github.com/pachyderm/sandbox/app",
+			"revision": "35a87172f0244db6608a0dec8be6b6027d6303fb",
+			"revisionTime": "2016-03-10T18:24:00-08:00"
+		},
+		{
+			"path": "github.com/pachyderm/sandbox/src/asset",
+			"revision": "35a87172f0244db6608a0dec8be6b6027d6303fb",
+			"revisionTime": "2016-03-10T18:24:00-08:00"
+		},
+		{
 			"path": "golang.org/x/net/context",
 			"revision": "e7da8edaa52631091740908acaf2c2d4c9b3ce90",
 			"revisionTime": "2016-03-05T22:47:48Z"
