@@ -1,10 +1,12 @@
-package app
+package main
 
 import(
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/log"
 
 	"github.com/pachyderm/sandbox/src/asset"
 )
@@ -12,7 +14,7 @@ import(
 var assetHandler = asset.NewAssetHandler()
 var router = gin.New()
 
-func init() {
+func main() {
 
 	assets := router.Group("/assets")
 	{
@@ -25,6 +27,9 @@ func init() {
 	router.GET("/", handle("main"))
 
 	http.Handle("/", router)
+
+	appengine.Main()
+
 }
 
 func handle(page string) ( func (*gin.Context) ){
@@ -36,6 +41,8 @@ func handle(page string) ( func (*gin.Context) ){
 		c.HTML(http.StatusOK, page, gin.H{
 			"title" : "thing",
 		})
+
+		log.Infof(c, fmt.Sprintf("Serving the [%v] page.", page))
 	}
 }
 
