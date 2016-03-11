@@ -30,6 +30,8 @@ setup:
 #deploy-client: setup
 #	openssl aes-256-cbc -K $encrypted_a9aeb6bf1959_key -iv $encrypted_a9aeb6bf1959_iv -in client-secret.json.enc -out client-secret.json -d
 #gcloud --verbosity debug preview app deploy app/app.yaml
+deploy-client: setup
+	goapp deploy -application pachyderm-sandbox app/app.yaml 
 
 pachctl:
 	go install github.com/pachyderm/pachyderm/src/cmd/pachctl
@@ -46,7 +48,7 @@ pachyderm: cluster kubectl pachctl
 	pachctl manifest | kubectl create -f -
 
 vendor-update:
-	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=0 go get -d -v -t -u -f ./src/... ./.
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=0 go get -d -v -t -u -f ./src/... ./app/...
 
 vendor-without-update:
 	go get -v github.com/kardianos/govendor
@@ -55,6 +57,10 @@ vendor-without-update:
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor add +external
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor update +vendor
 	$(foreach vendor_dir, $(VENDOR_IGNORE_DIRS), rm -rf vendor/$(vendor_dir) || exit; git checkout vendor/$(vendor_dir) || exit;)
+
+vendor-for-google-app-engine: vendor
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor add +local
+	govendor update +vendor
 
 vendor: vendor-update vendor-without-update
 

@@ -24,8 +24,8 @@
 		},
 		{
 			"path": "github.com/golang/protobuf/proto",
-			"revision": "b9504f23731d0b61ccfff7370a161d6c857ca00d",
-			"revisionTime": "2016-03-09T11:48:00+11:00"
+			"revision": "0fd8c908d872c921af513ef5091964bbd2e0d904",
+			"revisionTime": "2016-03-11T10:32:00+11:00"
 		},
 		{
 			"path": "github.com/manucorporat/sse",
@@ -34,8 +34,8 @@
 		},
 		{
 			"path": "golang.org/x/net/context",
-			"revision": "3e5cd1ed149001198e582f9d3f5bfd564cde2896",
-			"revisionTime": "2016-03-08T20:16:50-06:00"
+			"revision": "e7da8edaa52631091740908acaf2c2d4c9b3ce90",
+			"revisionTime": "2016-03-05T22:47:48Z"
 		},
 		{
 			"path": "gopkg.in/go-playground/validator.v8",
