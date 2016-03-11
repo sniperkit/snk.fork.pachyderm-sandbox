@@ -60,7 +60,6 @@ vendor-without-update:
 
 vendor-for-google-app-engine: vendor
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor add +local
-	govendor update +vendor
 
 vendor: vendor-update vendor-without-update
 
