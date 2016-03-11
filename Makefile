@@ -48,7 +48,7 @@ docker-build:
 docker-debug:
 	docker run --publish 9080:9080 sandbox
 
-docker-register:
+docker-push:
 	docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 	export REPO=pachyderm/sandbox
 	export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
@@ -63,9 +63,9 @@ kube-generate-credentials:
 	travis encrypt-file kube-config --add
 
 kube-deploy:
-	kubectl --kubeconfig="./kube-config" rolling-update frontend --image=pachyderm/sandbox:latest
+	kubectl --kubeconfig="./kube-config" rolling-update sandbox --image=pachyderm/sandbox
 
-deploy: docker-build docker-register kube-deploy
+deploy: docker-build docker-push kube-deploy
 
 ci-setup:
 	gcloud container clusters get-credentials pachyderm
