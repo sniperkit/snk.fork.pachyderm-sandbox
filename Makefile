@@ -2,6 +2,10 @@ CLUSTER_NAME = pachyderm
 PROJECT_NAME = pachyderm-sandbox
 REGION = us-central1-a
 
+# For docker publishing:
+REPO=pachyderm/sandbox
+TAG=latest
+
 run:
 	GIN_MODE=debug ./sandbox
 
@@ -50,14 +54,10 @@ docker-debug:
 
 docker-push:
 	docker login -e "$$DOCKER_EMAIL" -u "$$DOCKER_USERNAME" -p "$$DOCKER_PASSWORD"
-	echo "TRAVIS build no($$TRAVIS_BUILD_NUMBER), branch($$TRAVIS_BRANCH)"
-	export REPO=pachyderm/sandbox
-	export TAG=`if [ "$$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $$TRAVIS_BRANCH ; fi`
-	echo "Did I set the vars correctly? repo($$REPO) tag($$TAG)"
-	docker build -f Dockerfile -t $$REPO:$$COMMIT .
-	docker tag $$REPO:$$COMMIT $$REPO:$$TAG
-	docker tag $$REPO:$$COMMIT $$REPO:travis-$$TRAVIS_BUILD_NUMBER
-	docker push $$REPO
+	docker build -f Dockerfile -t $REPO:$$COMMIT .
+	docker tag $REPO:$$COMMIT $REPO:$TAG
+	docker tag $REPO:$$COMMIT $REPO:travis-$$TRAVIS_BUILD_NUMBER
+	docker push $REPO
 
 kube-generate-credentials:
 	gcloud container clusters get-credentials pachyderm
