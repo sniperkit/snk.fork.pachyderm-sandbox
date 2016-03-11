@@ -14,9 +14,11 @@ before_install:
 - chmod +x kubectl
 - sudo mv kubectl /usr/local/bin/
 - docker version
+- echo $DOCKER_PASSWORD
 script:
 - make build
 after_success:
+- echo $DOCKER_PASSWORD
 - make deploy
 notifications:
   slack: pachyderm:qmSCZSX1Q2yWxc6DjNZZFLGd
