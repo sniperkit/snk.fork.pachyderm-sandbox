@@ -2,12 +2,34 @@ CLUSTER_NAME = pachyderm
 PROJECT_NAME = pachyderm-sandbox
 REGION = us-central1-a
 
+### START - settings to enable setting the GOPATH
+export SHELL := $(shell echo $$SHELL)
+
+TOP := $(dir $(lastword $(MAKEFILE_LIST)))
+ROOT = $(realpath $(TOP))
+
+PATH := $(ROOT)/bin:$(PATH)
+export PATH
+
+#output the environment variables we care out as the default task
+.DEFAULT_GOAL := debug-env
+
+#Prints out all the GO environment variables. Useful to see the state
+#of what is going on with the GOPATH
+debug-env:
+	printenv | grep 'GO'
+### END - settings to enable setting the GOPATH
+
 run:
 	goapp serve app/
 
 setup:
 	gcloud config set compute/zone $(REGION)
 	gcloud config set project $(PROJECT_NAME)
+
+#deploy-client: setup
+#	openssl aes-256-cbc -K $encrypted_a9aeb6bf1959_key -iv $encrypted_a9aeb6bf1959_iv -in client-secret.json.enc -out client-secret.json -d
+#gcloud --verbosity debug preview app deploy app/app.yaml
 
 pachctl:
 	go install github.com/pachyderm/pachyderm/src/cmd/pachctl
