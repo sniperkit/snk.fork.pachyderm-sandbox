@@ -14,7 +14,7 @@ import(
 var assetHandler = asset.NewAssetHandler()
 var router = gin.New()
 
-func main() {
+func init() {
 
 	assets := router.Group("/assets")
 	{

@@ -1,3 +1,5 @@
+application: pachyderm-sandbox
+version: 1
 runtime: go
 api_version: go1.6beta
 env_variables:
