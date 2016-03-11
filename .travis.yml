@@ -17,5 +17,6 @@ deploy:
   skip_cleanup: true
   on: master
   config: app/app.yaml
+  keyfile: client-secret.json
 notifications:
   slack: pachyderm:qmSCZSX1Q2yWxc6DjNZZFLGd
