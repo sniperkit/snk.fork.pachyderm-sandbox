@@ -1,21 +1,23 @@
 sudo: true
 services:
-  - docker
+- docker
 language: go
 go:
-  - 1.6
+- 1.6
 branches:
   only:
   - master
 before_install:
-  - wget https://storage.googleapis.com/kubernetes-release/release/v1.1.7/bin/linux/amd64/kubectl
-  - chmod +x kubectl
-  - sudo mv kubectl /usr/local/bin/
-  - kubectl version
-  - docker version
+- openssl aes-256-cbc -K $encrypted_a9aeb6bf1959_key -iv $encrypted_a9aeb6bf1959_iv
+  -in kube-config.enc -out kube-config -d
+- wget https://storage.googleapis.com/kubernetes-release/release/v1.1.7/bin/linux/amd64/kubectl
+- chmod +x kubectl
+- sudo mv kubectl /usr/local/bin/
+- kubectl version
+- docker version
 script:
-  - make build
-after_success: 
-  - make deploy
+- make build
+after_success:
+- make deploy
 notifications:
   slack: pachyderm:qmSCZSX1Q2yWxc6DjNZZFLGd

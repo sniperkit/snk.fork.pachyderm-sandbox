@@ -63,7 +63,7 @@ kube-generate-credentials:
 	travis encrypt-file kube-config --add
 
 kube-deploy:
-	
+	kubectl --kubeconfig="./kube-config" rolling-update frontend --image=pachyderm/sandbox:latest
 
 deploy: docker-build docker-register kube-deploy
 

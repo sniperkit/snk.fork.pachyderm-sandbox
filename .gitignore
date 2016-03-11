@@ -1,4 +1,6 @@
 *~
 /sandbox
-client-secret.json
 *.swp
+
+#kube secret credentials file
+kube-config
