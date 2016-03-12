@@ -4,7 +4,6 @@ REGION = us-central1-a
 
 # For docker publishing:
 REPO=pachyderm/sandbox
-TAG=latest
 
 run:
 	GIN_MODE=debug ./sandbox
@@ -48,14 +47,14 @@ build:
 
 docker-build:
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
+	docker tag $(REPO):$$COMMIT $(REPO)
+	docker tag $(REPO):$$COMMIT $(REPO):travis-$$TRAVIS_BUILD_NUMBER
 
 docker-debug:
 	docker run --publish 9080:9080 sandbox
 
 docker-push:
 	docker login -e "$$DOCKER_EMAIL" -u "$$DOCKER_USERNAME" -p "$$DOCKER_PASSWORD"
-	docker tag $(REPO):$$COMMIT $(REPO):$(TAG)
-	docker tag $(REPO):$$COMMIT $(REPO):travis-$$TRAVIS_BUILD_NUMBER
 	docker push $(REPO)
 
 kube-generate-credentials:
