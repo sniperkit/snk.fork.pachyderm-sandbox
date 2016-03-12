@@ -47,17 +47,16 @@ build:
 	GO15VENDOREXPERIMENT=1 go build .
 
 docker-build:
-	docker build -t sandbox .
+	docker build -f Dockerfile -t $(REPO):$$COMMIT .
 
 docker-debug:
 	docker run --publish 9080:9080 sandbox
 
 docker-push:
 	docker login -e "$$DOCKER_EMAIL" -u "$$DOCKER_USERNAME" -p "$$DOCKER_PASSWORD"
-	docker build -f Dockerfile -t $REPO:$$COMMIT .
-	docker tag $REPO:$$COMMIT $REPO:$TAG
-	docker tag $REPO:$$COMMIT $REPO:travis-$$TRAVIS_BUILD_NUMBER
-	docker push $REPO
+	docker tag $(REPO):$$COMMIT $(REPO):$(TAG)
+	docker tag $(REPO):$$COMMIT $(REPO):travis-$$TRAVIS_BUILD_NUMBER
+	docker push $(REPO)
 
 kube-generate-credentials:
 	gcloud container clusters get-credentials pachyderm
@@ -69,6 +68,3 @@ kube-deploy:
 
 deploy: docker-build docker-push kube-deploy
 
-ci-setup:
-	gcloud container clusters get-credentials pachyderm
-	# generates update to ~/.kube/config
