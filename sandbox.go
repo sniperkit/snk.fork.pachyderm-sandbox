@@ -35,7 +35,7 @@ func handle(page string) ( func (*gin.Context) ){
 		}
 		
 		c.HTML(http.StatusOK, page, gin.H{
-			"title" : "successfully deployed!",
+			"title" : "successfully deployed? yes",
 		})
 	}
 }
