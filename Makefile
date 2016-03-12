@@ -63,6 +63,12 @@ kube-generate-credentials:
 	cp ~/.kube/config kube-config
 	travis encrypt-file kube-config --add
 
+kube-update-infrastructure:
+	kubectl delete --ignore-not-found -f replication-controller.yml
+	kubectl delete --ignore-not-found -f service.yml
+	kubectl create -f replication-controller.yml
+	kubectl create -f service.yml
+
 kube-deploy:
 	kubectl --kubeconfig="./kube-config" rolling-update sandbox --image=pachyderm/sandbox
 
