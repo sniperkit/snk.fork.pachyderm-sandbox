@@ -68,7 +68,7 @@ kube-update-infrastructure:
 	kubectl create -f service.yml
 
 kube-deploy:
-	kubectl --kubeconfig="./kube-config" rolling-update sandbox --image=pachyderm/sandbox
+	kubectl --kubeconfig="./kube-config" rolling-update sandbox --image=pachyderm/sandbox:latest
 
 deploy: docker-build docker-push kube-deploy
 
