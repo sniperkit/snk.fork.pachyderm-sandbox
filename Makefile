@@ -47,7 +47,6 @@ build:
 
 docker-build:
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
-	docker tag $(REPO):$$COMMIT $(REPO)
 	docker tag $(REPO):$$COMMIT $(REPO):travis-$$TRAVIS_BUILD_NUMBER
 
 docker-debug:
