@@ -27,6 +27,9 @@ V3:
 
 - style it
 - finalize content
+- productionize / error handling / logs
+  - PACHD_PORT_650_TCP_ADDR not set - what is our expected fail state?
+
 
 Launch checklist:
 

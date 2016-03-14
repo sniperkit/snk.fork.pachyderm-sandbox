@@ -6,7 +6,7 @@ REGION = us-central1-a
 REPO=pachyderm/sandbox
 
 run:
-	GIN_MODE=debug ./sandbox
+	PACHD_PORT_650_TCP_ADDR=localhost:30650 GIN_MODE=debug ./sandbox
 
 setup:
 	gcloud config set compute/zone $(REGION)

@@ -3,9 +3,10 @@
 <h1> Pachyderm Sandbox??? {{.title}} </h1>
 
 <div class="errors">
+Errors:
 
-{{ for _, $err := range(errors) }}
-  <span> {{ $err }} </span>
+{{ range .errors}}
+  <span> {{ . }} </span>
 {{ end }}
 
 </div>
@@ -19,6 +20,11 @@
 </section>
 
 <section class="pane data">
+  {{ range .repos }}
+    <li> {{ .Repo.Name }} </li>
+  {{ end }}
+
+
   {{ template "data" . }}
 </section>
 
