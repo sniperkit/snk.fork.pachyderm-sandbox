@@ -5,6 +5,10 @@ REGION = us-central1-a
 # For docker publishing:
 REPO=pachyderm/sandbox
 
+ifndef VENDOR_IGNORE_DIRS
+        VENDOR_IGNORE_DIRS = go.pedge.io
+endif
+
 run:
 	PACHD_PORT_650_TCP_ADDR=localhost:30650 GIN_MODE=debug ./sandbox
 
@@ -27,7 +31,7 @@ pachyderm: cluster kubectl pachctl
 	pachctl manifest | kubectl create -f -
 
 vendor-update:
-	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=0 go get -d -v -t -u -f ./src/... ./app/...
+	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GO15VENDOREXPERIMENT=0 go get -d -v -t -u -f ./src/... ./.
 
 vendor-without-update:
 	go get -v github.com/kardianos/govendor
@@ -37,13 +41,10 @@ vendor-without-update:
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor update +vendor
 	$(foreach vendor_dir, $(VENDOR_IGNORE_DIRS), rm -rf vendor/$(vendor_dir) || exit; git checkout vendor/$(vendor_dir) || exit;)
 
-vendor-for-google-app-engine: vendor
-	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 govendor add +local
-
 vendor: vendor-update vendor-without-update
 
 build:
-	GO15VENDOREXPERIMENT=1 go build .
+	GO15VENDOREXPERIMENT=1 go build ./src/... ./.
 
 docker-build:
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
