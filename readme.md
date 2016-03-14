@@ -1,6 +1,6 @@
 # Sandbox
 
-[pachyderm-sandbox.appspot.com](https://pachyderm-sandbox.appspot.com/)
+[http://130.211.185.228/](http://130.211.185.228/)
 
 Pachyderm Sandbox is a web client that provides:
 

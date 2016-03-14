@@ -2,6 +2,14 @@
 
 <h1> Pachyderm Sandbox??? {{.title}} </h1>
 
+<div class="errors">
+
+{{ for _, $err := range(errors) }}
+  <span> {{ $err }} </span>
+{{ end }}
+
+</div>
+
 <form action="/submit">
 
 <div class="main">
