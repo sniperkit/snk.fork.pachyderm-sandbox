@@ -8,17 +8,17 @@ import(
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 
 	"github.com/pachyderm/sandbox/src/asset"
-	"github.com/pachyderm/pachyderm"
-	"github.com/pachyderm/pachyderm/src/pfs/pfsutil"
+	"github.com/pachyderm/pachyderm/src/client"
+	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 )
 
 var assetHandler = asset.NewAssetHandler()
 var router = gin.New()
-var APIClient *pachyderm.APIClient
+var APIClient *client.APIClient
 
 func main() {
-	client, err := pachyderm.NewAPIClient()
-	APIClient = client
+	apiClient, err := client.New()
+	APIClient = apiClient
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
 
 	if err != nil {
@@ -47,7 +47,7 @@ func handle(page string) ( func (*gin.Context) ){
 
 		var errors []error
 
-		repos, err := pfsutil.ListRepo(APIClient)
+		repos, err := pfs_client.ListRepo(APIClient)
 
 		if err != nil {
 			fmt.Printf("ERR! %v\n", err)

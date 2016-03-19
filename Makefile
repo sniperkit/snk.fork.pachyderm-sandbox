@@ -44,7 +44,7 @@ vendor-without-update:
 vendor: vendor-update vendor-without-update
 
 build:
-	GO15VENDOREXPERIMENT=1 go build ./src/... ./.
+	GO15VENDOREXPERIMENT=1 go build .
 
 docker-build:
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .

@@ -3,54 +3,381 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "II2RjEFgX9EzV4fJSgV/oZrB7aE=",
+			"origin": "github.com/pachyderm/sandbox/vendor/bazil.org/fuse",
+			"path": "bazil.org/fuse",
+			"revision": "37bfa8be929171feec943f3496bc4befdeaf10db",
+			"revisionTime": "2016-03-17T11:10:31-07:00"
+		},
+		{
+			"checksumSHA1": "NPgkh9UWMsaTtsAAs3kPrclHT9Y=",
+			"origin": "github.com/pachyderm/sandbox/vendor/bazil.org/fuse/fuseutil",
+			"path": "bazil.org/fuse/fuseutil",
+			"revision": "37bfa8be929171feec943f3496bc4befdeaf10db",
+			"revisionTime": "2016-03-17T11:10:31-07:00"
+		},
+		{
+			"checksumSHA1": "BJXHEdzHxRPmVnt6GFaPpwgns2c=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/coreos/go-etcd/etcd",
+			"path": "github.com/coreos/go-etcd/etcd",
+			"revision": "003851be7bb0694fe3cc457a49529a19388ee7cf",
+			"revisionTime": "2015-10-26T09:03:18-07:00"
+		},
+		{
+			"checksumSHA1": "gkRIq2AsG0e/ngNfqW+IF/zr9o8=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/fatih/color",
+			"path": "github.com/fatih/color",
+			"revision": "533cd7fd8a85905f67a1753afb4deddc85ea174f",
+			"revisionTime": "2016-03-17T11:31:53+02:00"
+		},
+		{
+			"checksumSHA1": "Ix+QxQ2NTYhMZUg9JH0B3O8QKXY=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gengo/grpc-gateway/runtime",
+			"path": "github.com/gengo/grpc-gateway/runtime",
+			"revision": "6a84588ee708fe6dae875dda157230fd2071e526",
+			"revisionTime": "2016-03-04T11:27:05+09:00"
+		},
+		{
+			"checksumSHA1": "Znye0CQEoHeCnx23uToJeTjY0xQ=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gengo/grpc-gateway/third_party/googleapis/google/api",
+			"path": "github.com/gengo/grpc-gateway/third_party/googleapis/google/api",
+			"revision": "6a84588ee708fe6dae875dda157230fd2071e526",
+			"revisionTime": "2016-03-04T11:27:05+09:00"
+		},
+		{
+			"checksumSHA1": "B3ebg4a6QHAw3qO9oCnny0E4gQs=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gengo/grpc-gateway/utilities",
+			"path": "github.com/gengo/grpc-gateway/utilities",
+			"revision": "6a84588ee708fe6dae875dda157230fd2071e526",
+			"revisionTime": "2016-03-04T11:27:05+09:00"
+		},
+		{
+			"checksumSHA1": "qZaoZaycGXUECFs9xOd3ZgA4iK4=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gin-gonic/contrib/renders/multitemplate",
 			"path": "github.com/gin-gonic/contrib/renders/multitemplate",
 			"revision": "18e1babe51907062f82163197fe8714ce0aad81e",
 			"revisionTime": "2016-03-05T23:39:43+01:00"
 		},
 		{
+			"checksumSHA1": "dL4SeE0La6z1wbKNnzaVza55fYc=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gin-gonic/gin",
 			"path": "github.com/gin-gonic/gin",
-			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
-			"revisionTime": "2016-03-08T10:27:37+01:00"
+			"revision": "4a6bc4aac4607e253bcda67c8c5bcda693d2388e",
+			"revisionTime": "2016-03-14T12:55:50+01:00"
 		},
 		{
+			"checksumSHA1": "K1Mer2VJBxUkYdE896+WZLOz6A8=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gin-gonic/gin/binding",
 			"path": "github.com/gin-gonic/gin/binding",
-			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
-			"revisionTime": "2016-03-08T10:27:37+01:00"
+			"revision": "4a6bc4aac4607e253bcda67c8c5bcda693d2388e",
+			"revisionTime": "2016-03-14T12:55:50+01:00"
 		},
 		{
+			"checksumSHA1": "Aymn5jKrmjk/CYi6EqPEFK4st6Y=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gin-gonic/gin/render",
 			"path": "github.com/gin-gonic/gin/render",
-			"revision": "31e4401f017591d5e03bdd883449b6e80a305227",
-			"revisionTime": "2016-03-08T10:27:37+01:00"
+			"revision": "4a6bc4aac4607e253bcda67c8c5bcda693d2388e",
+			"revisionTime": "2016-03-14T12:55:50+01:00"
 		},
 		{
+			"checksumSHA1": "HmbftipkadrLlCfzzVQ+iFHbl6g=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/golang/glog",
+			"path": "github.com/golang/glog",
+			"revision": "23def4e6c14b4da8ac2ed8007337bc5eb5007998",
+			"revisionTime": "2016-01-25T21:49:56+01:00"
+		},
+		{
+			"checksumSHA1": "JrwZ3Zebmgw1nB4IwCMys0euNgA=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/golang/protobuf/jsonpb",
+			"path": "github.com/golang/protobuf/jsonpb",
+			"revision": "62e4364d64b32762febb61f2c88c0a29bc49a225",
+			"revisionTime": "2016-03-17T12:31:00+11:00"
+		},
+		{
+			"checksumSHA1": "s2E4fYDL3LeDZAnuN4+WNNsQxxk=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/golang/protobuf/proto",
 			"path": "github.com/golang/protobuf/proto",
-			"revision": "0fd8c908d872c921af513ef5091964bbd2e0d904",
-			"revisionTime": "2016-03-11T10:32:00+11:00"
+			"revision": "62e4364d64b32762febb61f2c88c0a29bc49a225",
+			"revisionTime": "2016-03-17T12:31:00+11:00"
 		},
 		{
+			"checksumSHA1": "+cT5a/FtqhkUAnVuajBTUAS2iHU=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/golang/protobuf/protoc-gen-go/descriptor",
+			"path": "github.com/golang/protobuf/protoc-gen-go/descriptor",
+			"revision": "62e4364d64b32762febb61f2c88c0a29bc49a225",
+			"revisionTime": "2016-03-17T12:31:00+11:00"
+		},
+		{
+			"checksumSHA1": "b0T0Hzd+zYk+OCDTFMps+jwa/nY=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/manucorporat/sse",
 			"path": "github.com/manucorporat/sse",
 			"revision": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d",
 			"revisionTime": "2016-01-26T19:01:36+01:00"
 		},
 		{
-			"path": "github.com/pachyderm/sandbox/app",
-			"revision": "35a87172f0244db6608a0dec8be6b6027d6303fb",
-			"revisionTime": "2016-03-10T18:24:00-08:00"
+			"checksumSHA1": "rCffFCN6TpDAN3Jylyo8RFzhQ9E=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/mattn/go-colorable",
+			"path": "github.com/mattn/go-colorable",
+			"revision": "9cbef7c35391cca05f15f8181dc0b18bc9736dbb",
+			"revisionTime": "2016-02-20T16:59:35+09:00"
 		},
 		{
-			"path": "github.com/pachyderm/sandbox/src/asset",
-			"revision": "35a87172f0244db6608a0dec8be6b6027d6303fb",
-			"revisionTime": "2016-03-10T18:24:00-08:00"
+			"checksumSHA1": "NkbetqlpWBi3gP08JDneC+axTKw=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/mattn/go-isatty",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "56b76bdf51f7708750eac80fa38b952bb9f32639",
+			"revisionTime": "2015-12-11T09:06:21+09:00"
 		},
 		{
+			"checksumSHA1": "8ewFAK5M1K2a3xJATRQN5Pry3H0=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/client",
+			"path": "github.com/pachyderm/pachyderm/src/client",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "OrlHqlml/bV6tX8ishcnjpfYeVk=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/client/pfs",
+			"path": "github.com/pachyderm/pachyderm/src/client/pfs",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "eQZPb/L6plr/QQMOk5F5HEsIfJE=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/client/pps",
+			"path": "github.com/pachyderm/pachyderm/src/client/pps",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "GAmRVEdXU3B96X1idvAimvswntU=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pfs",
+			"path": "github.com/pachyderm/pachyderm/src/server/pfs",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "mJUr519okYUx6qsUxKzsIc9brI0=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pfs/fuse",
+			"path": "github.com/pachyderm/pachyderm/src/server/pfs/fuse",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "XILlt8vfljeL769S9flI/xudW8k=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pkg/discovery",
+			"path": "github.com/pachyderm/pachyderm/src/server/pkg/discovery",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "wuY7V/hbO4qiAfFa//zEq2J6Ozo=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pkg/grpcutil",
+			"path": "github.com/pachyderm/pachyderm/src/server/pkg/grpcutil",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "6RQoReAXz51uSlcsNc4nqVA/5t8=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pkg/shard",
+			"path": "github.com/pachyderm/pachyderm/src/server/pkg/shard",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "fRc+LrMfR/tpqhlr8HZjm/o7ho8=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/pachyderm/pachyderm/src/server/pkg/uuid",
+			"path": "github.com/pachyderm/pachyderm/src/server/pkg/uuid",
+			"revision": "5bcbea3104ecb658414765153f9efc707061101c",
+			"revisionTime": "2016-03-18T15:28:48-07:00"
+		},
+		{
+			"checksumSHA1": "7Ck3I7G0hgz+1WD5ohzUMFJsvGg=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/satori/go.uuid",
+			"path": "github.com/satori/go.uuid",
+			"revision": "e673fdd4dea8a7334adbbe7f57b7e4b00bdc5502",
+			"revisionTime": "2016-02-18T23:57:46Z"
+		},
+		{
+			"checksumSHA1": "tHm2SMtuRfrwh6NnnymsuoJ6e0Q=",
+			"origin": "github.com/pachyderm/sandbox/vendor/github.com/ugorji/go/codec",
+			"path": "github.com/ugorji/go/codec",
+			"revision": "c062049c1793b01a3cc3fe786108edabbaf7756b",
+			"revisionTime": "2016-03-14T13:21:18-04:00"
+		},
+		{
+			"checksumSHA1": "Z4Y80rXf5Vt7CAalCExrvtIwvMA=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/lion",
+			"path": "go.pedge.io/lion",
+			"revision": "5ce7fd45420954fb8a220b21c8df5cd5636dce9b",
+			"revisionTime": "2016-03-08T21:06:23+01:00"
+		},
+		{
+			"checksumSHA1": "xZAWEzTF1URPAQiNw6Kp9pQCMOM=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/lion/proto",
+			"path": "go.pedge.io/lion/proto",
+			"revision": "5ce7fd45420954fb8a220b21c8df5cd5636dce9b",
+			"revisionTime": "2016-03-08T21:06:23+01:00"
+		},
+		{
+			"checksumSHA1": "NN3+bzs0KFygMuxyVpQAnVv+R64=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/pb/go/google/protobuf",
+			"path": "go.pedge.io/pb/go/google/protobuf",
+			"revision": "ef2d6ce423942f63c6beb5af281989eb274fe917",
+			"revisionTime": "2016-02-07T16:41:34+01:00"
+		},
+		{
+			"checksumSHA1": "pBs9WwpyF8VNzS2S87tOOU0tDCY=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/pkg/sync",
+			"path": "go.pedge.io/pkg/sync",
+			"revision": "b9629392448bf13e7951adacf4028f700caf1330",
+			"revisionTime": "2016-02-16T23:39:42+01:00"
+		},
+		{
+			"checksumSHA1": "AIOvizI9ARrVSTXx8hfz+C2ZBfA=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/proto/rpclog",
+			"path": "go.pedge.io/proto/rpclog",
+			"revision": "363eb385c4cf85a22f0fda7d8781e9fcd260dd68",
+			"revisionTime": "2016-03-08T22:19:50+01:00"
+		},
+		{
+			"checksumSHA1": "NVElCVKCtIjKcfj+8pSJSicdRq0=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/proto/stream",
+			"path": "go.pedge.io/proto/stream",
+			"revision": "363eb385c4cf85a22f0fda7d8781e9fcd260dd68",
+			"revisionTime": "2016-03-08T22:19:50+01:00"
+		},
+		{
+			"checksumSHA1": "uXz44b5xJsjD1Mj4xH3099H+OLw=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/proto/time",
+			"path": "go.pedge.io/proto/time",
+			"revision": "363eb385c4cf85a22f0fda7d8781e9fcd260dd68",
+			"revisionTime": "2016-03-08T22:19:50+01:00"
+		},
+		{
+			"checksumSHA1": "hHUxM27mDPWcVx66n+fJ+V/TPZ0=",
+			"origin": "github.com/pachyderm/sandbox/vendor/go.pedge.io/proto/version",
+			"path": "go.pedge.io/proto/version",
+			"revision": "363eb385c4cf85a22f0fda7d8781e9fcd260dd68",
+			"revisionTime": "2016-03-08T22:19:50+01:00"
+		},
+		{
+			"checksumSHA1": "5ARrN3Zq+E9zazFb/N+b08Serys=",
+			"origin": "github.com/pachyderm/sandbox/vendor/golang.org/x/net/context",
 			"path": "golang.org/x/net/context",
-			"revision": "e7da8edaa52631091740908acaf2c2d4c9b3ce90",
-			"revisionTime": "2016-03-05T22:47:48Z"
+			"revision": "35b06af0720201bc2f326773a80767387544f8c4",
+			"revisionTime": "2016-03-15T14:00:09+11:00"
 		},
 		{
+			"checksumSHA1": "JDz0wualIM6fyRAyJwnUO2vyu8Y=",
+			"origin": "github.com/pachyderm/sandbox/vendor/golang.org/x/net/http2",
+			"path": "golang.org/x/net/http2",
+			"revision": "35b06af0720201bc2f326773a80767387544f8c4",
+			"revisionTime": "2016-03-15T14:00:09+11:00"
+		},
+		{
+			"checksumSHA1": "VYl3cuReuGeFp9vb1cm8x87qdlU=",
+			"origin": "github.com/pachyderm/sandbox/vendor/golang.org/x/net/http2/hpack",
+			"path": "golang.org/x/net/http2/hpack",
+			"revision": "35b06af0720201bc2f326773a80767387544f8c4",
+			"revisionTime": "2016-03-15T14:00:09+11:00"
+		},
+		{
+			"checksumSHA1": "/k7k6eJDkxXx6K9Zpo/OwNm58XM=",
+			"origin": "github.com/pachyderm/sandbox/vendor/golang.org/x/net/internal/timeseries",
+			"path": "golang.org/x/net/internal/timeseries",
+			"revision": "35b06af0720201bc2f326773a80767387544f8c4",
+			"revisionTime": "2016-03-15T14:00:09+11:00"
+		},
+		{
+			"checksumSHA1": "dZJWvQmmWOwDkGPxJqoE8rN005w=",
+			"origin": "github.com/pachyderm/sandbox/vendor/golang.org/x/net/trace",
+			"path": "golang.org/x/net/trace",
+			"revision": "35b06af0720201bc2f326773a80767387544f8c4",
+			"revisionTime": "2016-03-15T14:00:09+11:00"
+		},
+		{
+			"checksumSHA1": "iXpZ8WhiVSEULtAiqyL9oDly56k=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc",
+			"path": "google.golang.org/grpc",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "08icuA15HRkdYCt6H+Cs90RPQsY=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/codes",
+			"path": "google.golang.org/grpc/codes",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "a+C+FoyX7Tc4iNFhBndt/y/iPEg=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/credentials",
+			"path": "google.golang.org/grpc/credentials",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "3Lt5hNAG8qJAYSsNghR5uA1zQns=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/grpclog",
+			"path": "google.golang.org/grpc/grpclog",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "T3Q0p8kzvXFnRkMaK/G8mCv6mc0=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/internal",
+			"path": "google.golang.org/grpc/internal",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "IlzBp7dylW8F4D7eINj8xHt/jMk=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/metadata",
+			"path": "google.golang.org/grpc/metadata",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "fGJlPKvpYAZ6+HRX3qScFnZ9dd4=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/naming",
+			"path": "google.golang.org/grpc/naming",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "3RRoLeH6X2//7tVClOVzxW2bY+E=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/peer",
+			"path": "google.golang.org/grpc/peer",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "ymoOVUTu35h/OdnBszAMNcD66Eo=",
+			"origin": "github.com/pachyderm/sandbox/vendor/google.golang.org/grpc/transport",
+			"path": "google.golang.org/grpc/transport",
+			"revision": "d3ddb4469d5a1b949fc7a7da7c1d6a0d1b6de994",
+			"revisionTime": "2016-03-17T10:50:43-07:00"
+		},
+		{
+			"checksumSHA1": "9+TP2NPlTWXoRndq02uwZW26AqI=",
+			"origin": "github.com/pachyderm/sandbox/vendor/gopkg.in/go-playground/validator.v8",
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "014792cf3e266caff1e916876be12282b33059e0",
+			"revisionTime": "2016-02-23T15:26:51-05:00"
+		},
+		{
+			"checksumSHA1": "9+TP2NPlTWXoRndq02uwZW26AqI=",
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "014792cf3e266caff1e916876be12282b33059e0",
+			"revisionTime": "2016-02-23T15:26:51-05:00"
+		},
+		{
+			"checksumSHA1": "9+TP2NPlTWXoRndq02uwZW26AqI=",
 			"path": "gopkg.in/go-playground/validator.v8",
 			"revision": "014792cf3e266caff1e916876be12282b33059e0",
 			"revisionTime": "2016-02-23T15:26:51-05:00"
 		}
-	]
+	],
+	"rootPath": "github.com/pachyderm/sandbox"
 }
