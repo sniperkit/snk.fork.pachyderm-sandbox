@@ -12,7 +12,13 @@ ifndef VENDOR_IGNORE_DIRS
 endif
 
 run:
-	PACHD_PORT_650_TCP_ADDR=localhost:30650 GIN_MODE=debug ./sandbox
+	PACHD_PORT_650_TCP_ADDR=localhost GIN_MODE=debug ./sandbox
+
+	# May want to run `$ sudo docker-machine ssh dev -fTNL 650:localhost:30650`
+	# to setup local port forwarding w this port as well.
+
+	# This is messy, but will stay this way until I understand how the
+	# environment flags are setup on pachd deployment.
 
 setup:
 	gcloud config set compute/zone $(REGION)
