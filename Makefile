@@ -7,6 +7,8 @@ REPO=pachyderm/sandbox
 
 ifndef VENDOR_IGNORE_DIRS
         VENDOR_IGNORE_DIRS = go.pedge.io
+	VENDOR_IGNORE_DIRS += github.com/golang/glog
+	VENDOR_IGNORE_DIRS += golang.org/x/net
 endif
 
 run:
@@ -44,7 +46,7 @@ vendor-without-update:
 vendor: vendor-update vendor-without-update
 
 build:
-	GO15VENDOREXPERIMENT=1 go build .
+	GO15VENDOREXPERIMENT=1 go build sandbox.go
 
 docker-build:
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
