@@ -1,9 +1,10 @@
-package data
+package example
 
 import(
 	"fmt"
 	"io"
 
+	"github.com/satori/go.uuid"
 	"github.com/pachyderm/pachyderm/src/client"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 	pfs_server "github.com/pachyderm/pachyderm/src/server/pfs"
@@ -32,7 +33,7 @@ type SandboxExample struct {
 	Code string
 }
 
-func NewExample(name string, APIClient *client.APIClient, assetHandler *AssetHandler) error {
+func New(name string, APIClient *client.APIClient, assetHandler *AssetHandler) error {
 	repo, err := e.createUniqueRepo()
 
 	if err != nil {

@@ -7,7 +7,6 @@ import(
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
-	"github.com/satori/go.uuid"
 
 	"github.com/pachyderm/sandbox/src/asset"
 	"github.com/pachyderm/pachyderm/src/client"
@@ -49,8 +48,7 @@ func handle(page string) ( func (*gin.Context) ){
 
 		var errors []error
 
-		unique_suffix := strings.Replace( uuid.NewV4().String(), "-", "", -1)
-		err := pfs_client.CreateRepo(APIClient, "foo" + "-" + unique_suffix[0:12])
+		example, err := example.New("fruit-stand", APIClient, assetHandler)
 
 		if err != nil {
 			fmt.Printf("ERR! %v\n", err)
