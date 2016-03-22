@@ -3,14 +3,14 @@ package main
 import(
 	"net/http"
 	"fmt"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
-
-	"github.com/pachyderm/sandbox/src/asset"
 	"github.com/pachyderm/pachyderm/src/client"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
+
+	"github.com/pachyderm/sandbox/src/asset"
+	"github.com/pachyderm/sandbox/src/example"
 )
 
 var assetHandler = asset.NewAssetHandler()
@@ -53,6 +53,9 @@ func handle(page string) ( func (*gin.Context) ){
 		if err != nil {
 			fmt.Printf("ERR! %v\n", err)
 			errors = append(errors, err)
+		} else {
+			// Silly ... but go compiler doesn't know I'm using it in a view
+			fmt.Printf("Loaded %v\n", example.Name)			
 		}
 
 		repos, err := pfs_client.ListRepo(APIClient)
@@ -63,9 +66,10 @@ func handle(page string) ( func (*gin.Context) ){
 		}
 
 		c.HTML(http.StatusOK, page, gin.H{
-			"title" : "REPL",
+			"title" : example.Name + "Example",
 			"repos" : repos,
 			"errors": errors,
+			"example": example,
 		})
 	}
 }

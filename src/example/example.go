@@ -3,6 +3,7 @@ package example
 import(
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/satori/go.uuid"
 	"github.com/pachyderm/pachyderm/src/client"
@@ -14,10 +15,10 @@ import(
 
 type SandboxRepo struct {
 	DisplayName string
-	pfs_server.Repo
+	*pfs_server.Repo
 }
 
-type SandboxExample struct {
+type Example struct {
 	Name string
 
 	// Util
@@ -25,52 +26,42 @@ type SandboxExample struct {
 
 	// Data Pane
 	Repo *SandboxRepo
-	Files map[string]string
-	Commits []pfs_server.Commit
-	rawFiles *AssetHandler
+	Files map[string]map[string]string //name -> commit -> content
+	rawFiles *asset.AssetHandler
 
 	// Code Pane
 	Code string
 }
 
-func New(name string, APIClient *client.APIClient, assetHandler *AssetHandler) error {
-	repo, err := e.createUniqueRepo()
+func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
+	repo, err := createUniqueRepo(APIClient)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("/examples/%v/code.go", name))
+	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", name))
 
-	if err != nil {
-		return err
+	if err != nil { 
+		return nil, err
 	}
 
-	ex := &SandboxExample{
+	ex := &Example{
 		Name: name,
 		client: APIClient,
 		Repo: repo,
-		Files: make(map[string]string),
+		Files: make(map[string]map[string]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
-		Code: code,
+		Code: string(code),
 	}
 
-	ex.initialize()
-
-	return ex
-}
-
-func (e *Example) initialize() error {
-
-	files := e.populateRepo(e.Repo)
+	ex.populateRepo()
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	e.Files = files
-
-	return nil
+	return ex, nil
 }
 
 func (e *Example) populateRepo() error {
@@ -79,14 +70,15 @@ func (e *Example) populateRepo() error {
 		return fmt.Errorf("No repo initialized")
 	}
 
-	var commits []pfs_server.Commit
-
 	files := []string{
-		fmt.Sprintf("/examples/%v/data/set1.txt", e.Name), 
-		fmt.Sprintf("/examples/%v/data/set2.txt", e.Name),
+		fmt.Sprintf("assets/examples/%v/data/set1.txt", e.Name), 
+		fmt.Sprintf("assets/examples/%v/data/set2.txt", e.Name),
 	}
 
-	for file := range(files) {
+	// For now hardcode:
+	destinationFile := "sales"
+
+	for _, file := range(files) {
 		commit, err := pfs_client.StartCommit(e.client, e.Repo.Name, "", "")
 
 		if err != nil {
@@ -99,24 +91,31 @@ func (e *Example) populateRepo() error {
 			return err
 		}
 
-		e.Files["sales"] = string(content)
+		commitToContentMap, ok := e.Files[destinationFile]
 
-		_, err := pfs_client.PutFile(e.client, e.Repo.Name, commit.ID, "sales", 0, NewCacheReader(content))
+		// SJ: this feels weird ... 
+		if !ok {
+			e.Files[destinationFile] = make(map[string]string)
+			commitToContentMap = e.Files[destinationFile]
+		}
+		
+		commitToContentMap[commit.ID] = string(content)
+
+		contentReader := NewCacheReader(content)
+
+		_, err = pfs_client.PutFile(e.client, e.Repo.Name, commit.ID, destinationFile, 0, contentReader)
 
 		if err != nil {
 			return err
 		}
 
-		err := pfs_client.FinishCommit(e.client, e.Repo.Name, "", "")
+		err = pfs_client.FinishCommit(e.client, e.Repo.Name, commit.ID)
 
 		if err != nil {
 			return err
 		}
 
-		commits = append(commits, commit)
 	}
-
-	e.Commits = commits
 
 	return nil
 }
@@ -126,7 +125,7 @@ type CacheReader struct {
 	index int
 }
 
-func NewCacheReader(content []byte) {
+func NewCacheReader(content []byte) *CacheReader {
 	return &CacheReader{
 		content: content,
 		index: 0,
@@ -134,20 +133,21 @@ func NewCacheReader(content []byte) {
 }
 
 func (cr *CacheReader) Read(p []byte) (n int, err error) {
-	if len(p) < len(cr.content) - index {
-		p[0:len(p)-1] = cr.content[index:len(p-1)]
+	if len(p) < ( len(cr.content) - cr.index ) {
+		p = cr.content[cr.index:len(p)-1]
 		cr.index = len(p)
 
 		return len(p), nil
 	}
 
-	bufferSize := len(cr.content) - index
-	p[0:bufferSize] = cr.content[index:-1]
+	bufferSize := len(cr.content) - cr.index
+//	p[0:bufferSize] = cr.content[cr.index:]
+	p = append(p, cr.content[cr.index:]...)
 
 	return bufferSize, io.EOF
 }
 
-func (e *Example) createUniqueRepo() (*SandboxRepo, error) {
+func createUniqueRepo(APIClient *client.APIClient) (*SandboxRepo, error) {
 
 	unique_suffix := strings.Replace(uuid.NewV4().String(), "-", "", -1)
 	unique_name := "sales" + "-" + unique_suffix[0:12]

@@ -1,12 +1,22 @@
 {{ define "data" }}
 
+{{ .example.Name }}
+
 <table class="input">
 <tr>
   <th> /Foo.txt </th>
 </tr> 
 <tr>
-  <td> apple </td>
+  <td> --placeholder-- </td>
 </tr> 
+{{ range .example.Files }}
+
+  <tr>
+    <th> /{{ . }} </th>
+  </tr>  
+
+{{ end }}
+
 <tr>
   <td> banana </td>
 </tr> 
