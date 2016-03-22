@@ -68,10 +68,13 @@ func LoadFromCookie(cookie string, APIClient *client.APIClient, assetHandler *as
 		Code: string(code),
 	}
 
-	ex.loadFileData()
+	err = ex.loadFileData()
+
+	if err != nil {
+		return nil, err
+	}	
 
 	return ex, nil
-
 }
 
 func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
@@ -105,7 +108,7 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 	return ex, nil
 }
 
-func (e *Example) loadFiles() error {
+func (e *Example) loadFileData() error {
 	commitInfos, err := pfs_client.ListCommit(e.client, []string{ e.Repo.Name })
 
 	if err != nil {
@@ -115,12 +118,25 @@ func (e *Example) loadFiles() error {
 	for _, commitInfo := range(commitInfos) {
 		commitID := commitInfo.Commit.ID
 		
-		pfs_client.GetFile(e.client, e.Repo.Name, commitID, 
-		
-		e.Files[name][commitID] = content
+		fileInfos, err := pfs_client.ListFile(e.client, e.Repo.Name, commitID, "", "", nil)
+		if err != nil {
+			return err
+		}		
+
+		for _, fileInfo := range(fileInfos) {
+			writer := NewBufferWriter()
+
+			err = pfs_client.GetFile(e.client, e.Repo.Name, commitID, "", 0, fileInfo.size, "", nil, writer)
+			if err != nil {
+				return err
+			}
+			
+			e.Files[fileInfo.File.Path][commitID] = writer.content
+		}
 
 	}
 
+	return nil
 }
 
 func (e *Example) populateRepo() error {

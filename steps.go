@@ -23,6 +23,12 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 }
 
 func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
+	ex, err := LoadFromCookie(cookie, APIClient, assetHandler)
+
+	if err != nil {
+		fmt.Printf("ERR! %v\n", err)
+		errors = append(errors, err)
+	}
 
 	return ex, errors
 }

@@ -36,6 +36,8 @@ func main() {
 
 	router.GET("/", handle("main", step1))
 
+	router.POST("/", handle("main", step1submit))
+
 	router.Run(":9080")
 	
 }
