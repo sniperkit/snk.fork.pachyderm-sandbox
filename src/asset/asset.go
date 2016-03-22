@@ -22,6 +22,18 @@ func NewAssetHandler() *AssetHandler {
 func (a *AssetHandler) Serve(c *gin.Context) {
 	
 	path := fmt.Sprintf(".%v", c.Request.URL.Path)
+	content, err := FindOrPopulate(path)
+
+	if err != nil {
+		c.String(http.StatusNotFound, "Asset not found")
+	}
+
+	c.String(http.StatusOK, string(content) )
+	setMIMEType(c, path)
+
+}
+
+func FindOrPopulate(path string) (content []byte, err error){
 	content, ok := a.files[path]
 
 	if !ok || gin.Mode() == "debug" {
@@ -32,16 +44,13 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 
 		if err != nil {
 			fmt.Println(err)
-			c.String(http.StatusNotFound, "Asset not found")
-			return
+			return nil, err
 		}
 
 		a.files[path] = content
 	}
 
-	c.String(http.StatusOK, string(content) )
-	setMIMEType(c, path)
-
+	return content
 }
 
 func setMIMEType(c *gin.Context, path string) {
