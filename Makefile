@@ -80,6 +80,7 @@ kube-update-infrastructure:
 
 kube-deploy:
 	kubectl --kubeconfig="./kube-config" rolling-update sandbox --image=pachyderm/sandbox:travis-$$TRAVIS_BUILD_NUMBER
+	# If the previous rolling-update failed (e.g. CrashingLoopBackoff), the next rolling-update seems to hang
 
 deploy: docker-build docker-push kube-deploy
 
