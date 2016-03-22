@@ -13,11 +13,6 @@ import(
 	"github.com/pachyderm/sandbox/src/asset"
 )
 
-type SandboxRepo struct {
-	DisplayName string
-	*pfs_server.Repo
-}
-
 type Example struct {
 	Name string
 
@@ -31,6 +26,52 @@ type Example struct {
 
 	// Code Pane
 	Code string
+}
+
+type SandboxRepo struct {
+	DisplayName string
+	*pfs_server.Repo
+}
+
+func LoadFromCookie(cookie string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
+
+	// cookie is of type example=name/customtoken
+
+	tokens := strings.Split(cookie, "/")
+
+	if len(tokens) != 2 {
+		return nil, fmt.Errorf("Error extracting cookie information")
+	}
+
+	name := tokens[0]
+	id := tokens[1]
+
+	repo := &SandboxRepo{
+		DisplayName: name,
+		Repo: &pfs_server.Repo{
+			Name: uniqueNameFromToken(name,token),
+		},
+	}
+
+	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", name))
+
+	if err != nil { 
+		return nil, err
+	}
+
+	ex := &Example{
+		Name: name,
+		client: APIClient,
+		Repo: repo,
+		Files: make(map[string]map[string]string), // Initialize filename -> commitID[content] map
+		rawFiles: assetHandler,
+		Code: string(code),
+	}
+
+	ex.loadFileData()
+
+	return ex, nil
+
 }
 
 func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
@@ -55,13 +96,31 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 		Code: string(code),
 	}
 
-	ex.populateRepo()
+	err = ex.populateRepo()
 
 	if err != nil {
 		return nil, err
 	}
 
 	return ex, nil
+}
+
+func (e *Example) loadFiles() error {
+	commitInfos, err := pfs_client.ListCommit(e.client, []string{ e.Repo.Name })
+
+	if err != nil {
+		return err
+	}
+
+	for _, commitInfo := range(commitInfos) {
+		commitID := commitInfo.Commit.ID
+		
+		pfs_client.GetFile(e.client, e.Repo.Name, commitID, 
+		
+		e.Files[name][commitID] = content
+
+	}
+
 }
 
 func (e *Example) populateRepo() error {
@@ -120,37 +179,8 @@ func (e *Example) populateRepo() error {
 	return nil
 }
 
-type CacheReader struct {
-	content []byte
-	index int
-}
-
-func NewCacheReader(content []byte) *CacheReader {
-	return &CacheReader{
-		content: content,
-		index: 0,
-	}
-}
-
-func (cr *CacheReader) Read(p []byte) (n int, err error) {
-	if len(p) < ( len(cr.content) - cr.index ) {
-		p = cr.content[cr.index:len(p)-1]
-		cr.index = len(p)
-
-		return len(p), nil
-	}
-
-	bufferSize := len(cr.content) - cr.index
-//	p[0:bufferSize] = cr.content[cr.index:]
-	p = append(p, cr.content[cr.index:]...)
-
-	return bufferSize, io.EOF
-}
-
 func createUniqueRepo(APIClient *client.APIClient) (*SandboxRepo, error) {
-
-	unique_suffix := strings.Replace(uuid.NewV4().String(), "-", "", -1)
-	unique_name := "sales" + "-" + unique_suffix[0:12]
+	unique_name := generateUniqueName("sales")
 
 	err := pfs_client.CreateRepo(APIClient, unique_name)
 

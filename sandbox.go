@@ -34,36 +34,20 @@ func main() {
 
 	router.HTMLRender = loadTemplates()
 
-	router.GET("/", handle("main"))
+	router.GET("/", handle("main", step1))
 
 	router.Run(":9080")
 	
 }
 
-func handle(page string) ( func (*gin.Context) ){
+
+func handle(page string, customHandler func(*gin.Context) (*example.Example, []error) ) ( func (*gin.Context) ){
 	return func(c *gin.Context) {
 		if gin.Mode() == "debug" {
 			router.HTMLRender = loadTemplates()
 		}
 
-		var errors []error
-
-		example, err := example.New("fruit-stand", APIClient, assetHandler)
-
-		if err != nil {
-			fmt.Printf("ERR! %v\n", err)
-			errors = append(errors, err)
-		} else {
-			// Silly ... but go compiler doesn't know I'm using it in a view
-			fmt.Printf("Loaded %v\n", example.Name)			
-		}
-
-		repos, err := pfs_client.ListRepo(APIClient)
-
-		if err != nil {
-			fmt.Printf("ERR! %v\n", err)
-			errors = append(errors, err)
-		}
+		example, errors := customHandler(c)
 
 		c.HTML(http.StatusOK, page, gin.H{
 			"title" : example.Name + "Example",
