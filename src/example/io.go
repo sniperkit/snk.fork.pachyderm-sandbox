@@ -1,13 +1,18 @@
 package example
+
+import(
+	"io"
+)
+
 type BufferWriter struct {
-	content []byte
+	Content []byte
 }
 
-func NewBufferWrite() *BufferWriter {
+func NewBufferWriter() *BufferWriter {
 	return &BufferWriter{}
 }
 func (bw *BufferWriter) Write(p []byte) (n int, err error) {
-	bw.content = append(bw.content, p...)
+	bw.Content = append(bw.Content, p...)
 	return len(p), nil
 }
 

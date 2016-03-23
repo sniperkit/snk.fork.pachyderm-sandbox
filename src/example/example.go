@@ -2,10 +2,8 @@ package example
 
 import(
 	"fmt"
-	"io"
 	"strings"
 
-	"github.com/satori/go.uuid"
 	"github.com/pachyderm/pachyderm/src/client"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 	pfs_server "github.com/pachyderm/pachyderm/src/server/pfs"
@@ -49,7 +47,7 @@ func LoadFromCookie(cookie string, APIClient *client.APIClient, assetHandler *as
 	repo := &SandboxRepo{
 		DisplayName: name,
 		Repo: &pfs_server.Repo{
-			Name: uniqueNameFromToken(name,token),
+			Name: uniqueNameFromToken(name,id),
 		},
 	}
 
@@ -126,12 +124,21 @@ func (e *Example) loadFileData() error {
 		for _, fileInfo := range(fileInfos) {
 			writer := NewBufferWriter()
 
-			err = pfs_client.GetFile(e.client, e.Repo.Name, commitID, "", 0, fileInfo.size, "", nil, writer)
+			err = pfs_client.GetFile(
+				e.client, 
+				e.Repo.Name, 
+				commitID, 
+				"", 
+				0, 
+				int64(fileInfo.SizeBytes), 
+				"", 
+				nil, 
+				writer)
 			if err != nil {
 				return err
 			}
 			
-			e.Files[fileInfo.File.Path][commitID] = writer.content
+			e.Files[fileInfo.File.Path][commitID] = string(writer.Content)
 		}
 
 	}

@@ -1,6 +1,11 @@
 package example
 
+import(
+	"strings"
+	"fmt"
 
+	"github.com/satori/go.uuid"
+)
 
 func generateUniqueName(prefix string) string {
 	unique_suffix := strings.Replace(uuid.NewV4().String(), "-", "", -1)
