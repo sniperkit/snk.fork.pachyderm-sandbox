@@ -16,7 +16,7 @@ var router = gin.New()
 var APIClient *client.APIClient
 
 func init() {
-	apiClient, err := client.New()
+	apiClient, _ := client.New()
 	APIClient = apiClient
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
 

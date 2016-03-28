@@ -27,6 +27,9 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 	if err != nil {
 		fmt.Printf("ERR! %v\n", err)
 		errors = append(errors, err)
+	} else {
+		// Again ... silly ... but compiler doesn't know its used in a view
+		fmt.Printf("Loaded %v repos", len(repos))
 	}
 
 	return ex, errors

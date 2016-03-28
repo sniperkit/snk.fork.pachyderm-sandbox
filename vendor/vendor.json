@@ -3,13 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "II2RjEFgX9EzV4fJSgV/oZrB7aE=",
-			"origin": "github.com/pachyderm/sandbox/vendor/bazil.org/fuse",
-			"path": "bazil.org/fuse",
-			"revision": "37bfa8be929171feec943f3496bc4befdeaf10db",
-			"revisionTime": "2016-03-17T11:10:31-07:00"
-		},
-		{
 			"checksumSHA1": "NPgkh9UWMsaTtsAAs3kPrclHT9Y=",
 			"origin": "github.com/pachyderm/sandbox/vendor/bazil.org/fuse/fuseutil",
 			"path": "bazil.org/fuse/fuseutil",
@@ -55,6 +48,12 @@
 			"checksumSHA1": "qZaoZaycGXUECFs9xOd3ZgA4iK4=",
 			"origin": "github.com/pachyderm/sandbox/vendor/github.com/gin-gonic/contrib/renders/multitemplate",
 			"path": "github.com/gin-gonic/contrib/renders/multitemplate",
+			"revision": "18e1babe51907062f82163197fe8714ce0aad81e",
+			"revisionTime": "2016-03-05T23:39:43+01:00"
+		},
+		{
+			"checksumSHA1": "JzD4ByBcCdfLb+oorXTDFMcXAnc=",
+			"path": "github.com/gin-gonic/contrib/sessions",
 			"revision": "18e1babe51907062f82163197fe8714ce0aad81e",
 			"revisionTime": "2016-03-05T23:39:43+01:00"
 		},
@@ -362,6 +361,12 @@
 		{
 			"checksumSHA1": "9+TP2NPlTWXoRndq02uwZW26AqI=",
 			"origin": "github.com/pachyderm/sandbox/vendor/gopkg.in/go-playground/validator.v8",
+			"path": "gopkg.in/go-playground/validator.v8",
+			"revision": "014792cf3e266caff1e916876be12282b33059e0",
+			"revisionTime": "2016-02-23T15:26:51-05:00"
+		},
+		{
+			"checksumSHA1": "9+TP2NPlTWXoRndq02uwZW26AqI=",
 			"path": "gopkg.in/go-playground/validator.v8",
 			"revision": "014792cf3e266caff1e916876be12282b33059e0",
 			"revisionTime": "2016-02-23T15:26:51-05:00"
