@@ -4,6 +4,7 @@ import(
 	"fmt"
 	"errors"
 	"strings"
+	"bytes"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/pachyderm/src/client"
@@ -138,26 +139,27 @@ func (e *Example) loadFileData() error {
 		}		
 
 		for _, fileInfo := range(fileInfos) {
-			writer := NewBufferWriter()
+			var buffer bytes.Buffer
 			fmt.Printf("Getting file %v\n", fileInfo.File.Path)
-
+			fmt.Printf("looking in repo %v under commit %v\n", e.Repo.Name, commitID)
 			err = pfs_client.GetFile(
 				e.client, 
 				e.Repo.Name, 
 				commitID, 
-				"", 
+				"sales", 
 				0, 
-				int64(fileInfo.SizeBytes), 
+				0,
 				"", 
 				nil, 
-				writer)
+				&buffer)
 			
 			if err != nil {
 				fmt.Printf("error getting file: %v\n", err)
-//				return err
+				return err
 			}
 			
-			e.Files[fileInfo.File.Path][commitID] = string(writer.Content)
+			e.Files[fileInfo.File.Path] = make(map[string]string)
+			e.Files[fileInfo.File.Path][commitID] = buffer.String()
 		}
 
 	}
@@ -202,9 +204,14 @@ func (e *Example) populateRepo() error {
 		
 		commitToContentMap[commit.ID] = string(content)
 
-		contentReader := NewCacheReader(content)
-
-		_, err = pfs_client.PutFile(e.client, e.Repo.Name, commit.ID, destinationFile, 0, contentReader)
+		_, err = pfs_client.PutFile(
+			e.client,
+			e.Repo.Name,
+			commit.ID,
+			destinationFile,
+			0,
+			strings.NewReader(string(content)),
+		)
 
 		if err != nil {
 			return err
