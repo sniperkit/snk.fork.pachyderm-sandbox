@@ -3,6 +3,7 @@ package example
 import(
 	"fmt"
 	"errors"
+	"strings"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/pachyderm/src/client"
@@ -35,49 +36,56 @@ type SandboxRepo struct {
 func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
 
 
-	value := session.Get("name")
+	value := session.Get("example_name")
 
 	if value == nil {
-		return nil, errors.New("Could not find name in session")
+		return nil, errors.New("Could not find example_name in session")
 	}
-	name := value.(string)
+	example_name := value.(string)
+	fmt.Printf("Got example name (%v)\n", example_name)
 
-	value = session.Get("ID")
+	value = session.Get("repo_name")
 
 	if value == nil {
-		return nil, errors.New("Could not find ID in session")
+		return nil, errors.New("Could not find repo_name in session")
 	}
 
-	id := value.(string)
+	unique_name := value.(string)
+	name := strings.Split(unique_name, "-")[0]
+	fmt.Printf("Got repo names (%v) (%v)\n", name, unique_name)
 
 	repo := &SandboxRepo{
 		DisplayName: name,
 		Repo: &pfs_server.Repo{
-			Name: uniqueNameFromToken(name,id),
+			Name: unique_name,
 		},
 	}
 
-	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", name))
+	fmt.Printf("Created repo")
+	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", example_name))
 
 	if err != nil { 
 		return nil, err
 	}
 
+	fmt.Printf("Loaded code")
 	ex := &Example{
-		Name: name,
+		Name: example_name,
 		client: APIClient,
 		Repo: repo,
 		Files: make(map[string]map[string]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
-
+	fmt.Printf("Created example")
 	err = ex.loadFileData()
+	fmt.Printf("Loaded example data")
 
 	if err != nil {
 		return nil, err
 	}	
 
+	fmt.Printf("succeeded in load")
 	return ex, nil
 }
 
@@ -121,14 +129,17 @@ func (e *Example) loadFileData() error {
 
 	for _, commitInfo := range(commitInfos) {
 		commitID := commitInfo.Commit.ID
-		
+		fmt.Printf("Looking at commit %v\n", commitID)
+
 		fileInfos, err := pfs_client.ListFile(e.client, e.Repo.Name, commitID, "", "", nil)
 		if err != nil {
+			fmt.Printf("err listing file")
 			return err
 		}		
 
 		for _, fileInfo := range(fileInfos) {
 			writer := NewBufferWriter()
+			fmt.Printf("Getting file %v\n", fileInfo.File.Path)
 
 			err = pfs_client.GetFile(
 				e.client, 
@@ -140,8 +151,10 @@ func (e *Example) loadFileData() error {
 				"", 
 				nil, 
 				writer)
+			
 			if err != nil {
-				return err
+				fmt.Printf("error getting file: %v\n", err)
+//				return err
 			}
 			
 			e.Files[fileInfo.File.Path][commitID] = string(writer.Content)

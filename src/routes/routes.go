@@ -4,6 +4,7 @@ import(
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 	"github.com/pachyderm/pachyderm/src/client"
 
@@ -26,6 +27,10 @@ func init() {
 		assets.GET("/main.js", assetHandler.Serve)
 	}
 
+
+	store := sessions.NewCookieStore([]byte("secret"))
+	router.Use(sessions.Sessions("mysession", store))
+
 	router.HTMLRender = loadTemplates()
 }
 
@@ -46,11 +51,21 @@ func handle(page string, customHandler func(*gin.Context) (*example.Example, []e
 
 		example, errors := customHandler(c)
 
-		c.HTML(http.StatusOK, page, gin.H{
-			"title" : example.Name + "Example",
-			"errors": errors,
-			"example": example,
-		})
+		if example == nil {
+			c.HTML(http.StatusOK, page, gin.H{
+				"title" : "Example Error",
+				"errors": errors,
+				"example": example,
+			})
+
+		} else {
+			c.HTML(http.StatusOK, page, gin.H{
+				"title" : example.Name + "Example",
+				"errors": errors,
+				"example": example,
+			})
+
+		}
 	}
 }
 

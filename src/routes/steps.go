@@ -32,6 +32,11 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 		fmt.Printf("Loaded %v repos", len(repos))
 	}
 
+	s := sessions.Default(c)
+	s.Set("example_name", ex.Name)
+	s.Set("repo_name", ex.Repo.Name)
+	s.Save()
+
 	return ex, errors
 }
 
