@@ -2,8 +2,9 @@ package example
 
 import(
 	"fmt"
-	"strings"
+	"errors"
 
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/pachyderm/src/client"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 	pfs_server "github.com/pachyderm/pachyderm/src/server/pfs"
@@ -31,18 +32,23 @@ type SandboxRepo struct {
 	*pfs_server.Repo
 }
 
-func LoadFromCookie(cookie string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
+func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
 
-	// cookie is of type example=name/customtoken
 
-	tokens := strings.Split(cookie, "/")
+	value := session.Get("name")
 
-	if len(tokens) != 2 {
-		return nil, fmt.Errorf("Error extracting cookie information")
+	if value == nil {
+		return nil, errors.New("Could not find name in session")
+	}
+	name := value.(string)
+
+	value = session.Get("ID")
+
+	if value == nil {
+		return nil, errors.New("Could not find ID in session")
 	}
 
-	name := tokens[0]
-	id := tokens[1]
+	id := value.(string)
 
 	repo := &SandboxRepo{
 		DisplayName: name,
