@@ -158,7 +158,12 @@ func (e *Example) loadFileData() error {
 				return err
 			}
 			
-			e.Files[fileInfo.File.Path] = make(map[string]string)
+			_, ok := e.Files[fileInfo.File.Path]
+
+			if !ok {
+				e.Files[fileInfo.File.Path] = make(map[string]string)
+			}
+
 			e.Files[fileInfo.File.Path][commitID] = buffer.String()
 		}
 
