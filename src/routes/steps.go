@@ -61,6 +61,8 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	s := sessions.Default(c)
 	pipelineJSON, _ := json.Marshal(pipelines)
 
+	fmt.Printf("Kicked off pipelines %v\n", string(pipelineJSON))
+
 	s.Set("pipelines", pipelineJSON)
 	s.Save()
 

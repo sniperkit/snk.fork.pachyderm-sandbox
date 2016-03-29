@@ -62,14 +62,12 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		},
 	}
 
-	fmt.Printf("Created repo")
 	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", example_name))
 
 	if err != nil { 
 		return nil, err
 	}
 
-	fmt.Printf("Loaded code")
 	ex := &Example{
 		Name: example_name,
 		client: APIClient,
@@ -78,15 +76,12 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
-	fmt.Printf("Created example")
 	err = ex.loadFileData()
-	fmt.Printf("Loaded example data")
 
 	if err != nil {
 		return nil, err
 	}	
 
-	fmt.Printf("succeeded in load")
 	return ex, nil
 }
 
@@ -130,18 +125,14 @@ func (e *Example) loadFileData() error {
 
 	for _, commitInfo := range(commitInfos) {
 		commitID := commitInfo.Commit.ID
-		fmt.Printf("Looking at commit %v\n", commitID)
 
 		fileInfos, err := pfs_client.ListFile(e.client, e.Repo.Name, commitID, "", "", nil)
 		if err != nil {
-			fmt.Printf("err listing file")
 			return err
 		}		
 
 		for _, fileInfo := range(fileInfos) {
 			var buffer bytes.Buffer
-			fmt.Printf("Getting file %v\n", fileInfo.File.Path)
-			fmt.Printf("looking in repo %v under commit %v\n", e.Repo.Name, commitID)
 			err = pfs_client.GetFile(
 				e.client, 
 				e.Repo.Name, 
@@ -154,7 +145,6 @@ func (e *Example) loadFileData() error {
 				&buffer)
 			
 			if err != nil {
-				fmt.Printf("error getting file: %v\n", err)
 				return err
 			}
 			

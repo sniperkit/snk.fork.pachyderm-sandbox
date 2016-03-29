@@ -23,27 +23,41 @@ func (e *Example) KickoffPipeline() ([]string, error) {
 
 	pipeline_reader := strings.NewReader(raw_pipeline_json)
 	decoder := json.NewDecoder(pipeline_reader)
+
+	var pipelineNames []string
+
+	for {
 	
-	message := json.RawMessage{}
-	if err = decoder.Decode(&message); err != nil && err != io.EOF {
-		return nil, err
+		message := json.RawMessage{}
+
+		if err = decoder.Decode(&message); err != nil {
+			if err == io.EOF {
+				break
+			} else {
+				fmt.Printf("err decoding pipeline json %v\n", err)
+				return nil, err
+			}
+		}
+
+		fmt.Printf("message %v\n", string(message))
+		var request pps_client.CreatePipelineRequest
+
+		if err := jsonpb.UnmarshalString(string(message), &request); err != nil {
+			fmt.Printf("err unmarshaling json %v\n", err)
+			return nil, err
+		}
+
+		fmt.Printf("create pipeline request: %v\n", request)
+
+		pipelineNames = append(pipelineNames, request.Pipeline.Name)
+
+		if _, err := e.client.CreatePipeline(
+			context.Background(),
+			&request,
+		); err != nil {
+			return nil, err
+		}
 	}
-
-	var request pps_client.CreatePipelineRequest
-	if err := jsonpb.UnmarshalString(string(message), &request); err != nil {
-		return nil, err
-	}
-
-	if _, err := e.client.CreatePipeline(
-		context.Background(),
-		&request,
-	); err != nil {
-		return nil, err
-	}
-
-	fmt.Printf("pipeline: %v\n", request)
-
-	pipelineNames := []string{ request.Pipeline.Name }
 	
 
 	return pipelineNames, nil
@@ -64,7 +78,12 @@ func (e *Example) destroyPipeline() {
 
 
 func (e *Example) loadPipeline() (string, error) {
-	raw_pipeline, _ := e.rawFiles.FindOrPopulate(fmt.Sprintf("assets/examples/%v/pipeline.json", e.Name))
+	raw_pipeline, err := e.rawFiles.FindOrPopulate(fmt.Sprintf("assets/examples/%v/pipeline.json", e.Name))
+
+	if err != nil {
+		return "", err
+	}
+
 	pipeline_template, err := template.New("pipeline").Parse(string(raw_pipeline))
 
 	if err != nil {

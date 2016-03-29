@@ -19,8 +19,6 @@ func check_pipeline_status(c *gin.Context) (ex *example.Example, errors []error)
 		fmt.Printf("ERR! %v\n", err)
 		errors = append(errors, err)
 	}
-
-	fmt.Printf("Loaded example: %v\n", ex)
 	
 	value := s.Get("pipelines")
 
@@ -28,6 +26,8 @@ func check_pipeline_status(c *gin.Context) (ex *example.Example, errors []error)
 		errors = append(errors, e.New("Couldnt find any pipelines in session"))
 		return nil, errors
 	}
+
+	fmt.Printf("raw pipeline data: %v\n", string(value.([]byte)) )
 
 	var pipelines []string
 

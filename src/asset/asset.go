@@ -34,30 +34,25 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 }
 
 func (a *AssetHandler) FindOrPopulate(path string) (content []byte, err error){
-	content, ok := a.files[path]
+	_, ok := a.files[path]
 
 	if !ok || gin.Mode() == "debug" {
-		fmt.Println(path)
 		content, err := ioutil.ReadFile(path)
-
-		fmt.Printf("Found content: %v\n", string(content))
 
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
 		}
-
 		a.files[path] = content
 	}
 
-	return content, nil
+	return a.files[path], nil
 }
 
 func setMIMEType(c *gin.Context, path string) {
 	tokens := strings.Split(path, ".")
 	suffix := tokens[len(tokens)-1]
 	contentType := fmt.Sprintf("text/%v", suffix)
-	fmt.Printf("content type: %v\n", contentType)
 	c.Request.Header.Set("Content-Type", contentType)
 }
 
