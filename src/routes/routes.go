@@ -40,7 +40,7 @@ func Route() {
 
 	router.POST("/", handle("main", step1submit))
 
-	router.GET("/check_pipeline_status", handle("main", check_pipeline_status))
+	router.GET("/check_pipeline_status", check_pipeline_status)
 
 	router.Run(":9080")
 }
@@ -80,6 +80,7 @@ func loadTemplates() multitemplate.Render {
 		"views/data.html",
 		"views/copy.html",
 		"views/code.html",
+		"views/pipeline_status.json",
 	)
 
 	return templates

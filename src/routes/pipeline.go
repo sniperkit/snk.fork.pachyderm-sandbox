@@ -3,14 +3,21 @@ package routes
 import(
 	"encoding/json"
 	"fmt"
-	e "errors"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/sandbox/src/example"	
 )
 
-func check_pipeline_status(c *gin.Context) (ex *example.Example, errors []error){
+
+func check_pipeline_status(c *gin.Context) {
+	errors := make([]error,0)
+
+	if gin.Mode() == "debug" {
+		router.HTMLRender = loadTemplates()
+	}
+
 	s := sessions.Default(c)
 
 	ex, err := example.LoadFromCookie(s, APIClient, assetHandler)
@@ -19,26 +26,22 @@ func check_pipeline_status(c *gin.Context) (ex *example.Example, errors []error)
 		fmt.Printf("ERR! %v\n", err)
 		errors = append(errors, err)
 	}
-	
-	value := s.Get("pipelines")
 
-	if value == nil {
-		errors = append(errors, e.New("Couldnt find any pipelines in session"))
-		return nil, errors
-	}
+	status, states, err := ex.IsPipelineDone(s)
 
-	fmt.Printf("raw pipeline data: %v\n", string(value.([]byte)) )
-
-	var pipelines []string
-
-	err = json.Unmarshal(value.([]byte), &pipelines)
+	fmt.Printf("STATUS %v\n states: %v\n err: %v\n", status, states, err)
 
 	if err != nil {
 		errors = append(errors, err)
-		return nil, errors
 	}
 
-	fmt.Printf("Pipelines: %v\n", pipelines)
+	statesJSON, _ := json.Marshal(states)
+	fmt.Printf("states json: %v\n", statesJSON)
+	c.HTML(http.StatusOK, "pipeline_status.json", gin.H{})
+/*		"errors": errors,
+		"status": status,
+		"states": statesJSON,
+	})*/
 
-	return ex, errors
+
 }

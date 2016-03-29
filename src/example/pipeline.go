@@ -7,11 +7,14 @@ import(
 	"encoding/json"
 	"io"
 	"text/template"
+	"errors"
 
 	"golang.org/x/net/context"
         "github.com/golang/protobuf/jsonpb"	
-
+	"github.com/gin-gonic/contrib/sessions"	
 	pps_client "github.com/pachyderm/pachyderm/src/client/pps"
+
+	"github.com/pachyderm/sandbox/src/example/pipeline"
 )
 
 func (e *Example) KickoffPipeline() ([]string, error) {
@@ -63,11 +66,67 @@ func (e *Example) KickoffPipeline() ([]string, error) {
 	return pipelineNames, nil
 }
 
-func (e *Example) IsPipelineDone() {
-	// Will have to poll for this
-	// Check the right job state? and see if it completes?
+var ErrNoPipelinesInSession = errors.New("Could not find pipeline from session data")
+
+type PipelineState int
+
+const (
+	PipelineNotFound PipelineState = iota
+	PipelineWorking
+	PipelineCompleted
+)
+
+
+func (e *Example) getJobStates(session sessions.Session) (states map[string]map[string]pps_client.JobState, err error){
+	states = make(map[string]map[string]pps_client.JobState)
+
+	pipelines, err := pipeline.LoadPipelinesFromSession(session)
+
+	if err != nil {
+		return nil, ErrNoPipelinesInSession
+	}
+
+
+	for _, pipeline := range(pipelines) {
+
+		jobInfos, err := e.client.ListJob(
+			context.Background(),
+			&pps_client.ListJobRequest{
+				Pipeline: &pps_client.Pipeline{
+					Name: pipeline,
+				},
+			},
+		)
+
+		if err != nil {
+			return nil, err
+		}
+		
+		states[pipeline] = make(map[string]pps_client.JobState)
+
+		for _, jobInfo := range(jobInfos.JobInfo) {
+			states[pipeline][jobInfo.OutputCommit.ID] = jobInfo.State
+		}
+
+	}
+
+	return states, nil
+}
+
+func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states map[string]map[string]pps_client.JobState, err error) {
+
+	states, err = e.getJobStates(session)
+
+	status = true
+	for _, commitToState := range(states) {
+		for _, state := range(commitToState) {
+			thisJobDone := (state == pps_client.JobState_JOB_STATE_SUCCESS)
+			status = status && thisJobDone
+		}
+	}
 
 	//e.destroyPipeline()
+	return status, states, nil
 }
 
 // Will be called once pipeline is done ...
