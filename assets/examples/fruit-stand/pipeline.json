@@ -1,27 +1,27 @@
 {
   "pipeline": {
-    "name": "filter"
+    "name": "filter-{{.Repo.Name}}"
   },
   "transform": {
     "cmd": [ "sh" ],
     "stdin": [
-        "grep apple  /pfs/sales-284aff2c5427/sales >/pfs/out/apple",
-        "grep banana /pfs/sales-284aff2c5427/sales >/pfs/out/banana",
-        "grep orange /pfs/sales-284aff2c5427/sales >/pfs/out/orange"
+        "grep apple  /pfs/{{.Repo.Name}}/sales >/pfs/out/apple",
+        "grep banana /pfs/{{.Repo.Name}}/sales >/pfs/out/banana",
+        "grep orange /pfs/{{.Repo.Name}}/sales >/pfs/out/orange"
     ]
   },
   "shards": "1",
   "inputs": [
     {
       "repo": {
-        "name": "sales-284aff2c5427"
+        "name": "{{.Repo.Name}}"
       }
     }
   ]
 }
 {
   "pipeline": {
-    "name": "sum"
+    "name": "sum-{{.Repo.Name}}"
   },
   "transform": {
     "cmd": [ "sh" ],
@@ -35,7 +35,7 @@
   "inputs": [
     {
       "repo": {
-        "name": "filter"
+        "name": "filter-{{.Repo.Name}}"
       },
       "reduce": true
     }

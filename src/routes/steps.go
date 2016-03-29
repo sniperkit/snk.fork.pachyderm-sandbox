@@ -50,5 +50,8 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 		errors = append(errors, err)
 	}
 
+	
+	
+
 	return ex, errors
 }
