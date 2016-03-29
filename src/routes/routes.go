@@ -40,6 +40,8 @@ func Route() {
 
 	router.POST("/", handle("main", step1submit))
 
+	router.GET("/check_pipeline_status", handle("main", check_pipeline_status))
+
 	router.Run(":9080")
 }
 
@@ -55,7 +57,6 @@ func handle(page string, customHandler func(*gin.Context) (*example.Example, []e
 			c.HTML(http.StatusOK, page, gin.H{
 				"title" : "Example Error",
 				"errors": errors,
-				"example": example,
 			})
 
 		} else {

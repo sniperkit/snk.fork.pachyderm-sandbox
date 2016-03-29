@@ -4,35 +4,49 @@ import(
 	"fmt"
 	"strings"
 	"bytes"
+	"encoding/json"
+	"io"
+	"text/template"
 
 	"golang.org/x/net/context"
-        "github.com/golang/protobuf/jsonpb"
+        "github.com/golang/protobuf/jsonpb"	
 
 	pps_client "github.com/pachyderm/pachyderm/src/client/pps"
 )
 
-func (e *Example) KickoffPipeline() error {
-	raw_pipeline_json := e.loadPipeline()
+func (e *Example) KickoffPipeline() ([]string, error) {
+	raw_pipeline_json, err := e.loadPipeline()
+
+	if err != nil {
+		return nil, err
+	}
 
 	pipeline_reader := strings.NewReader(raw_pipeline_json)
 	decoder := json.NewDecoder(pipeline_reader)
 	
 	message := json.RawMessage{}
-	if err := decoder.Decode(&message); err != nil && if err != io.EOF {
-		return err
+	if err = decoder.Decode(&message); err != nil && err != io.EOF {
+		return nil, err
 	}
 
 	var request pps_client.CreatePipelineRequest
 	if err := jsonpb.UnmarshalString(string(message), &request); err != nil {
-		return err
+		return nil, err
 	}
 
 	if _, err := e.client.CreatePipeline(
 		context.Background(),
 		&request,
 	); err != nil {
-		return err
+		return nil, err
 	}
+
+	fmt.Printf("pipeline: %v\n", request)
+
+	pipelineNames := []string{ request.Pipeline.Name }
+	
+
+	return pipelineNames, nil
 }
 
 func (e *Example) IsPipelineDone() {
@@ -49,12 +63,16 @@ func (e *Example) destroyPipeline() {
 }
 
 
-func (e *Example) loadPipeline() string {
+func (e *Example) loadPipeline() (string, error) {
 	raw_pipeline, _ := e.rawFiles.FindOrPopulate(fmt.Sprintf("assets/examples/%v/pipeline.json", e.Name))
-	pipeline_template := template.New("pipeline").Parse(raw_pipeline)
+	pipeline_template, err := template.New("pipeline").Parse(string(raw_pipeline))
+
+	if err != nil {
+		return "", err
+	}
 
 	var buffer bytes.Buffer
 	pipeline_template.Execute(&buffer, e)
 
-	return buffer.String()
+	return buffer.String(), nil
 }

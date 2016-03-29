@@ -2,6 +2,7 @@ package routes
 
 import(
 	"fmt"
+	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
@@ -50,8 +51,18 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 		errors = append(errors, err)
 	}
 
-	
-	
+	pipelines, err := ex.KickoffPipeline()
+
+	if err != nil {
+		fmt.Printf("ERR! %v\n", err)
+		errors = append(errors, err)		
+	}
+
+	s := sessions.Default(c)
+	pipelineJSON, _ := json.Marshal(pipelines)
+
+	s.Set("pipelines", pipelineJSON)
+	s.Save()
 
 	return ex, errors
 }
