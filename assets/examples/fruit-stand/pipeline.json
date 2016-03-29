@@ -26,9 +26,9 @@
   "transform": {
     "cmd": [ "sh" ],
     "stdin": [
-        "cut -f 2 /pfs/filter/apple | awk '{s+=$1} END {print s}' >/pfs/out/apple",
-        "cut -f 2 /pfs/filter/banana | awk '{s+=$1} END {print s}' >/pfs/out/banana",
-        "cut -f 2 /pfs/filter/orange | awk '{s+=$1} END {print s}' >/pfs/out/orange"
+        "cut -f 2 /pfs/filter-{{.Repo.Name}}/apple | awk '{s+=$1} END {print s}' >/pfs/out/apple",
+        "cut -f 2 /pfs/filter-{{.Repo.Name}}/banana | awk '{s+=$1} END {print s}' >/pfs/out/banana",
+        "cut -f 2 /pfs/filter-{{.Repo.Name}}/orange | awk '{s+=$1} END {print s}' >/pfs/out/orange"
     ]
   },
   "shards": "1",
