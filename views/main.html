@@ -5,6 +5,9 @@
   <small> {{.title}} </small>
 </h1>
 
+{{ $len_errors := len .errors }}
+{{ if ne $len_errors 0 }}
+
 <div class="errors">
 Errors:
 
@@ -14,9 +17,14 @@ Errors:
 
 </div>
 
+{{ end }}
+
+<div class="flash hidden">
+  <div class="message"></div>
+</div>
+
 <div class="status">
   <div class="item hidden"></div>
-
 </div>
 
 <form action="/" method="POST">
