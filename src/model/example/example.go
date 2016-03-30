@@ -36,18 +36,11 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 		return nil, err
 	}
 
-	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", name))
-
-	if err != nil { 
-		return nil, err
-	}
-
 	ex := &Example{
 		Name: name,
 		client: APIClient,
 		Repo: r,
 		rawFiles: assetHandler,
-		Code: string(code),
 	}
 
 	err = ex.populateRepo()
@@ -55,6 +48,14 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 	if err != nil {
 		return nil, err
 	}
+
+	code, err := ex.loadPipeline()
+
+	if err != nil { 
+		return nil, err
+	}
+
+	ex.Code = code
 
 	ex.Repo.LoadFileData()
 

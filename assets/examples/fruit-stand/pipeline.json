@@ -1,41 +1,41 @@
 {
   "pipeline": {
-    "name": "filter-{{.Repo.Name}}"
+    "name": "filter-{{.Repo.DisplayName}}"
   },
   "transform": {
     "cmd": [ "sh" ],
     "stdin": [
-        "grep apple  /pfs/{{.Repo.Name}}/sales >/pfs/out/apple",
-        "grep banana /pfs/{{.Repo.Name}}/sales >/pfs/out/banana",
-        "grep orange /pfs/{{.Repo.Name}}/sales >/pfs/out/orange"
+        "grep apple  /pfs/{{.Repo.DisplayName}}/sales >/pfs/out/apple",
+        "grep banana /pfs/{{.Repo.DisplayName}}/sales >/pfs/out/banana",
+        "grep orange /pfs/{{.Repo.DisplayName}}/sales >/pfs/out/orange"
     ]
   },
   "shards": "1",
   "inputs": [
     {
       "repo": {
-        "name": "{{.Repo.Name}}"
+        "name": "{{.Repo.DisplayName}}"
       }
     }
   ]
 }
 {
   "pipeline": {
-    "name": "sum-{{.Repo.Name}}"
+    "name": "sum-{{.Repo.DisplayName}}"
   },
   "transform": {
     "cmd": [ "sh" ],
     "stdin": [
-        "cut -f 2 /pfs/filter-{{.Repo.Name}}/apple | awk '{s+=$1} END {print s}' >/pfs/out/apple",
-        "cut -f 2 /pfs/filter-{{.Repo.Name}}/banana | awk '{s+=$1} END {print s}' >/pfs/out/banana",
-        "cut -f 2 /pfs/filter-{{.Repo.Name}}/orange | awk '{s+=$1} END {print s}' >/pfs/out/orange"
+        "cut -f 2 /pfs/filter-{{.Repo.DisplayName}}/apple | awk '{s+=$1} END {print s}' >/pfs/out/apple",
+        "cut -f 2 /pfs/filter-{{.Repo.DisplayName}}/banana | awk '{s+=$1} END {print s}' >/pfs/out/banana",
+        "cut -f 2 /pfs/filter-{{.Repo.DisplayName}}/orange | awk '{s+=$1} END {print s}' >/pfs/out/orange"
     ]
   },
   "shards": "1",
   "inputs": [
     {
       "repo": {
-        "name": "filter-{{.Repo.Name}}"
+        "name": "filter-{{.Repo.DisplayName}}"
       },
       "reduce": true
     }
