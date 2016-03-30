@@ -1,5 +1,19 @@
 package example
 
+import(
+	"fmt"
+	"errors"
+	"strings"
+
+	"github.com/gin-gonic/contrib/sessions"
+	"github.com/pachyderm/pachyderm/src/client"
+	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
+
+	"github.com/pachyderm/sandbox/src/asset"
+	"github.com/pachyderm/sandbox/src/model/repo"
+)
+
+
 type Example struct {
 	Name string
 
@@ -8,7 +22,7 @@ type Example struct {
 	rawFiles *asset.AssetHandler
 
 	// Data Pane
-	Repo *SandboxRepo
+	Repo *repo.SandboxRepo
 
 	// Code Pane
 	Code string
@@ -16,7 +30,7 @@ type Example struct {
 
 
 func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
-	repo, err := createUniqueRepo(APIClient)
+	r, err := repo.New(APIClient, name)
 
 	if err != nil {
 		return nil, err
@@ -31,12 +45,18 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 	ex := &Example{
 		Name: name,
 		client: APIClient,
-		Repo: repo,
+		Repo: r,
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
 
 	err = ex.populateRepo()
+
+	if err != nil {
+		return nil, err
+	}
+
+	ex.Repo.LoadFileData()
 
 	if err != nil {
 		return nil, err
@@ -64,15 +84,11 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 	}
 
 	unique_name := value.(string)
-	name := strings.Split(unique_name, "-")[0]
-	fmt.Printf("Got repo names (%v) (%v)\n", name, unique_name)
 
-	repo := &SandboxRepo{
-		DisplayName: name,
-		Files: make(map[string]map[string][][]string),
-		Repo: &pfs_server.Repo{
-			Name: unique_name,
-		},
+	r, err := repo.Load(APIClient, unique_name)
+
+	if err != nil {
+		return nil, errors.New("Could not load repo: " + unique_name)
 	}
 
 	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", example_name))
@@ -84,11 +100,10 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 	ex := &Example{
 		Name: example_name,
 		client: APIClient,
-		Repo: repo,
+		Repo: r,
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
-	err = ex.loadFileData()
 
 	if err != nil {
 		return nil, err
@@ -125,16 +140,6 @@ func (e *Example) populateRepo() error {
 			return err
 		}
 
-		commitToContentMap, ok := e.Repo.Files[destinationFile]
-
-		// SJ: this feels weird ... 
-		if !ok {
-			e.Repo.Files[destinationFile] = make(map[string][][]string)
-			commitToContentMap = e.Repo.Files[destinationFile]
-		}
-		
-		commitToContentMap[commit.ID] = parseData(string(content))
-
 		_, err = pfs_client.PutFile(
 			e.client,
 			e.Repo.Name,
@@ -157,23 +162,4 @@ func (e *Example) populateRepo() error {
 	}
 
 	return nil
-}
-
-func createUniqueRepo(APIClient *client.APIClient) (*SandboxRepo, error) {
-	unique_name := generateUniqueName("sales")
-
-	err := pfs_client.CreateRepo(APIClient, unique_name)
-
-	if err != nil {
-		return nil, err
-	}
-
-	repo := &SandboxRepo{
-		DisplayName: "Sales",
-		Files: make(map[string]map[string][][]string),
-		Repo: &pfs_server.Repo{
-			Name: unique_name,
-		},
-	}
-	return repo, nil
 }

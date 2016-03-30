@@ -9,7 +9,7 @@ import(
 	"github.com/pachyderm/pachyderm/src/client"
 
 	"github.com/pachyderm/sandbox/src/asset"
-	"github.com/pachyderm/sandbox/src/example"
+	"github.com/pachyderm/sandbox/src/model/example"
 )
 
 var assetHandler = asset.NewAssetHandler()

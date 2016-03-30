@@ -8,7 +8,7 @@ import(
 	"github.com/gin-gonic/contrib/sessions"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 
-	"github.com/pachyderm/sandbox/src/example"	
+	"github.com/pachyderm/sandbox/src/model/example"	
 )
 
 func step1(c *gin.Context) (ex *example.Example, errors []error){

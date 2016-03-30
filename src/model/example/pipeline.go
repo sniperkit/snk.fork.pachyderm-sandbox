@@ -14,7 +14,18 @@ import(
 	"github.com/gin-gonic/contrib/sessions"	
 	pps_client "github.com/pachyderm/pachyderm/src/client/pps"
 
-	"github.com/pachyderm/sandbox/src/example/pipeline"
+	"github.com/pachyderm/sandbox/src/model/pipeline"
+)
+
+
+var ErrNoPipelinesInSession = errors.New("Could not find pipeline from session data")
+
+type PipelineState int
+
+const (
+	PipelineNotFound PipelineState = iota
+	PipelineWorking
+	PipelineCompleted
 )
 
 func (e *Example) KickoffPipeline() ([]string, error) {
@@ -65,17 +76,6 @@ func (e *Example) KickoffPipeline() ([]string, error) {
 
 	return pipelineNames, nil
 }
-
-var ErrNoPipelinesInSession = errors.New("Could not find pipeline from session data")
-
-type PipelineState int
-
-const (
-	PipelineNotFound PipelineState = iota
-	PipelineWorking
-	PipelineCompleted
-)
-
 
 func (e *Example) getJobStates(session sessions.Session) (states map[string]map[string]pps_client.JobState, err error){
 	states = make(map[string]map[string]pps_client.JobState)
