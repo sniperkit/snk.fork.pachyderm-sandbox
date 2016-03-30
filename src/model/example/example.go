@@ -92,8 +92,6 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		return nil, errors.New("Could not load repo: " + unique_name)
 	}
 
-	code, err := assetHandler.FindOrPopulate(fmt.Sprintf("assets/examples/%v/code.go", example_name))
-
 	if err != nil { 
 		return nil, err
 	}
@@ -103,7 +101,6 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		client: APIClient,
 		Repo: r,
 		rawFiles: assetHandler,
-		Code: string(code),
 	}
 
 	if err != nil {

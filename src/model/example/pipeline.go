@@ -28,14 +28,16 @@ const (
 	PipelineCompleted
 )
 
-func (e *Example) KickoffPipeline() ([]string, error) {
-	raw_pipeline_json, err := e.loadPipeline()
+func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
+	fmt.Printf("raw manifest:\n%v\n\n", manifest)
 
-	if err != nil {
-		return nil, err
-	}
+	// Replace all instances of 
+	fmt.Printf("REPLACING %v -> %v\n", e.Repo.DisplayName, e.Repo.Name)
+	manifest = strings.Replace(manifest, e.Repo.DisplayName, e.Repo.Name, -1)
 
-	pipeline_reader := strings.NewReader(raw_pipeline_json)
+	fmt.Printf("normalized manifest:\n%v\n\n", manifest)
+
+	pipeline_reader := strings.NewReader(manifest)
 	decoder := json.NewDecoder(pipeline_reader)
 
 	var pipelineNames []string
@@ -44,7 +46,7 @@ func (e *Example) KickoffPipeline() ([]string, error) {
 	
 		message := json.RawMessage{}
 
-		if err = decoder.Decode(&message); err != nil {
+		if err := decoder.Decode(&message); err != nil {
 			if err == io.EOF {
 				break
 			} else {

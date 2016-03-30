@@ -3,6 +3,7 @@ package routes
 import(
 	"fmt"
 	"encoding/json"
+	e "errors"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
@@ -52,7 +53,15 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 		errors = append(errors, err)
 	}
 
-	pipelines, err := ex.KickoffPipeline()
+	code := c.PostForm("code")
+	if len(code) == 0 {
+		errors = append(errors, e.New("No code submitted") )
+		return nil, errors
+	}
+
+	ex.Code = code
+
+	pipelines, err := ex.KickoffPipeline(code)
 
 	if err != nil {
 		fmt.Printf("ERR! %v\n", err)
