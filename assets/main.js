@@ -42,22 +42,21 @@ function updatePipelineStatusUI(result) {
             .removeClass("hidden")
             .text("All pipelines have completed")
             .fadeOut(3000, function() { $(".flash .message.info").addClass("hidden") });
+
+        window.clearInterval(pipelineStatusPoller);
     }
 
     $(".pane.code").removeClass("disabled");
 
     for(var outputRepo in result["states"]) {
         var statusBar = $(".status .item.hidden").clone().removeClass("hidden");
-        
-        for(var commitID in result["states"][outputRepo]) {
-            var state = result["states"][outputRepo][commitID];
-            statusBar.text( outputRepo + " completed commit (" + commitID + ")" + state );
-            statusBar.appendTo(".status");
-            fade(statusBar);
-        }
+        var state = result["states"][outputRepo];
+
+        statusBar.text( outputRepo + " is " + state );
+        statusBar.appendTo(".status");
+        fade(statusBar);
     }
 
-    window.clearInterval(pipelineStatusPoller);
 }
 
 function fade(elem) {

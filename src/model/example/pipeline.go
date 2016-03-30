@@ -77,8 +77,8 @@ func (e *Example) KickoffPipeline() ([]string, error) {
 	return pipelineNames, nil
 }
 
-func (e *Example) getJobStates(session sessions.Session) (states map[string]map[string]pps_client.JobState, err error){
-	states = make(map[string]map[string]pps_client.JobState)
+func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_client.JobState, err error){
+	states = make(map[string]pps_client.JobState)
 
 	pipelines, err := pipeline.LoadPipelinesFromSession(session)
 
@@ -102,37 +102,34 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]map[
 			return nil, err
 		}
 		
-		states[pipeline] = make(map[string]pps_client.JobState)
+		var state pps_client.JobState
 
 		for _, jobInfo := range(jobInfos.JobInfo) {
-			fmt.Printf("Jobinfo? %v\n", jobInfo)
-			fmt.Printf("Job state? [%v]\n", jobInfo.State)
-			fmt.Printf("output commit? %v\n", jobInfo.OutputCommit)
-			fmt.Printf("output commit id? %v\n", jobInfo.OutputCommit.ID)
-			states[pipeline][jobInfo.OutputCommit.ID] = jobInfo.State
+			state = jobInfo.State
+
+			if state != pps_client.JobState_JOB_STATE_SUCCESS {
+				break
+			}
 		}
 
+		states[pipeline] = state
 	}
 
 	return states, nil
 }
 
-func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states map[string]map[string]string, err error) {
+func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states map[string]string, err error) {
 
 	rawStates, err := e.getJobStates(session)
 
-	states = make(map[string]map[string]string)
+	states = make(map[string]string)
 	status = true
 
-	for pipeline, commitToState := range(rawStates) {
-		states[pipeline] = make(map[string]string)
+	for pipeline, state := range(rawStates) {
 
-		for commitID, state := range(commitToState) {
-			thisJobDone := (state == pps_client.JobState_JOB_STATE_SUCCESS)
-			status = status && thisJobDone
-
-			states[pipeline][commitID] = pps_client.JobState_name[int32(state)]
-		}
+		thisJobDone := (state == pps_client.JobState_JOB_STATE_SUCCESS)
+		status = status && thisJobDone
+		states[pipeline] = pps_client.JobState_name[int32(state)]
 	}
 
 	//e.destroyPipeline()
