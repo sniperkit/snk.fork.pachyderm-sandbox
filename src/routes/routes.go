@@ -39,8 +39,11 @@ func Route() {
 	router.GET("/", handle("main", step1))
 
 	router.POST("/", handle("main", step1submit))
-
-	router.GET("/check_pipeline_status", check_pipeline_status)
+	pipeline := router.Group("/pipeline")
+	{
+		pipeline.GET("/status", check_pipeline_status)
+		pipeline.GET("/output", list_output_repos)
+	}
 
 	router.Run(":9080")
 }

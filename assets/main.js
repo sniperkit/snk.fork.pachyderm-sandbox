@@ -18,6 +18,10 @@ function addDataPaneListeners() {
 }
 
 
+function displayPipelineOutput(result) {
+
+}
+
 // Poller to check if pipeline is done
 
 function updatePipelineStatusUI(result) {
@@ -64,9 +68,16 @@ function checkPipelineStatus() {
     $(".pane.code").addClass("disabled");
 
     $.ajax({
-            url: "/check_pipeline_status",
+            url: "/pipeline/status",
             success: updatePipelineStatusUI
     });
+}
+
+function loadPipelineOutput() {
+    $.ajax({
+            url: "/pipeline/output",
+                success: displayPipelineOutput
+        });
 }
 
 // Initialization

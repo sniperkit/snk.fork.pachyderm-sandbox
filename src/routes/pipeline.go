@@ -38,5 +38,22 @@ func check_pipeline_status(c *gin.Context) {
 		"states": states,
 	})
 
+}
+
+func check_pipeline_status(c *gin.Context) {
+	errors := make([]error,0)
+
+	if gin.Mode() == "debug" {
+		router.HTMLRender = loadTemplates()
+	}
+
+	s := sessions.Default(c)
+
+	
+
+	c.JSON(http.StatusOK, gin.H{
+		"errors": errors,
+		"repos": repos,
+	})
 
 }
