@@ -10,6 +10,7 @@
 
 .pane.data {
   border: 2px solid pink;
+  overflow: scroll;
 }
 
 .main {
