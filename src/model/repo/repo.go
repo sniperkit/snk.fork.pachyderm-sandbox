@@ -47,12 +47,13 @@ func createRepo(APIClient *client.APIClient, name string, unique_name string) *S
 }
 
 func Load(APIClient *client.APIClient, unique_name string) (*SandboxRepo, error) {
-	name := strings.Split(unique_name, "-")[0]
+	name := util.NameFromUniqueName(unique_name)
 	fmt.Printf("Got repo names (%v) (%v)\n", name, unique_name)
 
 	r := createRepo(APIClient, name, unique_name)
 
 	if err := r.LoadFileData(); err != nil {
+		fmt.Printf("loading file data err %v\n", err)
 		return nil, err
 	}
 
@@ -61,6 +62,8 @@ func Load(APIClient *client.APIClient, unique_name string) (*SandboxRepo, error)
 
 func (r *SandboxRepo) LoadFileData() error {
 	commitInfos, err := pfs_client.ListCommit(r.client, []string{ r.Name })
+
+	fmt.Printf("For repo %v got commits: %v\n", r.Name, commitInfos)
 
 	if err != nil {
 		return err
@@ -74,13 +77,15 @@ func (r *SandboxRepo) LoadFileData() error {
 			return err
 		}		
 
+		fmt.Printf("Got files: %v\n", fileInfos)
+
 		for _, fileInfo := range(fileInfos) {
 			var buffer bytes.Buffer
 			err = pfs_client.GetFile(
 				r.client, 
 				r.Name, 
 				commitID, 
-				"sales", 
+				fileInfo.File.Path, 
 				0, 
 				0,
 				"", 

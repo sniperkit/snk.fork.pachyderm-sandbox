@@ -60,11 +60,16 @@ func list_output_repos(c *gin.Context) {
 	var repos []*repo.SandboxRepo
 
 	for _, pipeline := range(pipelines) {
+		fmt.Printf("Loading repo %v\n", pipeline)
+		// Pipeline name == output repo name
+
 		r, err := repo.Load(APIClient, pipeline)
 
 		if err != nil {
 			errors = append(errors, err)
 		}
+
+		fmt.Printf("repo loaded [%v]\n", r)
 		repos = append(repos, r)
 	}
 

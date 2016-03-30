@@ -17,3 +17,9 @@ func GenerateUniqueName(prefix string) string {
 func UniqueNameFromToken(prefix string, token string) string {
 	return fmt.Sprintf("%v-%v", prefix, token)
 }
+
+func NameFromUniqueName(unique_name string) string {
+	tokens := strings.Split(unique_name, "-")
+	return strings.Join(tokens[0:len(tokens)-1], "-")
+}
+
