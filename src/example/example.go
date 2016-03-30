@@ -22,7 +22,7 @@ type Example struct {
 
 	// Data Pane
 	Repo *SandboxRepo
-	Files map[string]map[string]string //name -> commit -> content
+	Files map[string]map[string][][]string //name -> commit -> 2D data
 	rawFiles *asset.AssetHandler
 
 	// Code Pane
@@ -72,7 +72,7 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		Name: example_name,
 		client: APIClient,
 		Repo: repo,
-		Files: make(map[string]map[string]string), // Initialize filename -> commitID[content] map
+		Files: make(map[string]map[string][][]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
@@ -102,7 +102,7 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 		Name: name,
 		client: APIClient,
 		Repo: repo,
-		Files: make(map[string]map[string]string), // Initialize filename -> commitID[content] map
+		Files: make(map[string]map[string][][]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
@@ -151,15 +151,33 @@ func (e *Example) loadFileData() error {
 			_, ok := e.Files[fileInfo.File.Path]
 
 			if !ok {
-				e.Files[fileInfo.File.Path] = make(map[string]string)
+				e.Files[fileInfo.File.Path] = make(map[string][][]string)
 			}
 
-			e.Files[fileInfo.File.Path][commitID] = buffer.String()
+			e.Files[fileInfo.File.Path][commitID] = parseData(buffer.String())
 		}
 
 	}
 
 	return nil
+}
+
+func parseData(raw string) (data [][]string) {
+
+	lines := strings.Split(raw,"\n")
+
+	for _, line := range(lines) {
+		tokens := strings.Fields(line)
+
+		datum := make([]string, 0)
+
+		for _, token := range(tokens) {
+			datum = append(datum, token)
+		}
+		data = append(data, datum)
+	}
+
+	return data
 }
 
 func (e *Example) populateRepo() error {
@@ -193,11 +211,11 @@ func (e *Example) populateRepo() error {
 
 		// SJ: this feels weird ... 
 		if !ok {
-			e.Files[destinationFile] = make(map[string]string)
+			e.Files[destinationFile] = make(map[string][][]string)
 			commitToContentMap = e.Files[destinationFile]
 		}
 		
-		commitToContentMap[commit.ID] = string(content)
+		commitToContentMap[commit.ID] = parseData(string(content))
 
 		_, err = pfs_client.PutFile(
 			e.client,

@@ -68,3 +68,41 @@ input[type='text'] {
 .inactive {
           visibility: hidden;
 }
+
+/* Data Pane */
+
+table {
+      width: 100%;
+}
+
+table.input th {
+            text-align: left;
+}
+
+table.data td {
+           border-bottom: 1px solid black;
+           border-left: 1px solid black;
+}
+
+table.data td:first-child {
+           border-left: 0px;
+}
+
+table {
+           border-collapse: collapse;
+}
+
+th.file {
+        background-color: lightblue;
+}
+
+th.commit {
+          background-color: lightgreen;
+          border: 1px solid lightgreen;
+}
+
+.commit .expand {
+        float: right;
+        border: 1px solid black;
+        padding: 0px 3px;
+}

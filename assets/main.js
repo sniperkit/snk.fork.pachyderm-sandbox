@@ -1,3 +1,23 @@
+// Data Pane
+
+function toggleCommitData(e) {
+    var parent = $(e.target).parent();
+    var commitID = parent.text().split($(e.target).text())[0].trim();
+
+    if ( $(e.target).text() == "+") {
+        $("tr." + commitID).removeClass("hidden");
+        $(e.target).text("-");
+    } else {
+        $("tr." + commitID).addClass("hidden");
+        $(e.target).text("+");
+    }
+}
+
+function addDataPaneListeners() {
+    $(".data .expand").click(toggleCommitData);
+}
+
+
 // Poller to check if pipeline is done
 
 function updatePipelineStatusUI(result) {
@@ -47,6 +67,13 @@ function checkPipelineStatus() {
     });
 }
 
-var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
+// Initialization
 
+var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
 var pipelineCompleted = null;
+
+$(document).ready(
+                  function () {
+                      addDataPaneListeners();
+                  }
+                  );

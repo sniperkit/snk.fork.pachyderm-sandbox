@@ -1,40 +1,45 @@
 {{ define "data" }}
 
-{{ .example.Name }}
-
 <table class="input">
-<tr>
-  <th> /Foo.txt </th>
-</tr> 
-<tr>
-  <td> --placeholder-- </td>
-</tr> 
-{{ range .example.Files }}
+
+{{ range $filename, $commitContentHash := .example.Files }}
 
   <tr>
-    <th> /{{ . }} </th>
+    <th colspan="3" class="file"> /{{ $filename }} </th>
   </tr>  
+  <tr>
+    <td colspan="3" style="padding: 0px">
+      <table class="data">
+        {{ range $commitID, $contents := $commitContentHash }}
 
+          <tr> 
+            <th colspan="3" class="commit">
+              {{ $commitID }} 
+              <span class="expand">+</span>
+            </th> 
+          </tr>
+
+          {{ range $i, $entry := $contents }}
+            {{ if gt $i 5 }}
+              <tr class="hidden {{$commitID}}">
+            {{ else }}
+              <tr>
+            {{ end }}
+
+            {{ range $j, $field := $entry }}
+              <td> {{ $field }} </td>
+            {{ end }}
+
+            </tr>
+          {{ end }}
+
+        {{ end }}
+      </table>
+    </td>
+  </tr>
+</table>
 {{ end }}
 
-<tr>
-  <td> banana </td>
-</tr> 
-<tr>
-  <td> apple </td>
-</tr> 
-</table>
 
-<table class="output">
-<tr>
-  <th> /jobout.txt </th>
-</tr> 
-<tr>
-  <td> apple </td>
-</tr> 
-<tr>
-  <td> apple </td>
-</tr> 
-</table>
 
 {{ end }}
