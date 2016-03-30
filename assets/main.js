@@ -11,7 +11,7 @@ function updatePipelineStatusUI(result) {
 
     if (pipelineCompleted) {
         $(".flash .message").text("All pipelines have completed");
-        $(".flash").removeClass("hidden");
+        $(".flash").removeClass("inactive");
     }
 
     $(".pane.code").removeClass("disabled");
@@ -23,11 +23,18 @@ function updatePipelineStatusUI(result) {
             var state = result["states"][outputRepo][commitID];
             statusBar.text( outputRepo + " completed commit (" + commitID + ")" + state );
             statusBar.appendTo(".status");
-            statusBar.fadeOut(2000);
+            fade(statusBar);
         }
     }
 
     window.clearInterval(pipelineStatusPoller);
+}
+
+function fade(elem) {
+    var fade_helper = function() {
+        elem.fadeOut(2000);
+    }
+    window.setTimeout(fade_helper, 2000);
 }
 
 function checkPipelineStatus() {
