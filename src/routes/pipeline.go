@@ -37,11 +37,12 @@ func check_pipeline_status(c *gin.Context) {
 
 	statesJSON, _ := json.Marshal(states)
 	fmt.Printf("states json: %v\n", statesJSON)
-	c.HTML(http.StatusOK, "pipeline_status.json", gin.H{})
-/*		"errors": errors,
+
+	c.JSON(http.StatusOK, gin.H{
+		"errors": errors,
 		"status": status,
-		"states": statesJSON,
-	})*/
+		"states": states,
+	})
 
 
 }
