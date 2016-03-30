@@ -2,8 +2,11 @@
 
 <table class="input">
 
-{{ range $filename, $commitContentHash := .example.Repo.Files }}
+{{ range $filename, $commitContentHash := .Files }}
 
+  <tr>
+    <th colspan="3" class="repo"> [{{ $.DisplayName }}] </th>
+  </tr>  
   <tr>
     <th colspan="3" class="file"> /{{ $filename }} </th>
   </tr>  

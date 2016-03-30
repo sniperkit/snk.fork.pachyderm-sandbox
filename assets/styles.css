@@ -94,6 +94,10 @@ table {
            border-collapse: collapse;
 }
 
+th.repo {
+        background-color: pink;
+}
+
 th.file {
         background-color: lightblue;
 }

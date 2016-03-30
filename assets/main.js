@@ -19,7 +19,7 @@ function addDataPaneListeners() {
 
 
 function displayPipelineOutput(result) {
-
+    
 }
 
 // Poller to check if pipeline is done
