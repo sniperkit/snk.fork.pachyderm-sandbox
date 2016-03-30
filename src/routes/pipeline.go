@@ -71,9 +71,16 @@ func list_output_repos(c *gin.Context) {
 		repos = append(repos, r)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"errors": errors,
-		"repos": repos,
-	})
+	if len(errors) > 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"errors": errors,
+		})
+		
+	} else {
+		fmt.Printf("got repos? %v\n", repos)
+		c.HTML(http.StatusOK, "pipeline_output", gin.H{
+			"repos": repos,
+		})
+	}
 
 }

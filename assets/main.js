@@ -14,12 +14,14 @@ function toggleCommitData(e) {
 }
 
 function addDataPaneListeners() {
+    $(".data .expand").off();
     $(".data .expand").click(toggleCommitData);
 }
 
 
 function displayPipelineOutput(result) {
-    
+    $(".data .input").append(result);
+    addDataPaneListeners();
 }
 
 // Poller to check if pipeline is done
@@ -34,6 +36,8 @@ function updatePipelineStatusUI(result) {
     pipelineCompleted = result["status"];
 
     if (pipelineCompleted) {
+        loadPipelineOutput();
+
         $(".flash .message.info")
             .removeClass("hidden")
             .text("All pipelines have completed")

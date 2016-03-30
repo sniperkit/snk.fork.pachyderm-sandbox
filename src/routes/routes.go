@@ -84,6 +84,10 @@ func loadTemplates() multitemplate.Render {
 		"views/copy.html",
 		"views/code.html",
 	)
-
+	templates.AddFromFiles(
+		"pipeline_output",
+		"views/pipeline_output.html",
+		"views/data.html",
+	)
 	return templates
 }
