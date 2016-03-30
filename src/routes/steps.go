@@ -34,6 +34,7 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 	}
 
 	s := sessions.Default(c)
+	s.Clear()
 	s.Set("example_name", ex.Name)
 	s.Set("repo_name", ex.Repo.Name)
 	s.Save()

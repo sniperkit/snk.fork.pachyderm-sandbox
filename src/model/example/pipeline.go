@@ -105,6 +105,10 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]map[
 		states[pipeline] = make(map[string]pps_client.JobState)
 
 		for _, jobInfo := range(jobInfos.JobInfo) {
+			fmt.Printf("Jobinfo? %v\n", jobInfo)
+			fmt.Printf("Job state? [%v]\n", jobInfo.State)
+			fmt.Printf("output commit? %v\n", jobInfo.OutputCommit)
+			fmt.Printf("output commit id? %v\n", jobInfo.OutputCommit.ID)
 			states[pipeline][jobInfo.OutputCommit.ID] = jobInfo.State
 		}
 
