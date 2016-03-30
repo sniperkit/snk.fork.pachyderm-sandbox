@@ -19,11 +19,10 @@ type Example struct {
 
 	// Util
 	client *client.APIClient
+	rawFiles *asset.AssetHandler
 
 	// Data Pane
 	Repo *SandboxRepo
-	Files map[string]map[string][][]string //name -> commit -> 2D data
-	rawFiles *asset.AssetHandler
 
 	// Code Pane
 	Code string
@@ -31,6 +30,8 @@ type Example struct {
 
 type SandboxRepo struct {
 	DisplayName string
+	Files map[string]map[string][][]string //name -> commit -> 2D data
+
 	*pfs_server.Repo
 }
 
@@ -57,6 +58,7 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 
 	repo := &SandboxRepo{
 		DisplayName: name,
+		Files: make(map[string]map[string][][]string),
 		Repo: &pfs_server.Repo{
 			Name: unique_name,
 		},
@@ -72,7 +74,6 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		Name: example_name,
 		client: APIClient,
 		Repo: repo,
-		Files: make(map[string]map[string][][]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
@@ -102,7 +103,6 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 		Name: name,
 		client: APIClient,
 		Repo: repo,
-		Files: make(map[string]map[string][][]string), // Initialize filename -> commitID[content] map
 		rawFiles: assetHandler,
 		Code: string(code),
 	}
@@ -148,13 +148,13 @@ func (e *Example) loadFileData() error {
 				return err
 			}
 			
-			_, ok := e.Files[fileInfo.File.Path]
+			_, ok := e.Repo.Files[fileInfo.File.Path]
 
 			if !ok {
-				e.Files[fileInfo.File.Path] = make(map[string][][]string)
+				e.Repo.Files[fileInfo.File.Path] = make(map[string][][]string)
 			}
 
-			e.Files[fileInfo.File.Path][commitID] = parseData(buffer.String())
+			e.Repo.Files[fileInfo.File.Path][commitID] = parseData(buffer.String())
 		}
 
 	}
@@ -207,12 +207,12 @@ func (e *Example) populateRepo() error {
 			return err
 		}
 
-		commitToContentMap, ok := e.Files[destinationFile]
+		commitToContentMap, ok := e.Repo.Files[destinationFile]
 
 		// SJ: this feels weird ... 
 		if !ok {
-			e.Files[destinationFile] = make(map[string][][]string)
-			commitToContentMap = e.Files[destinationFile]
+			e.Repo.Files[destinationFile] = make(map[string][][]string)
+			commitToContentMap = e.Repo.Files[destinationFile]
 		}
 		
 		commitToContentMap[commit.ID] = parseData(string(content))
@@ -252,6 +252,7 @@ func createUniqueRepo(APIClient *client.APIClient) (*SandboxRepo, error) {
 
 	repo := &SandboxRepo{
 		DisplayName: "Sales",
+		Files: make(map[string]map[string][][]string),
 		Repo: &pfs_server.Repo{
 			Name: unique_name,
 		},

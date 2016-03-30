@@ -2,7 +2,7 @@
 
 <table class="input">
 
-{{ range $filename, $commitContentHash := .example.Files }}
+{{ range $filename, $commitContentHash := .example.Repo.Files }}
 
   <tr>
     <th colspan="3" class="file"> /{{ $filename }} </th>

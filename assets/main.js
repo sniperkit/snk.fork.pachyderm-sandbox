@@ -30,8 +30,10 @@ function updatePipelineStatusUI(result) {
     pipelineCompleted = result["status"];
 
     if (pipelineCompleted) {
-        $(".flash .message").text("All pipelines have completed");
-        $(".flash").removeClass("inactive");
+        $(".flash .message.info")
+            .removeClass("hidden")
+            .text("All pipelines have completed")
+            .fadeOut(3000, function() { $(".flash .message.info").addClass("hidden") });
     }
 
     $(".pane.code").removeClass("disabled");

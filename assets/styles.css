@@ -57,17 +57,18 @@ input[type='text'] {
 .hidden {
         display: none;
 }
-
 .flash {
-       background-color: lightgreen;
-       padding: 10px 20px;
        width: 100%
+       min-height: 19px;
+}
+.flash .message {
+       background-color: lightgreen;
        border: 1px solid black;
        border-radius: 5px;
+       padding: 10px 20px;
 }
-
-.inactive {
-          visibility: hidden;
+.flash .message.error {
+             background-color: pink;
 }
 
 /* Data Pane */

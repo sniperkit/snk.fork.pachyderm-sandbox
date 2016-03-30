@@ -5,22 +5,28 @@
   <small> {{.title}} </small>
 </h1>
 
+{{ $flash_state := "inactive"}}
+
 {{ $len_errors := len .errors }}
+
 {{ if ne $len_errors 0 }}
-
-<div class="errors">
-Errors:
-
-{{ range .errors}}
-  <span> {{ . }} </span>
+  {{ $flash_state := "error" }}
+<div class="flash {{ $flash_state }}">
 {{ end }}
 
-</div>
+  <div class="message info hidden"> placeholder </div>
+  {{ if ne $len_errors 0 }}
+  <div class="message error">
+  Errors:
 
-{{ end }}
+  {{ range .errors}}
+    <span> {{ . }} </span>
+  {{ end }}
 
-<div class="flash inactive">
-  <div class="message"> placeholder </div>
+  </div>
+
+  {{ end }}
+
 </div>
 
 <div class="status">
