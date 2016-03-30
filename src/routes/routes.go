@@ -80,7 +80,6 @@ func loadTemplates() multitemplate.Render {
 		"views/data.html",
 		"views/copy.html",
 		"views/code.html",
-		"views/pipeline_status.json",
 	)
 
 	return templates

@@ -1,7 +1,6 @@
 package routes
 
 import(
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -29,14 +28,9 @@ func check_pipeline_status(c *gin.Context) {
 
 	status, states, err := ex.IsPipelineDone(s)
 
-	fmt.Printf("STATUS %v\n states: %v\n err: %v\n", status, states, err)
-
 	if err != nil {
 		errors = append(errors, err)
 	}
-
-	statesJSON, _ := json.Marshal(states)
-	fmt.Printf("states json: %v\n", statesJSON)
 
 	c.JSON(http.StatusOK, gin.H{
 		"errors": errors,

@@ -113,15 +113,21 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]map[
 	return states, nil
 }
 
-func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states map[string]map[string]pps_client.JobState, err error) {
+func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states map[string]map[string]string, err error) {
 
-	states, err = e.getJobStates(session)
+	rawStates, err := e.getJobStates(session)
 
+	states = make(map[string]map[string]string)
 	status = true
-	for _, commitToState := range(states) {
-		for _, state := range(commitToState) {
+
+	for pipeline, commitToState := range(rawStates) {
+		states[pipeline] = make(map[string]string)
+
+		for commitID, state := range(commitToState) {
 			thisJobDone := (state == pps_client.JobState_JOB_STATE_SUCCESS)
 			status = status && thisJobDone
+
+			states[pipeline][commitID] = pps_client.JobState_name[int32(state)]
 		}
 	}
 
