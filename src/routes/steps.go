@@ -59,7 +59,6 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	if err != nil {
 		errors = append(errors, err)
 	}
-	fmt.Printf("CURRENTLY ON STEP %v\n", ex.StepNumber)
 
 	code := c.PostForm("code")
 	if len(code) == 0 {
