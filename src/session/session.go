@@ -1,12 +1,16 @@
 package session
 
 import(
+	"errors"
+
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/segmentio/analytics-go"
+
+	"github.com/pachyderm/sandbox/src/util"
 )
 
 func Reset(s sessions.Session) {
-	user = s.Get("user")
+	user := s.Get("user")
 	s.Clear()
 
 	if user != nil {
@@ -15,11 +19,11 @@ func Reset(s sessions.Session) {
 	s.Save()
 }
 
-func TagUserSession(s sessions.Session) {
+func TagUserSession(analyticsClient *analytics.Client, s sessions.Session) {
 	token := util.GenerateUniqueToken()
 	s.Set("user", token)
 	
-	analyticsClient.Identify(&analytics.Identify{ anonymousID: token})
+	analyticsClient.Identify(&analytics.Identify{AnonymousId: token})
 }
 
 func GetUserToken(s sessions.Session) (string, error) {

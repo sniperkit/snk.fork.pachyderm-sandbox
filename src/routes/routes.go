@@ -7,6 +7,7 @@ import(
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 	"github.com/pachyderm/pachyderm/src/client"
+	"github.com/segmentio/analytics-go"
 
 	"github.com/pachyderm/sandbox/src/asset"
 	"github.com/pachyderm/sandbox/src/model/example"

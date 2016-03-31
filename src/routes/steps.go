@@ -17,7 +17,7 @@ import(
 
 func step1(c *gin.Context) (ex *example.Example, errors []error){
 	s := sessions.Default(c)
-	session.TagUserSession(s)
+	session.TagUserSession(analyticsClient, s)
 
 	ex, err := example.New("fruit-stand", APIClient, assetHandler)
 
@@ -48,7 +48,7 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 }
 
 func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
-	s = sessions.Default(c)
+	s := sessions.Default(c)
 	ex, err := example.LoadFromCookie(s, APIClient, assetHandler)
 
 	if err != nil {
@@ -70,7 +70,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 
 	ex.Code = code
 
-	user, err := session.getUserToken(s)
+	user, err := session.GetUserToken(s)
 	userPresent := (err != nil)
 
 	if userPresent {
