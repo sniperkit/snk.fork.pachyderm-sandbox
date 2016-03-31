@@ -7,8 +7,12 @@ import(
 	"github.com/satori/go.uuid"
 )
 
+func GenerateUniqueToken() string {
+	return strings.Replace(uuid.NewV4().String(), "-", "", -1)
+}
+
 func GenerateUniqueName(prefix string) string {
-	unique_suffix := strings.Replace(uuid.NewV4().String(), "-", "", -1)
+	unique_suffix := GenerateUniqueToken()
 	unique_name := UniqueNameFromToken(prefix, unique_suffix[0:12])
 
 	return unique_name

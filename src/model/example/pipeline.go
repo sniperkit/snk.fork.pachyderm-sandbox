@@ -15,6 +15,7 @@ import(
 	pps_client "github.com/pachyderm/pachyderm/src/client/pps"
 
 	"github.com/pachyderm/sandbox/src/model/pipeline"
+	"github.com/pachyderm/sandbox/src/util"
 )
 
 
@@ -28,20 +29,42 @@ const (
 	PipelineCompleted
 )
 
+func fullyQualifyName(repo string, input string) string {
+	return fmt.Sprintf("%v-pipeline-%v", repo, util.GenerateUniqueToken())
+}
+
+func (ex *Example) fullyQualifyRequest(request *pps_client.CreatePipelineRequest, fqPipelineName string, chained bool) {
+	// Pipeline names must always be unique
+	request.Pipeline.Name = strings.Replace(request.Pipeline.Name, ex.Repo.DisplayName, fqPipelineName, -1)
+
+	// Replace transform/stdin
+	// inputs/repo/name
+
+	replacement := fqPipelineName
+	if !chained {
+		replacement = ex.Repo.Name
+	}
+
+	for i, _ := range(request.Transform.Stdin) {
+		request.Transform.Stdin[i] = strings.Replace(request.Transform.Stdin[i], ex.Repo.DisplayName, replacement, -1)
+	}
+
+	for i, _ := range(request.Inputs) {
+		request.Inputs[i].Repo.Name = strings.Replace(request.Inputs[i].Repo.Name, ex.Repo.DisplayName, replacement, -1)
+	}
+
+}
+
 func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 	fmt.Printf("raw manifest:\n%v\n\n", manifest)
-
-	// Replace all instances of 
-	fmt.Printf("REPLACING %v -> %v\n", e.Repo.DisplayName, e.Repo.Name)
-	manifest = strings.Replace(manifest, e.Repo.DisplayName, e.Repo.Name, -1)
-
-	fmt.Printf("normalized manifest:\n%v\n\n", manifest)
 
 	pipeline_reader := strings.NewReader(manifest)
 	decoder := json.NewDecoder(pipeline_reader)
 
 	var pipelineNames []string
-
+	chainedTransform := false
+	var fqPipelineName string
+	
 	for {
 	
 		message := json.RawMessage{}
@@ -63,7 +86,17 @@ func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 			return nil, err
 		}
 
+		// Need to add a unique token at the end so that the user can 're-run' the transform
+		fmt.Printf("pipeline name? %v\n", request.Pipeline.Name)
 		fmt.Printf("create pipeline request: %v\n", request)
+
+		if !chainedTransform {
+			fqPipelineName = fullyQualifyName(e.Repo.Name, request.Pipeline.Name)
+		}
+		e.fullyQualifyRequest(&request, fqPipelineName, chainedTransform)
+
+		fmt.Printf("create pipeline NORMALIZED request: %v\n", request)
+
 
 		pipelineNames = append(pipelineNames, request.Pipeline.Name)
 
@@ -73,6 +106,8 @@ func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 		); err != nil {
 			return nil, err
 		}
+
+		chainedTransform = true
 	}
 	
 
@@ -88,8 +123,8 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_
 		return nil, ErrNoPipelinesInSession
 	}
 
-
 	for _, pipeline := range(pipelines) {
+
 
 		jobInfos, err := e.client.ListJob(
 			context.Background(),
