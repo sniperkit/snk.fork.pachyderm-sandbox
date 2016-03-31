@@ -92,10 +92,13 @@ $(document).ready(
                       $(".steps").on('afterChange', function(event, slick, currentSlide){
                               $("input[name='current_step']").attr("value",currentSlide);
                           });
+                      var initialSlide = $(".steps").attr("current-slide");
                       $(".steps").slick({
-                              appendArrows: $(".arrows")
-                          });
-                      $(".steps div").removeClass("invisible");
-                      
+                                  appendArrows: $(".arrows"),
+                                  slidesToShow:1, 
+                                  slidesToScroll:1, 
+                                  infinite: false,
+                                  initialSlide: parseInt(initialSlide)
+                          });                      
                   }
                   );

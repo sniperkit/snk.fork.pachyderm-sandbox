@@ -6,21 +6,13 @@
 
 <div class="arrows"></div>
 
-<div class="steps" data-slick='{"slidesToShow":1, 
-                               "slidesToScroll":1, 
-                               "initialSlide": {{ .StepNumber }} },
-                               "infinite": false'>
+<div class="steps" current-slide="{{ .StepNumber }}">
 
 {{ $numSteps := len .Steps }}
 
 {{ range $i, $step := .Steps }}
 
-  {{ if ne $i $.StepNumber }}
   <div>
-  {{ else }}
-  <div class="invisible">
-  {{ end }}
-
     {{ $step }}
   </div>
 
