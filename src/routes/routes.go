@@ -15,11 +15,15 @@ import(
 var assetHandler = asset.NewAssetHandler()
 var router = gin.New()
 var APIClient *client.APIClient
+var analyticsClient *analytics.Client
 
 func init() {
 	apiClient, _ := client.New()
 	APIClient = apiClient
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
+
+	analyticsClient = analytics.New("YOUR_WRITE_KEY")
+	analyticsClient.Size = 1
 
 	assets := router.Group("/assets")
 	{

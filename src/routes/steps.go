@@ -9,11 +9,15 @@ import(
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
+	"github.com/segmentio/analytics-go"
 
 	"github.com/pachyderm/sandbox/src/model/example"	
+	"github.com/pachyderm/sandbox/src/session"	
 )
 
 func step1(c *gin.Context) (ex *example.Example, errors []error){
+	s := sessions.Default(c)
+	session.TagUserSession(s)
 
 	ex, err := example.New("fruit-stand", APIClient, assetHandler)
 
@@ -35,8 +39,7 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 		fmt.Printf("Loaded %v repos", len(repos))
 	}
 
-	s := sessions.Default(c)
-	s.Clear()
+	session.Reset(s)
 	s.Set("example_name", ex.Name)
 	s.Set("repo_name", ex.Repo.Name)
 	s.Save()
@@ -44,10 +47,9 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 	return ex, errors
 }
 
-
 func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
-	
-	ex, err := example.LoadFromCookie(sessions.Default(c), APIClient, assetHandler)
+	s = sessions.Default(c)
+	ex, err := example.LoadFromCookie(s, APIClient, assetHandler)
 
 	if err != nil {
 		fmt.Printf("ERR! %v\n", err)
@@ -68,14 +70,36 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 
 	ex.Code = code
 
+	user, err := session.getUserToken(s)
+	userPresent := (err != nil)
+
+	if userPresent {
+		analyticsClient.Track(&analytics.Track{
+			Event:  "Submitted Code",
+			UserId: user,
+			Properties: map[string]interface{}{
+				"code": code,
+			},
+		})
+	}
+
 	pipelines, err := ex.KickoffPipeline(code)
+
+	if userPresent {
+		analyticsClient.Track(&analytics.Track{
+			Event:  "Kicked off pipelines",
+			UserId: user,
+			Properties: map[string]interface{}{
+				"pipelines": pipelines,
+			},
+		})
+	}
 
 	if err != nil {
 		fmt.Printf("ERR! %v\n", err)
 		errors = append(errors, err)		
 	}
 
-	s := sessions.Default(c)
 	pipelineJSON, _ := json.Marshal(pipelines)
 
 	fmt.Printf("Kicked off pipelines %v\n", string(pipelineJSON))
