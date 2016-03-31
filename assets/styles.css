@@ -8,6 +8,17 @@
   height: 100%;
 }
 
+.pane h3 {
+      width: 100%;
+      margin: 0px auto;
+      text-align: center;
+      border: 1px solid pink;
+}
+
+.pane.code h3 {
+      border: 0px;
+}
+
 .pane.data {
   border: 2px solid pink;
   overflow: scroll;

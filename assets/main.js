@@ -20,7 +20,7 @@ function addDataPaneListeners() {
 
 
 function displayPipelineOutput(result) {
-    $(".data .input").append(result);
+    $(".output.data table").append(result);
     addDataPaneListeners();
 }
 

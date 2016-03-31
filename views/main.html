@@ -35,26 +35,30 @@
 
 <form action="/" method="POST">
 
-<div class="main">
-
-<section class="pane copy">
+<section class="copy">
   {{ template "copy" . }}
 </section>
 
-<section class="pane data">
-  {{ range .repos }}
-    <li> {{ .Repo.Name }} </li>
-  {{ end }}
+<div class="main">
 
-
+<section class="pane input data">
+  <h3> Input </h3>
   {{ template "data" .example.Repo }}
 </section>
 
 <section class="pane code">
+  <h3> Transform </h3>
   {{ template "code" . }}
 </section>
 
+<section class="pane output data">
+  <h3> Output </h3>
+  <table>
+  </table>
+</section>
+
 </div>
+
 
 <div class="navigation">
 
