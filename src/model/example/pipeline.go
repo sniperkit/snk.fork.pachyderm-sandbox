@@ -123,12 +123,8 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_
 		return nil, ErrNoPipelinesInSession
 	}
 
-
 	for _, pipeline := range(pipelines) {
 
-		fmt.Printf("reading raw pipelien from session: %v\n", pipeline)
-		pipeline := strings.Split(pipeline, "-pipeline")[0]
-		fmt.Printf("normalized pipeline from session: %v\n", pipeline)
 
 		jobInfos, err := e.client.ListJob(
 			context.Background(),
