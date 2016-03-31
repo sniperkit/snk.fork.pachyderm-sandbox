@@ -1,9 +1,10 @@
 {{ define "content" }}
-
+<header>
 <h1> Pachyderm Sandbox 
 
   <small> {{.title}} </small>
 </h1>
+</header>
 
 {{ $flash_state := "inactive"}}
 
@@ -36,7 +37,7 @@
 <form action="/" method="POST">
 
 <section class="copy">
-  {{ template "copy" . }}
+  {{ template "copy" .example }}
 </section>
 
 <div class="main">
@@ -62,7 +63,7 @@
 
 <div class="navigation">
 
-  <input type="submit" class="button" value="Next >>"/>
+  <input type="submit" class="button" value="Run"/>
 
 </div>
 

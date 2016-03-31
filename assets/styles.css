@@ -124,3 +124,23 @@ th.commit {
         padding: 0px 3px;
         margin-right: 10px;
 }
+
+/* Content / Steps */
+
+.steps {
+       width: 100%;
+}
+
+.steps .invisible {
+       visibility: hidden;
+}
+
+.steps div {
+       height: 120px;
+}
+
+.arrows {
+        float: right;
+        top: -26px;
+        position: relative;
+}

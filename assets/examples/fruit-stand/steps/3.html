@@ -1,0 +1,15 @@
+<p>
+
+Now take a look at the transform JSON. Here we specify how we want to process the data. In our case, we want to perform 2 steps.
+
+</p>
+<p>
+
+The first is a filter. We want to separate out each type of fruit that we care about. This is a type of transform that is easy to parallelize. The default mode of a transform is a 'map'. This means that each node running this transform sees a chunk of the file.
+
+</p>
+<p>
+
+The second is a sum. This is a reduce step. Each node needs to guarantee that it sees the entire file so that it can aggregate any results.
+
+</p>

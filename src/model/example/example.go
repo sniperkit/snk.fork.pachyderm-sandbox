@@ -4,6 +4,8 @@ import(
 	"fmt"
 	"errors"
 	"strings"
+	"io/ioutil"
+	"html/template"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/pachyderm/src/client"
@@ -26,6 +28,10 @@ type Example struct {
 
 	// Code Pane
 	Code string
+
+	// Content Pane
+	Steps []template.HTML
+	StepNumber int
 }
 
 
@@ -41,6 +47,12 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 		client: APIClient,
 		Repo: r,
 		rawFiles: assetHandler,
+	}
+
+	err = ex.loadSteps()
+
+	if err != nil {
+		return nil, err
 	}
 
 	err = ex.populateRepo()
@@ -103,6 +115,8 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		rawFiles: assetHandler,
 	}
 
+	err = ex.loadSteps()
+
 	if err != nil {
 		return nil, err
 	}	
@@ -158,6 +172,33 @@ func (e *Example) populateRepo() error {
 		}
 
 	}
+
+	return nil
+}
+
+func (ex *Example) loadSteps() error {
+	path := fmt.Sprintf("assets/examples/%v/steps", ex.Name)
+	entries, err := ioutil.ReadDir(path)
+
+	if err != nil {
+		return err
+	}
+
+	for _, entry := range(entries) {
+		if (entry.IsDir() || !strings.HasSuffix(entry.Name(), ".html")) {
+			continue
+		}
+
+		html, err := ex.rawFiles.FindOrPopulate(path + "/" + entry.Name())
+
+		if err != nil {
+			return err
+		}
+
+		ex.Steps = append(ex.Steps, template.HTML(string(html)) )
+	}
+
+	ex.StepNumber = 0
 
 	return nil
 }

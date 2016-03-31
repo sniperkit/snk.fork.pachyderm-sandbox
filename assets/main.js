@@ -91,5 +91,14 @@ var pipelineCompleted = null;
 $(document).ready(
                   function () {
                       addDataPaneListeners();
+                      $(".steps").on('afterChange', function(event, slick, currentSlide){
+                              $("input[name='current_step']").attr("value",currentSlide);
+                              console.log("Current slide:" + currentSlide);
+                          });
+                      $(".steps").slick({
+                              appendArrows: $(".arrows")
+                          });
+                      $(".steps div").removeClass("invisible");
+                      
                   }
                   );
