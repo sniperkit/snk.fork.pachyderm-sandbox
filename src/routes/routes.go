@@ -23,7 +23,10 @@ func init() {
 
 	assets := router.Group("/assets")
 	{
-		assets.GET("/styles.css", assetHandler.Serve)
+		assets.GET("/css/main.css", assetHandler.Serve)
+		assets.GET("/css/bootstrap.min.css", assetHandler.Serve)
+		assets.GET("/css/bootstrap-theme.min.css", assetHandler.Serve)
+
 		assets.GET("/main.js", assetHandler.Serve)
 	}
 
