@@ -31,8 +31,6 @@ function updatePipelineStatusUI(result) {
         return
     }
 
-    console.log(result);
-    console.log(result["status"]);
     pipelineCompleted = result["status"];
 
     if (pipelineCompleted) {
@@ -93,7 +91,6 @@ $(document).ready(
                       addDataPaneListeners();
                       $(".steps").on('afterChange', function(event, slick, currentSlide){
                               $("input[name='current_step']").attr("value",currentSlide);
-                              console.log("Current slide:" + currentSlide);
                           });
                       $(".steps").slick({
                               appendArrows: $(".arrows")
