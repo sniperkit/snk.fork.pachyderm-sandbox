@@ -5,7 +5,6 @@ import(
 	"bytes"
 
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
-	pfs_server "github.com/pachyderm/pachyderm/src/server/pfs"
 	"github.com/pachyderm/pachyderm/src/client"
 
 	"github.com/pachyderm/sandbox/src/util"
@@ -16,7 +15,7 @@ type SandboxRepo struct {
 	Files map[string]map[string][][]string //name -> commit -> 2D data
 	client *client.APIClient
 
-	*pfs_server.Repo
+	*pfs_client.Repo
 }
 
 func New(APIClient *client.APIClient, name string) (*SandboxRepo, error) {
@@ -39,7 +38,7 @@ func createRepo(APIClient *client.APIClient, name string, unique_name string) *S
 		DisplayName: name,
 		client: APIClient,
 		Files: make(map[string]map[string][][]string),
-		Repo: &pfs_server.Repo{
+		Repo: &pfs_client.Repo{
 			Name: unique_name,
 		},
 	}
@@ -58,7 +57,7 @@ func Load(APIClient *client.APIClient, unique_name string) (*SandboxRepo, error)
 }
 
 func (r *SandboxRepo) LoadFileData() error {
-	commitInfos, err := pfs_client.ListCommit(r.client, []string{ r.Name })
+	commitInfos, err := pfs_client.ListCommit(r.client, []string{ r.Name }, []string{}, true)
 
 	if err != nil {
 		return err
