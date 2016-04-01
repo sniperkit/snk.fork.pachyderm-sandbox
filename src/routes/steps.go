@@ -71,7 +71,9 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	ex.Code = code
 
 	user, err := session.GetUserToken(s)
-	userPresent := (err != nil)
+	userPresent := (err == nil)
+	fmt.Printf("user present? %v, err %v\n", userPresent, err)
+	fmt.Printf("user: %v\n", user)
 
 	if userPresent {
 		fmt.Printf("---TRACKING code submitted")

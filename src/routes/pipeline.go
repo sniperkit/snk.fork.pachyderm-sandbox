@@ -43,10 +43,11 @@ func check_pipeline_status(c *gin.Context) {
 		"states": states,
 	})
 
-	if status {
+	if status && len(states) > 0 {
 
+		fmt.Printf("status=%v and states=%v\n", status, len(states))
 		user, err := session.GetUserToken(s)
-		userPresent := (err != nil)
+		userPresent := (err == nil)
 		fmt.Printf("Going to track user [%v]\n", user)
 
 		if userPresent {
@@ -115,7 +116,7 @@ func list_output_repos(c *gin.Context) {
 	}
 
 	user, err := session.GetUserToken(s)
-	userPresent := (err != nil)
+	userPresent := (err == nil)
 
 	var repoNames []string
 
@@ -123,7 +124,8 @@ func list_output_repos(c *gin.Context) {
 		repoNames = append(repoNames, repo.Name)
 	}
 
-	if userPresent {
+	if userPresent && len(repoNames) > 0 {
+
 		fmt.Printf("---TRACKING loaded output repos")
 		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Loaded output repo",
