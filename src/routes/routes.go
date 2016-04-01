@@ -24,10 +24,12 @@ func init() {
 	assets := router.Group("/assets")
 	{
 		assets.GET("/css/main.css", assetHandler.Serve)
+		assets.GET("/css/codemirror.css", assetHandler.Serve)
 		assets.GET("/css/bootstrap.min.css", assetHandler.Serve)
 		assets.GET("/css/lavish-bootstrap.css", assetHandler.Serve)
 
 		assets.GET("/main.js", assetHandler.Serve)
+		assets.GET("/codemirror.js", assetHandler.Serve)
 	}
 
 
