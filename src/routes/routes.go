@@ -2,6 +2,7 @@ package routes
 
 import(
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
@@ -23,7 +24,8 @@ func init() {
 	APIClient = apiClient
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
 
-	analyticsClient = analytics.New("YOUR_WRITE_KEY")
+	
+	analyticsClient = analytics.New(os.Getenv("YOUR_WRITE_KEY"))
 	analyticsClient.Size = 1
 
 	assets := router.Group("/assets")
