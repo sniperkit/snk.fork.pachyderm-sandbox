@@ -3,13 +3,13 @@
 <table class="input">
 
   <tr>
-    <th colspan="3" class="repo"> [{{ $.DisplayName }}] </th>
+    <th colspan="3" class="repo"> <span class="repo-icon glyphicon glyphicon-book"></span> [{{ $.DisplayName }}] </th>
   </tr>  
 
 {{ range $filename, $commitContentHash := .Files }}
 
   <tr>
-    <th colspan="3" class="file"> /{{ $filename }} </th>
+    <th colspan="3" class="file"> <span class="repo-icon glyphicon glyphicon-file"></span> /{{ $filename }} </th>
   </tr>  
   <tr>
     <td colspan="3" style="padding: 0px">
@@ -18,8 +18,12 @@
 
           <tr> 
             <th colspan="3" class="commit">
+              <span class="repo-icon glyphicon glyphicon-time"></span>
               {{ $commitID }} 
-              <span class="expand">+</span>
+              <span class="expand">
+                <span class="repo-icon glyphicon glyphicon-plus"></span>
+                <span class="repo-icon glyphicon glyphicon-minus hidden"></span>
+              </span>
             </th> 
           </tr>
 

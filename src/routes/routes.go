@@ -37,6 +37,12 @@ func init() {
 
 		assets.GET("/main.js", assetHandler.Serve)
 		assets.GET("/codemirror.js", assetHandler.Serve)
+
+		assets.GET("/fonts/glyphicons-halflings-regular.svg", assetHandler.Serve)
+		assets.GET("/fonts/glyphicons-halflings-regular.eot", assetHandler.Serve)
+		assets.GET("/fonts/glyphicons-halflings-regular.ttf", assetHandler.Serve)
+		assets.GET("/fonts/glyphicons-halflings-regular.woff", assetHandler.Serve)
+		assets.GET("/fonts/glyphicons-halflings-regular.woff2", assetHandler.Serve)
 	}
 
 
