@@ -12,7 +12,8 @@ ifndef VENDOR_IGNORE_DIRS
 endif
 
 run:
-	PACHD_PORT_650_TCP_ADDR=localhost GIN_MODE=debug ./sandbox
+	# In prodution SEGMENT_WRITE_KEY will be set
+	PACHD_PORT_650_TCP_ADDR=localhost GIN_MODE=debug DEBUG=analytics ./sandbox
 
 	# May want to run `$ sudo docker-machine ssh dev -fTNL 650:localhost:30650`
 	# to setup local port forwarding w this port as well.
@@ -56,7 +57,12 @@ vendor: vendor-update vendor-without-update vendor-clean
 build:
 	GO15VENDOREXPERIMENT=1 go build sandbox.go
 
-docker-build:
+export-analytics-key:
+	# To add the key from travis -> production
+	sed "s/xxx_write_key_value_xxx/$$SEGMENT_WRITE_KEY/" Dockerfile > tempDockerfile
+	mv tempDockerfile Dockerfile
+
+docker-build: export-analytics-key
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
 	docker tag $(REPO):$$COMMIT $(REPO):travis-$$TRAVIS_BUILD_NUMBER
 

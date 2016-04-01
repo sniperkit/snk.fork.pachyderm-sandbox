@@ -6,6 +6,9 @@ import(
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
+	"github.com/segmentio/analytics-go"
+
+	"github.com/pachyderm/sandbox/src/session"	
 	"github.com/pachyderm/sandbox/src/model/example"	
 	"github.com/pachyderm/sandbox/src/model/pipeline"
 	"github.com/pachyderm/sandbox/src/model/repo"
@@ -39,6 +42,35 @@ func check_pipeline_status(c *gin.Context) {
 		"status": status,
 		"states": states,
 	})
+
+	if status && len(states) > 0 {
+
+		fmt.Printf("status=%v and states=%v\n", status, len(states))
+		user, err := session.GetUserToken(s)
+		userPresent := (err == nil)
+		fmt.Printf("Going to track user [%v]\n", user)
+
+		if userPresent {
+			fmt.Printf("---TRACKING transform completed")
+			err = analyticsClient.Track(&analytics.Track{
+				Event:  "Transform Completed",
+				UserId: user,
+				Properties: map[string]interface{}{
+					"status": status,
+					"states": states,
+				},
+				Context: map[string]interface{}{
+					"integrations" : map[string]interface{}{
+						"All": true,
+					},
+				},
+			})
+			if err != nil {
+				fmt.Printf("Segment error: %v\n", err)
+			}
+
+		}
+	}
 
 }
 
@@ -82,5 +114,36 @@ func list_output_repos(c *gin.Context) {
 			"repos": repos,
 		})
 	}
+
+	user, err := session.GetUserToken(s)
+	userPresent := (err == nil)
+
+	var repoNames []string
+
+	for _, repo := range(repos) {
+		repoNames = append(repoNames, repo.Name)
+	}
+
+	if userPresent && len(repoNames) > 0 {
+
+		fmt.Printf("---TRACKING loaded output repos")
+		err = analyticsClient.Track(&analytics.Track{
+			Event:  "Loaded output repo",
+			UserId: user,
+			Properties: map[string]interface{}{
+				"repoNames": repoNames,
+			},
+			Context: map[string]interface{}{
+				"integrations" : map[string]interface{}{
+					"All": true,
+				},
+			},
+		})
+		if err != nil {
+			fmt.Printf("Segment error: %v\n", err)
+		}
+
+	}
+	
 
 }
