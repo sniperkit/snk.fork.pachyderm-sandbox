@@ -45,9 +45,9 @@
   {{ template "copy" .example }}
 </section>
 
-<div class="main">
+<div class="main row">
 
-<section class="panel panel-default input data">
+<section class="panel panel-default input data col-sm-3">
   <div class="panel-heading">
     <h3> Input </h3>
   </div>
@@ -55,8 +55,7 @@
     {{ template "data" .example.Repo }}
   </div>
 </section>
-
-<section class="panel panel-primary code">
+<section class="panel panel-primary code col-sm-5">
   <div class="panel-heading">
     <h3> Transform </h3>
   </div>
@@ -65,7 +64,7 @@
   </div>
 </section>
 
-<section class="panel panel-default output data">
+<section class="panel panel-default output data col-sm-3">
   <div class="panel-heading">
     <h3> Output </h3>
   </div>

@@ -1,4 +1,124 @@
-.main > section {
-  max-width: 300px;
+.main {
+      padding: 0px 20px;
+      width: 100%;
+}
 
+.main > section {
+  height: 400px;
+  padding: 0px;
+}
+
+section .panel-body {
+        padding: 0px;
+}
+
+section.panel {
+      margin-left: 10px;
+}
+
+section {
+  overflow: scroll;
+}
+
+.navigation {
+  width: 100%;
+  clear: float;
+}
+
+
+.status {
+        position: absolute;
+        z-index: 1;
+        top: 0px;
+}
+
+.item {
+      border: 1px solid black;
+      background: lightblue;
+      padding: 5px;
+      float: right;
+}
+
+.hidden {
+        display: none;
+}
+
+
+.flash {
+       width: 100%
+       min-height: 19px;
+}
+.flash .message {
+       background-color: lightgreen;
+       border: 1px solid black;
+       border-radius: 5px;
+       padding: 10px 20px;
+}
+.flash .message.error {
+             background-color: pink;
+}
+
+/* Data Pane */
+
+table {
+      width: 100%;
+}
+
+table.input th {
+            text-align: left;
+}
+
+table.data td {
+           border-bottom: 1px solid black;
+           border-left: 1px solid black;
+}
+
+table.data td:first-child {
+           border-left: 0px;
+}
+
+table {
+           border-collapse: collapse;
+}
+
+th.repo {
+        background-color: pink;
+}
+
+th.file {
+        background-color: lightblue;
+}
+
+th.commit {
+          background-color: lightgreen;
+          border: 1px solid lightgreen;
+}
+
+.commit .expand {
+        float: right;
+        border: 1px solid black;
+        padding: 0px 3px;
+        margin-right: 10px;
+}
+
+
+/* Content / Steps */
+
+.steps {
+       width: 100%;
+}
+
+.steps .invisible {
+       visibility: hidden;
+}
+
+.steps div {
+       height: 120px;
+       padding: 10px 20px;
+}
+
+.arrows {
+        float: right;
+        top: 0px;
+        position: relative;
 }
