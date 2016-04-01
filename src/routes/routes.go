@@ -25,7 +25,7 @@ func init() {
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
 
 	
-	analyticsClient = analytics.New(os.Getenv("YOUR_WRITE_KEY"))
+	analyticsClient = analytics.New(os.Getenv("SEGMENT_WRITE_KEY"))
 	analyticsClient.Size = 1
 
 	assets := router.Group("/assets")

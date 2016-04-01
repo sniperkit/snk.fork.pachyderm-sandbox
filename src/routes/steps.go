@@ -74,7 +74,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	userPresent := (err != nil)
 
 	if userPresent {
-		analyticsClient.Track(&analytics.Track{
+		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Submitted Code",
 			UserId: user,
 			Properties: map[string]interface{}{
@@ -86,12 +86,15 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 				},
 			},
 		})
+		if err != nil {
+			fmt.Printf("Segment error: %v\n", err)
+		}
 	}
 
 	pipelines, err := ex.KickoffPipeline(code)
 
 	if userPresent {
-		analyticsClient.Track(&analytics.Track{
+		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Kicked off pipelines",
 			UserId: user,
 			Properties: map[string]interface{}{
@@ -103,6 +106,10 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 				},
 			},
 		})
+		if err != nil {
+			fmt.Printf("Segment error: %v\n", err)
+		}
+
 	}
 
 	if err != nil {

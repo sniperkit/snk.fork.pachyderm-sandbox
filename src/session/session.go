@@ -2,6 +2,7 @@ package session
 
 import(
 	"errors"
+	"fmt"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/segmentio/analytics-go"
@@ -22,8 +23,13 @@ func Reset(s sessions.Session) {
 func TagUserSession(analyticsClient *analytics.Client, s sessions.Session) {
 	token := util.GenerateUniqueToken()
 	s.Set("user", token)
-	
-	analyticsClient.Identify(&analytics.Identify{AnonymousId: token})
+	fmt.Printf("IDd a new user %v\n", token)
+
+	err := analyticsClient.Identify(&analytics.Identify{AnonymousId: token})
+
+	if err != nil {
+		fmt.Printf("Segment.io error %v\n", err)
+	}
 }
 
 func GetUserToken(s sessions.Session) (string, error) {

@@ -49,7 +49,7 @@ func check_pipeline_status(c *gin.Context) {
 		userPresent := (err != nil)
 
 		if userPresent {
-			analyticsClient.Track(&analytics.Track{
+			err = analyticsClient.Track(&analytics.Track{
 				Event:  "Transform Completed",
 				UserId: user,
 				Properties: map[string]interface{}{
@@ -62,6 +62,10 @@ func check_pipeline_status(c *gin.Context) {
 					},
 				},
 			})
+			if err != nil {
+				fmt.Printf("Segment error: %v\n", err)
+			}
+
 		}
 	}
 
@@ -112,7 +116,7 @@ func list_output_repos(c *gin.Context) {
 	userPresent := (err != nil)
 
 	if userPresent {
-		analyticsClient.Track(&analytics.Track{
+		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Loaded output repo",
 			UserId: user,
 			Properties: map[string]interface{}{
@@ -124,6 +128,10 @@ func list_output_repos(c *gin.Context) {
 				},
 			},
 		})
+		if err != nil {
+			fmt.Printf("Segment error: %v\n", err)
+		}
+
 	}
 	
 
