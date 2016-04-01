@@ -92,6 +92,18 @@ function enableRunButton() {
 var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
 var pipelineCompleted = null;
 
+function initializeCodeMirror() {
+    var contents = $("textarea[name='code']").text();
+    var myCodeMirror = CodeMirror(
+                                  document.body,
+                                  {
+                                      value: contents,
+                                      mode: "JSON"
+                                  }
+                                  );
+    
+}
+
 $(document).ready(
                   function () {
                       enableRunButton();
