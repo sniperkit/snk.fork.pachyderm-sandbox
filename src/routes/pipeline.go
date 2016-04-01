@@ -47,8 +47,10 @@ func check_pipeline_status(c *gin.Context) {
 
 		user, err := session.GetUserToken(s)
 		userPresent := (err != nil)
+		fmt.Printf("Going to track user [%v]\n", user)
 
 		if userPresent {
+			fmt.Printf("---TRACKING transform completed")
 			err = analyticsClient.Track(&analytics.Track{
 				Event:  "Transform Completed",
 				UserId: user,
@@ -115,12 +117,19 @@ func list_output_repos(c *gin.Context) {
 	user, err := session.GetUserToken(s)
 	userPresent := (err != nil)
 
+	var repoNames []string
+
+	for _, repo := range(repos) {
+		repoNames = append(repoNames, repo.Name)
+	}
+
 	if userPresent {
+		fmt.Printf("---TRACKING loaded output repos")
 		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Loaded output repo",
 			UserId: user,
 			Properties: map[string]interface{}{
-				"repos": repos,
+				"repoNames": repoNames,
 			},
 			Context: map[string]interface{}{
 				"integrations" : map[string]interface{}{

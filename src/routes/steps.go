@@ -74,6 +74,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	userPresent := (err != nil)
 
 	if userPresent {
+		fmt.Printf("---TRACKING code submitted")
 		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Submitted Code",
 			UserId: user,
@@ -94,6 +95,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 	pipelines, err := ex.KickoffPipeline(code)
 
 	if userPresent {
+		fmt.Printf("---TRACKING pipeline kickoff")
 		err = analyticsClient.Track(&analytics.Track{
 			Event:  "Kicked off pipelines",
 			UserId: user,

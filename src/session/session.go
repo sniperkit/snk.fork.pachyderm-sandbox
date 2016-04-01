@@ -25,7 +25,7 @@ func TagUserSession(analyticsClient *analytics.Client, s sessions.Session) {
 	s.Set("user", token)
 	fmt.Printf("IDd a new user %v\n", token)
 
-	err := analyticsClient.Identify(&analytics.Identify{AnonymousId: token})
+	err := analyticsClient.Identify(&analytics.Identify{UserId: token})
 
 	if err != nil {
 		fmt.Printf("Segment.io error %v\n", err)
