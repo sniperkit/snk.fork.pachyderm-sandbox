@@ -1,3 +1,17 @@
+/* Header */
+
+nav.navbar-brand {
+              height: 60px;
+}
+
+a.navbar-brand {
+               top: -10px;
+               position: relative;
+}
+
+
+/* Panes */
+
 .main {
       padding: 0px 20px;
       width: 100%;
@@ -121,4 +135,13 @@ th.commit {
         float: right;
         top: 0px;
         position: relative;
+}
+
+/* buttons */
+
+button.run {
+           float: right;
+           position: relative;
+           right: 20px;
+           width: 100px;
 }

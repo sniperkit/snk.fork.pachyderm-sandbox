@@ -81,6 +81,12 @@ function loadPipelineOutput() {
         });
 }
 
+function enableRunButton() {
+    $("button.run").on("click", function() {
+            $("form").submit();
+        });
+}
+
 // Initialization
 
 var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
@@ -88,6 +94,7 @@ var pipelineCompleted = null;
 
 $(document).ready(
                   function () {
+                      enableRunButton();
                       addDataPaneListeners();
                       $(".steps").on('afterChange', function(event, slick, currentSlide){
                               $("input[name='current_step']").attr("value",currentSlide);
