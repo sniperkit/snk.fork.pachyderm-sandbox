@@ -127,8 +127,14 @@ th.commit {
 }
 
 .steps div {
-       height: 120px;
+       height: 150px;
        padding: 10px 20px;
+       overflow: hidden;
+}
+
+.steps .slick-list {
+       padding: 0px;
+       overflow: hidden;
 }
 
 .arrows {
