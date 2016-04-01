@@ -93,7 +93,7 @@ var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
 var pipelineCompleted = null;
 
 function initializeCodeMirror() {
-    var myTextArea = $("textarea[name='code']");
+    var myTextArea = $("textarea[name='code']")[0];
     var myCodeMirror = CodeMirror.fromTextArea(myTextArea);
     myCodeMirror.setOption("mode",{name:"javscript", json: true});
     
@@ -101,6 +101,7 @@ function initializeCodeMirror() {
 
 $(document).ready(
                   function () {
+                      initializeCodeMirror();
                       enableRunButton();
                       addDataPaneListeners();
                       $(".steps").on('afterChange', function(event, slick, currentSlide){

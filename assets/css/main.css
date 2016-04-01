@@ -148,3 +148,9 @@ button.run {
 .right-buttons button {
                    margin-left: 10px;
 }
+
+/* Code Styles */
+
+.CodeMirror {
+            height: 100%;
+}
