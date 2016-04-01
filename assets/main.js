@@ -96,6 +96,7 @@ function initializeCodeMirror() {
     var myTextArea = $("textarea[name='code']")[0];
     var myCodeMirror = CodeMirror.fromTextArea(myTextArea);
     myCodeMirror.setOption("mode",{name:"javscript", json: true});
+    myCodeMirror.setOption("lineNumbers", true);
     
 }
 
