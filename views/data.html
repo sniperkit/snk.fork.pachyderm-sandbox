@@ -2,13 +2,13 @@
 
 <table class="input">
 
-  <tr class="panel-default ">
+  <tr class="panel-info ">
     <th colspan="3" class="repo panel-heading"> <span class="repo-icon glyphicon glyphicon-book"></span> [{{ $.DisplayName }}] </th>
   </tr>  
 
 {{ range $filename, $commitContentHash := .Files }}
 
-  <tr class="panel-info ">
+  <tr class="panel-default ">
     <th colspan="3" class="file panel panel-heading"> <span class="repo-icon glyphicon glyphicon-file"></span> /{{ $filename }} </th>
   </tr>  
   <tr>
