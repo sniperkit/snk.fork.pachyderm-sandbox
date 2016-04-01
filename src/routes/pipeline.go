@@ -6,6 +6,9 @@ import(
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/sessions"
+	"github.com/segmentio/analytics-go"
+
+	"github.com/pachyderm/sandbox/src/session"	
 	"github.com/pachyderm/sandbox/src/model/example"	
 	"github.com/pachyderm/sandbox/src/model/pipeline"
 	"github.com/pachyderm/sandbox/src/model/repo"
@@ -39,6 +42,28 @@ func check_pipeline_status(c *gin.Context) {
 		"status": status,
 		"states": states,
 	})
+
+	if status {
+
+		user, err := session.GetUserToken(s)
+		userPresent := (err != nil)
+
+		if userPresent {
+			analyticsClient.Track(&analytics.Track{
+				Event:  "Transform Completed",
+				UserId: user,
+				Properties: map[string]interface{}{
+					"status": status,
+					"states": states,
+				},
+				Context: map[string]interface{}{
+					"integrations" : map[string]interface{}{
+						"All": true,
+					},
+				},
+			})
+		}
+	}
 
 }
 
@@ -82,5 +107,24 @@ func list_output_repos(c *gin.Context) {
 			"repos": repos,
 		})
 	}
+
+	user, err := session.GetUserToken(s)
+	userPresent := (err != nil)
+
+	if userPresent {
+		analyticsClient.Track(&analytics.Track{
+			Event:  "Loaded output repo",
+			UserId: user,
+			Properties: map[string]interface{}{
+				"repos": repos,
+			},
+			Context: map[string]interface{}{
+				"integrations" : map[string]interface{}{
+					"All": true,
+				},
+			},
+		})
+	}
+	
 
 }

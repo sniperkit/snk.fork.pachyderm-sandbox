@@ -7,8 +7,8 @@ import(
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/contrib/sessions"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/segmentio/analytics-go"
 
 	"github.com/pachyderm/sandbox/src/model/example"	
@@ -80,6 +80,11 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 			Properties: map[string]interface{}{
 				"code": code,
 			},
+			Context: map[string]interface{}{
+				"integrations" : map[string]interface{}{
+					"All": true,
+				},
+			},
 		})
 	}
 
@@ -91,6 +96,11 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 			UserId: user,
 			Properties: map[string]interface{}{
 				"pipelines": pipelines,
+			},
+			Context: map[string]interface{}{
+				"integrations" : map[string]interface{}{
+					"All": true,
+				},
 			},
 		})
 	}
