@@ -93,14 +93,9 @@ var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
 var pipelineCompleted = null;
 
 function initializeCodeMirror() {
-    var contents = $("textarea[name='code']").text();
-    var myCodeMirror = CodeMirror(
-                                  document.body,
-                                  {
-                                      value: contents,
-                                      mode: "JSON"
-                                  }
-                                  );
+    var myTextArea = $("textarea[name='code']");
+    var myCodeMirror = CodeMirror.fromTextArea(myTextArea);
+    myCodeMirror.setOption("mode",{name:"javscript", json: true});
     
 }
 
