@@ -75,6 +75,11 @@ section.panel {
 
 table {
       width: 100%;
+      border-collapse: collapse;
+}
+
+table th {
+      padding: 4px 2px;
 }
 
 table.input th {
@@ -90,29 +95,11 @@ table.data td:first-child {
            border-left: 0px;
 }
 
-table {
-           border-collapse: collapse;
-}
-
-th.repo {
-        background-color: pink;
-}
-
-th.file {
-        background-color: lightblue;
+.commit .expand {
 }
 
 th.commit {
-          background-color: lightgreen;
-          border: 1px solid lightgreen;
           font-size: 10pt;
-          padding: 4px 2px;
-}
-
-.commit .expand {
-        float: right;
-        padding: 0px 3px;
-        margin-right: 10px;
 }
 
 

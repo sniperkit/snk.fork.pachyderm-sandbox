@@ -2,22 +2,22 @@
 
 <table class="input">
 
-  <tr>
-    <th colspan="3" class="repo"> <span class="repo-icon glyphicon glyphicon-book"></span> [{{ $.DisplayName }}] </th>
+  <tr class="panel-primary ">
+    <th colspan="3" class="repo panel-heading"> <span class="repo-icon glyphicon glyphicon-book"></span> [{{ $.DisplayName }}] </th>
   </tr>  
 
 {{ range $filename, $commitContentHash := .Files }}
 
-  <tr>
-    <th colspan="3" class="file"> <span class="repo-icon glyphicon glyphicon-file"></span> /{{ $filename }} </th>
+  <tr class="panel-info ">
+    <th colspan="3" class="file panel panel-heading"> <span class="repo-icon glyphicon glyphicon-file"></span> /{{ $filename }} </th>
   </tr>  
   <tr>
     <td colspan="3" style="padding: 0px">
       <table class="data">
         {{ range $commitID, $contents := $commitContentHash }}
 
-          <tr> 
-            <th colspan="3" class="commit">
+          <tr class="panel-default "> 
+            <th colspan="3" class="commit panel-heading">
               <span class="repo-icon glyphicon glyphicon-time"></span>
               {{ $commitID }} 
               <span class="expand">

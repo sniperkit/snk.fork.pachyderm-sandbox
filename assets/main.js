@@ -2,21 +2,11 @@
 
 function toggleCommitData(e) {
     var parent = $(e.target).parent();
-    console.log("parent:",parent);
-
     var commitID = parent.parent().text().split(parent.text())[0].trim();
-
-    console.log("target:");
-    console.log(e.target);
-    window.z = e.target;
-
     var hidden = parent.find("span.glyphicon-minus").hasClass("hidden");
 
     parent.find("span").toggleClass("hidden");
     
-    console.log("hidden?" + hidden);
-    console.log("commitID:" + commitID);
-
     if ( hidden == true ) {
         $("tr." + commitID).removeClass("hidden");
     } else {
