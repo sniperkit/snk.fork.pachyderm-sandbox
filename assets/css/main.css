@@ -80,6 +80,11 @@ table {
 
 table th {
       padding: 4px 2px;
+      padding-left: 10px !important;
+}
+
+th .expand {
+   float: right;
 }
 
 table.input th {
@@ -95,11 +100,9 @@ table.data td:first-child {
            border-left: 0px;
 }
 
-.commit .expand {
-}
-
 th.commit {
           font-size: 10pt;
+          border-bottom: 1px solid black;
 }
 
 

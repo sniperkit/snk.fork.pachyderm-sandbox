@@ -2,7 +2,7 @@
 
 <table class="input">
 
-  <tr class="panel-primary ">
+  <tr class="panel-default ">
     <th colspan="3" class="repo panel-heading"> <span class="repo-icon glyphicon glyphicon-book"></span> [{{ $.DisplayName }}] </th>
   </tr>  
 
@@ -16,7 +16,7 @@
       <table class="data">
         {{ range $commitID, $contents := $commitContentHash }}
 
-          <tr class="panel-default "> 
+          <tr class=""> 
             <th colspan="3" class="commit panel-heading">
               <span class="repo-icon glyphicon glyphicon-time"></span>
               {{ $commitID }} 
