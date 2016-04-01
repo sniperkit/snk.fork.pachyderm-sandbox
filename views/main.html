@@ -1,9 +1,26 @@
 {{ define "content" }}
-<header>
-<h1> Pachyderm Sandbox 
 
-  <small> {{.title}} </small>
-</h1>
+<form action="/" method="POST">
+
+<header>
+
+  <nav class="navbar navbar-inverse navbar-brand navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://pachyderm.io"> Pachyderm Sandbox  </a>
+      </div>
+
+      <div class="nav navbar-nav navbar-right right-buttons">
+        <button type="button" class="run btn btn-success">
+          Run
+        </button>
+        <div class="arrows"></div>
+      </div>
+
+    </div>
+  </nav>
+
+
 </header>
 
 {{ $flash_state := "inactive"}}
@@ -34,38 +51,41 @@
   <div class="item hidden"></div>
 </div>
 
-<form action="/" method="POST">
-
 <section class="copy">
   {{ template "copy" .example }}
 </section>
 
-<div class="main">
+<div class="main row">
 
-<section class="pane input data">
-  <h3> Input </h3>
-  {{ template "data" .example.Repo }}
+<section class="panel panel-default input data col-sm-3">
+  <div class="panel-heading">
+    <h3> Input </h3>
+  </div>
+  <div class="panel-body">
+    {{ template "data" .example.Repo }}
+  </div>
+</section>
+<section class="panel panel-primary code col-sm-5">
+  <div class="panel-heading">
+    <h3> Transform </h3>
+  </div>
+  <div class="panel-body">
+    {{ template "code" . }}
+  </div>
 </section>
 
-<section class="pane code">
-  <h3> Transform </h3>
-  {{ template "code" . }}
-</section>
-
-<section class="pane output data">
-  <h3> Output </h3>
-  <table>
-  </table>
+<section class="panel panel-default output data col-sm-3">
+  <div class="panel-heading">
+    <h3> Output </h3>
+  </div>
+  <div class="panel-body">
+    <table>
+    </table>
+  </div>
 </section>
 
 </div>
 
-
-<div class="navigation">
-
-  <input type="submit" class="button" value="Run"/>
-
-</div>
 
 </form>
 

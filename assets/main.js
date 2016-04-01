@@ -81,6 +81,12 @@ function loadPipelineOutput() {
         });
 }
 
+function enableRunButton() {
+    $("button.run").on("click", function() {
+            $("form").submit();
+        });
+}
+
 // Initialization
 
 var pipelineStatusPoller = window.setInterval(checkPipelineStatus, 250);
@@ -88,6 +94,7 @@ var pipelineCompleted = null;
 
 $(document).ready(
                   function () {
+                      enableRunButton();
                       addDataPaneListeners();
                       $(".steps").on('afterChange', function(event, slick, currentSlide){
                               $("input[name='current_step']").attr("value",currentSlide);
@@ -98,7 +105,13 @@ $(document).ready(
                                   slidesToShow:1, 
                                   slidesToScroll:1, 
                                   infinite: false,
-                                  initialSlide: parseInt(initialSlide)
+                                  initialSlide: parseInt(initialSlide),
+                                  prevArrow: '<button type="button" class="btn btn-default slick-prev">Previous</button>',
+                                  nextArrow: '<button type="button" class="btn btn-default slick-next">Next</button>',
                           });                      
+
+                      $(".next").on("click", function() { $(".slick-next").click() });
+                      $(".prev").on("click", function() { $(".slick-prev").click() });
+
                   }
                   );

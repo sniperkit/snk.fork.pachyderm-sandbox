@@ -1,32 +1,37 @@
-.pane {
-  display: inline-block;
-  margin: 10px;
-  width: 30%;
-  top: 0px;
-  position: relative;
-  vertical-align: top;
-  height: 100%;
+/* Header */
+
+nav.navbar-brand {
+              height: 60px;
 }
 
-.pane h3 {
-      width: 100%;
-      margin: 0px auto;
-      text-align: center;
-      border: 1px solid pink;
+a.navbar-brand {
+               top: -10px;
+               position: relative;
 }
 
-.pane.code h3 {
-      border: 0px;
-}
 
-.pane.data {
-  border: 2px solid pink;
-  overflow: scroll;
-}
+/* Panes */
 
 .main {
-  position: relative;
+      padding: 0px 20px;
+      width: 100%;
+}
+
+.main > section {
   height: 400px;
+  padding: 0px;
+}
+
+section .panel-body {
+        padding: 0px;
+}
+
+section.panel {
+      margin-left: 10px;
+}
+
+section {
+  overflow: scroll;
 }
 
 .navigation {
@@ -34,23 +39,6 @@
   clear: float;
 }
 
-.button {
-  float: right;
-  top: 40px;
-  right: 40px;
-  position: relative;
-  display: inline-block;  
-  border-radius: 5px;
-  padding: 5px;
-  border: 1px solid grey;
-  color: white;
-  background-color: blue;
-}
-
-input[type='text'] {
-  width: 100%;
-  height: 100%;
-}
 
 .status {
         position: absolute;
@@ -68,6 +56,8 @@ input[type='text'] {
 .hidden {
         display: none;
 }
+
+
 .flash {
        width: 100%
        min-height: 19px;
@@ -125,6 +115,7 @@ th.commit {
         margin-right: 10px;
 }
 
+
 /* Content / Steps */
 
 .steps {
@@ -136,11 +127,27 @@ th.commit {
 }
 
 .steps div {
-       height: 120px;
+       height: 150px;
+       padding: 10px 20px;
+       overflow: hidden;
 }
 
-.arrows {
-        float: right;
-        top: -26px;
-        position: relative;
+.steps .slick-list {
+       padding: 0px;
+       overflow: hidden;
+}
+
+
+/* buttons */
+
+button.run, .arrows {
+            float: right;
+}
+
+button.run {
+           width: 100px;
+}
+
+.right-buttons button {
+                   margin-left: 10px;
 }
