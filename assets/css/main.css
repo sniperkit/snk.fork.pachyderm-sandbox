@@ -48,6 +48,8 @@ section.panel {
       background: lightblue;
       padding: 5px;
       float: right;
+      z-index: 99999;
+      opacity: 1.0;
 }
 
 .hidden {
@@ -150,6 +152,10 @@ button.run {
 }
 
 /* Code Styles */
+
+.panel.code {
+            z-index: 0;
+}
 
 .CodeMirror {
             height: 100%;
