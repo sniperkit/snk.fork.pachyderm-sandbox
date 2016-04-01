@@ -44,12 +44,8 @@ section.panel {
 }
 
 .item {
-      border: 1px solid black;
-      background: lightblue;
-      padding: 5px;
       float: right;
       z-index: 99999;
-      opacity: 1.0;
 }
 
 .hidden {
