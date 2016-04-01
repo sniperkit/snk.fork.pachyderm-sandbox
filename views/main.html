@@ -1,10 +1,15 @@
 {{ define "content" }}
 <header>
-<h1> Pachyderm Sandbox 
 
-  <small> {{.title}} </small>
-</h1>
-</header>
+  <nav class="navbar navbar-inverse navbar-brand navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://pachyderm.io"> Pachyderm Sandbox  </a>
+      </div>
+    </div>
+  </nav>
+
+<header>
 
 {{ $flash_state := "inactive"}}
 
@@ -42,20 +47,32 @@
 
 <div class="main">
 
-<section class="pane input data">
-  <h3> Input </h3>
-  {{ template "data" .example.Repo }}
+<section class="panel panel-default input data">
+  <div class="panel-heading">
+    <h3> Input </h3>
+  </div>
+  <div class="panel-body">
+    {{ template "data" .example.Repo }}
+  </div>
 </section>
 
-<section class="pane code">
-  <h3> Transform </h3>
-  {{ template "code" . }}
+<section class="panel panel-primary code">
+  <div class="panel-heading">
+    <h3> Transform </h3>
+  </div>
+  <div class="panel-body">
+    {{ template "code" . }}
+  </div>
 </section>
 
-<section class="pane output data">
-  <h3> Output </h3>
-  <table>
-  </table>
+<section class="panel panel-default output data">
+  <div class="panel-heading">
+    <h3> Output </h3>
+  </div>
+  <div class="panel-body">
+    <table>
+    </table>
+  </div>
 </section>
 
 </div>

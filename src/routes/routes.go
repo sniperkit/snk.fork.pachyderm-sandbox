@@ -25,7 +25,7 @@ func init() {
 	{
 		assets.GET("/css/main.css", assetHandler.Serve)
 		assets.GET("/css/bootstrap.min.css", assetHandler.Serve)
-		assets.GET("/css/bootstrap-theme.min.css", assetHandler.Serve)
+		assets.GET("/css/lavish-bootstrap.css", assetHandler.Serve)
 
 		assets.GET("/main.js", assetHandler.Serve)
 	}
