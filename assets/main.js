@@ -109,5 +109,9 @@ $(document).ready(
                                   prevArrow: '<button type="button" class="btn btn-default slick-prev">Previous</button>',
                                   nextArrow: '<button type="button" class="btn btn-default slick-next">Next</button>',
                           });                      
+
+                      $(".next").on("click", function() { $(".slick-next").click() });
+                      $(".prev").on("click", function() { $(".slick-prev").click() });
+
                   }
                   );

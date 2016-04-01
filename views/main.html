@@ -1,4 +1,7 @@
 {{ define "content" }}
+
+<form action="/" method="POST">
+
 <header>
 
   <nav class="navbar navbar-inverse navbar-brand navbar-fixed-top">
@@ -6,8 +9,17 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="http://pachyderm.io"> Pachyderm Sandbox  </a>
       </div>
+
+      <div class="nav navbar-nav navbar-right right-buttons">
+        <button type="button" class="run btn btn-success">
+          Run
+        </button>
+        <div class="arrows"></div>
+      </div>
+
     </div>
   </nav>
+
 
 </header>
 
@@ -37,14 +49,6 @@
 
 <div class="status">
   <div class="item hidden"></div>
-</div>
-
-<form action="/" method="POST">
-
-<div class="navigation">
-  <button type="button" class="run btn btn-lg btn-success">
-    Run
-  </button>
 </div>
 
 <section class="copy">

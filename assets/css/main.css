@@ -137,27 +137,17 @@ th.commit {
        overflow: hidden;
 }
 
-.arrows {
-        float: right;
-        top: 0px;
-        position: relative;
-}
 
 /* buttons */
 
-button.run {
-           float: right;
-           position: relative;
-           right: 20px;
-           top: 7px;
-           width: 100px;
-           z-index: 9999;
+button.run, .arrows {
+            float: right;
 }
 
-button.slick-prev, button.slick-next {
-                   position: relative;
-                   top: -40px;
-                   left: -40px;
-                   z-index: 9999;
+button.run {
+           width: 100px;
+}
+
+.right-buttons button {
                    margin-left: 10px;
 }
