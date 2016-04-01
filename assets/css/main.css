@@ -143,5 +143,15 @@ button.run {
            float: right;
            position: relative;
            right: 20px;
+           top: 7px;
            width: 100px;
+           z-index: 9999;
+}
+
+button.slick-prev, button.slick-next {
+                   position: relative;
+                   top: -40px;
+                   left: -40px;
+                   z-index: 9999;
+                   margin-left: 10px;
 }

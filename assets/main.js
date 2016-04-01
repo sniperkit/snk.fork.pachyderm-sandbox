@@ -105,7 +105,9 @@ $(document).ready(
                                   slidesToShow:1, 
                                   slidesToScroll:1, 
                                   infinite: false,
-                                  initialSlide: parseInt(initialSlide)
+                                  initialSlide: parseInt(initialSlide),
+                                  prevArrow: '<button type="button" class="btn btn-default slick-prev">Previous</button>',
+                                  nextArrow: '<button type="button" class="btn btn-default slick-next">Next</button>',
                           });                      
                   }
                   );
