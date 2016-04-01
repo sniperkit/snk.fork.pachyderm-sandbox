@@ -59,7 +59,8 @@ build:
 
 export-analytics-key:
 	# To add the key from travis -> production
-	sed -i .bck "s/xxx_write_key_value_xxx/$$SEGMENT_WRITE_KEY/" Dockerfile
+	sed "s/xxx_write_key_value_xxx/$$SEGMENT_WRITE_KEY/" Dockerfile > tempDockerfile
+	mv tempDockerfile Dockerfile
 
 docker-build: export-analytics-key
 	docker build -f Dockerfile -t $(REPO):$$COMMIT .
