@@ -1,7 +1,12 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package main
 
-import(
-	"github.com/pachyderm/sandbox/src/routes"
+import (
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/routes"
 )
 
 func main() {

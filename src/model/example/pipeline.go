@@ -1,23 +1,27 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package example
 
-import(
-	"fmt"
-	"strings"
+import (
 	"bytes"
 	"encoding/json"
-	"io"
-	"text/template"
 	"errors"
+	"fmt"
+	"io"
+	"strings"
+	"text/template"
 
-	"golang.org/x/net/context"
-        "github.com/golang/protobuf/jsonpb"	
-	"github.com/gin-gonic/contrib/sessions"	
+	"github.com/gin-gonic/contrib/sessions"
+	"github.com/golang/protobuf/jsonpb"
 	pps_client "github.com/pachyderm/pachyderm/src/client/pps"
+	"golang.org/x/net/context"
 
-	"github.com/pachyderm/sandbox/src/model/pipeline"
-	"github.com/pachyderm/sandbox/src/util"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/model/pipeline"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/util"
 )
-
 
 var ErrNoPipelinesInSession = errors.New("Could not find pipeline from session data")
 
@@ -45,11 +49,11 @@ func (ex *Example) fullyQualifyRequest(request *pps_client.CreatePipelineRequest
 		replacement = ex.Repo.Name
 	}
 
-	for i, _ := range(request.Transform.Stdin) {
+	for i, _ := range request.Transform.Stdin {
 		request.Transform.Stdin[i] = strings.Replace(request.Transform.Stdin[i], ex.Repo.DisplayName, replacement, -1)
 	}
 
-	for i, _ := range(request.Inputs) {
+	for i, _ := range request.Inputs {
 		request.Inputs[i].Repo.Name = strings.Replace(request.Inputs[i].Repo.Name, ex.Repo.DisplayName, replacement, -1)
 	}
 
@@ -64,9 +68,9 @@ func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 	var pipelineNames []string
 	chainedTransform := false
 	var fqPipelineName string
-	
+
 	for {
-	
+
 		message := json.RawMessage{}
 
 		if err := decoder.Decode(&message); err != nil {
@@ -97,7 +101,6 @@ func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 
 		fmt.Printf("create pipeline NORMALIZED request: %v\n", request)
 
-
 		pipelineNames = append(pipelineNames, request.Pipeline.Name)
 
 		if _, err := e.client.CreatePipeline(
@@ -109,12 +112,11 @@ func (e *Example) KickoffPipeline(manifest string) ([]string, error) {
 
 		chainedTransform = true
 	}
-	
 
 	return pipelineNames, nil
 }
 
-func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_client.JobState, err error){
+func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_client.JobState, err error) {
 	states = make(map[string]pps_client.JobState)
 
 	pipelines, err := pipeline.LoadPipelinesFromSession(session)
@@ -123,8 +125,7 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_
 		return nil, ErrNoPipelinesInSession
 	}
 
-	for _, pipeline := range(pipelines) {
-
+	for _, pipeline := range pipelines {
 
 		jobInfos, err := e.client.ListJob(
 			context.Background(),
@@ -138,10 +139,10 @@ func (e *Example) getJobStates(session sessions.Session) (states map[string]pps_
 		if err != nil {
 			return nil, err
 		}
-		
+
 		var state pps_client.JobState
 
-		for _, jobInfo := range(jobInfos.JobInfo) {
+		for _, jobInfo := range jobInfos.JobInfo {
 			state = jobInfo.State
 
 			if state != pps_client.JobState_JOB_STATE_SUCCESS {
@@ -162,7 +163,7 @@ func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states 
 	states = make(map[string]string)
 	status = true
 
-	for pipeline, state := range(rawStates) {
+	for pipeline, state := range rawStates {
 
 		thisJobDone := (state == pps_client.JobState_JOB_STATE_SUCCESS)
 		status = status && thisJobDone
@@ -178,7 +179,6 @@ func (e *Example) IsPipelineDone(session sessions.Session) (status bool, states 
 func (e *Example) destroyPipeline() {
 
 }
-
 
 func (e *Example) loadPipeline() (string, error) {
 	raw_pipeline, err := e.rawFiles.FindOrPopulate(fmt.Sprintf("assets/examples/%v/pipeline.json", e.Name))

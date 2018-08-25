@@ -1,8 +1,13 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package util
 
-import(
-	"strings"
+import (
 	"fmt"
+	"strings"
 
 	"github.com/satori/go.uuid"
 )
@@ -26,4 +31,3 @@ func NameFromUniqueName(unique_name string) string {
 	tokens := strings.Split(unique_name, "-")
 	return strings.Join(tokens[0:len(tokens)-1], "-")
 }
-

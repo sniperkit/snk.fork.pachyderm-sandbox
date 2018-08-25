@@ -1,13 +1,18 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package session
 
-import(
+import (
 	"errors"
 	"fmt"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/segmentio/analytics-go"
 
-	"github.com/pachyderm/sandbox/src/util"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/util"
 )
 
 func Reset(s sessions.Session) {
@@ -41,5 +46,3 @@ func GetUserToken(s sessions.Session) (string, error) {
 
 	return value.(string), nil
 }
-
-

@@ -1,26 +1,30 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package example
 
-import(
-	"fmt"
+import (
 	"errors"
-	"strings"
-	"io/ioutil"
+	"fmt"
 	"html/template"
+	"io/ioutil"
+	"strings"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/pachyderm/pachyderm/src/client"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
 
-	"github.com/pachyderm/sandbox/src/asset"
-	"github.com/pachyderm/sandbox/src/model/repo"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/asset"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/model/repo"
 )
-
 
 type Example struct {
 	Name string
 
 	// Util
-	client *client.APIClient
+	client   *client.APIClient
 	rawFiles *asset.AssetHandler
 
 	// Data Pane
@@ -30,10 +34,9 @@ type Example struct {
 	Code string
 
 	// Content Pane
-	Steps []template.HTML
+	Steps      []template.HTML
 	StepNumber int
 }
-
 
 func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
 	r, err := repo.New(APIClient, name)
@@ -43,9 +46,9 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 	}
 
 	ex := &Example{
-		Name: name,
-		client: APIClient,
-		Repo: r,
+		Name:     name,
+		client:   APIClient,
+		Repo:     r,
 		rawFiles: assetHandler,
 	}
 
@@ -63,7 +66,7 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 
 	code, err := ex.loadPipeline()
 
-	if err != nil { 
+	if err != nil {
 		return nil, err
 	}
 
@@ -78,9 +81,7 @@ func New(name string, APIClient *client.APIClient, assetHandler *asset.AssetHand
 	return ex, nil
 }
 
-
 func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, assetHandler *asset.AssetHandler) (*Example, error) {
-
 
 	value := session.Get("example_name")
 
@@ -104,14 +105,14 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 		return nil, errors.New("Could not load repo: " + unique_name)
 	}
 
-	if err != nil { 
+	if err != nil {
 		return nil, err
 	}
 
 	ex := &Example{
-		Name: example_name,
-		client: APIClient,
-		Repo: r,
+		Name:     example_name,
+		client:   APIClient,
+		Repo:     r,
 		rawFiles: assetHandler,
 	}
 
@@ -119,11 +120,10 @@ func LoadFromCookie(session sessions.Session, APIClient *client.APIClient, asset
 
 	if err != nil {
 		return nil, err
-	}	
+	}
 
 	return ex, nil
 }
-
 
 func (e *Example) populateRepo() error {
 
@@ -132,14 +132,14 @@ func (e *Example) populateRepo() error {
 	}
 
 	files := []string{
-		fmt.Sprintf("assets/examples/%v/data/set1.txt", e.Name), 
+		fmt.Sprintf("assets/examples/%v/data/set1.txt", e.Name),
 		fmt.Sprintf("assets/examples/%v/data/set2.txt", e.Name),
 	}
 
 	// For now hardcode:
 	destinationFile := "sales"
 
-	for _, file := range(files) {
+	for _, file := range files {
 		commit, err := pfs_client.StartCommit(e.client, e.Repo.Name, "", "")
 
 		if err != nil {
@@ -184,8 +184,8 @@ func (ex *Example) loadSteps() error {
 		return err
 	}
 
-	for _, entry := range(entries) {
-		if (entry.IsDir() || !strings.HasSuffix(entry.Name(), ".html")) {
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".html") {
 			continue
 		}
 
@@ -195,7 +195,7 @@ func (ex *Example) loadSteps() error {
 			return err
 		}
 
-		ex.Steps = append(ex.Steps, template.HTML(string(html)) )
+		ex.Steps = append(ex.Steps, template.HTML(string(html)))
 	}
 
 	ex.StepNumber = 0

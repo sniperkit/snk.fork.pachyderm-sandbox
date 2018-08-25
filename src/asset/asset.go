@@ -1,8 +1,13 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package asset
 
-import(
-	"io/ioutil"
+import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -20,7 +25,7 @@ func NewAssetHandler() *AssetHandler {
 }
 
 func (a *AssetHandler) Serve(c *gin.Context) {
-	
+
 	path := fmt.Sprintf(".%v", c.Request.URL.Path)
 	content, err := a.FindOrPopulate(path)
 
@@ -28,12 +33,12 @@ func (a *AssetHandler) Serve(c *gin.Context) {
 		c.String(http.StatusNotFound, "Asset not found")
 	}
 
-	c.String(http.StatusOK, string(content) )
+	c.String(http.StatusOK, string(content))
 	setMIMEType(c, path)
 
 }
 
-func (a *AssetHandler) FindOrPopulate(path string) (content []byte, err error){
+func (a *AssetHandler) FindOrPopulate(path string) (content []byte, err error) {
 	_, ok := a.files[path]
 
 	if !ok || gin.Mode() == "debug" {
@@ -55,4 +60,3 @@ func setMIMEType(c *gin.Context, path string) {
 	contentType := fmt.Sprintf("text/%v", suffix)
 	c.Request.Header.Set("Content-Type", contentType)
 }
-

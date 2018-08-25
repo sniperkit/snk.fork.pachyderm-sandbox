@@ -1,11 +1,16 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package pipeline
 
-import(
+import (
 	"encoding/json"
-	"fmt"
 	e "errors"
+	"fmt"
 
-	"github.com/gin-gonic/contrib/sessions"	
+	"github.com/gin-gonic/contrib/sessions"
 )
 
 func LoadPipelinesFromSession(session sessions.Session) ([]string, error) {
@@ -15,7 +20,7 @@ func LoadPipelinesFromSession(session sessions.Session) ([]string, error) {
 		return nil, e.New("Couldnt find any pipelines in session")
 	}
 
-	fmt.Printf("raw pipeline data: %v\n", string(value.([]byte)) )
+	fmt.Printf("raw pipeline data: %v\n", string(value.([]byte)))
 
 	var pipelines []string
 
@@ -27,4 +32,3 @@ func LoadPipelinesFromSession(session sessions.Session) ([]string, error) {
 
 	return pipelines, nil
 }
-

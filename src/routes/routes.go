@@ -1,17 +1,22 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package routes
 
-import(
+import (
 	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
+	"github.com/gin-gonic/contrib/sessions"
+	"github.com/gin-gonic/gin"
 	"github.com/pachyderm/pachyderm/src/client"
 	"github.com/segmentio/analytics-go"
 
-	"github.com/pachyderm/sandbox/src/asset"
-	"github.com/pachyderm/sandbox/src/model/example"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/asset"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/model/example"
 )
 
 var assetHandler = asset.NewAssetHandler()
@@ -24,7 +29,6 @@ func init() {
 	APIClient = apiClient
 	// SJ: This feels wrong, am I missing a go-ism to solve the 'declared' compile error?
 
-	
 	analyticsClient = analytics.New(os.Getenv("SEGMENT_WRITE_KEY"))
 	analyticsClient.Size = 1
 
@@ -44,7 +48,6 @@ func init() {
 		assets.GET("/fonts/glyphicons-halflings-regular.woff", assetHandler.Serve)
 		assets.GET("/fonts/glyphicons-halflings-regular.woff2", assetHandler.Serve)
 	}
-
 
 	store := sessions.NewCookieStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
@@ -66,7 +69,7 @@ func Route() {
 	router.Run(":9080")
 }
 
-func handle(page string, customHandler func(*gin.Context) (*example.Example, []error) ) ( func (*gin.Context) ){
+func handle(page string, customHandler func(*gin.Context) (*example.Example, []error)) func(*gin.Context) {
 	return func(c *gin.Context) {
 		if gin.Mode() == "debug" {
 			router.HTMLRender = loadTemplates()
@@ -76,21 +79,20 @@ func handle(page string, customHandler func(*gin.Context) (*example.Example, []e
 
 		if example == nil {
 			c.HTML(http.StatusOK, page, gin.H{
-				"title" : "Example Error",
+				"title":  "Example Error",
 				"errors": errors,
 			})
 
 		} else {
 			c.HTML(http.StatusOK, page, gin.H{
-				"title" : example.Name + "Example",
-				"errors": errors,
+				"title":   example.Name + "Example",
+				"errors":  errors,
 				"example": example,
 			})
 
 		}
 	}
 }
-
 
 func loadTemplates() multitemplate.Render {
 	templates := multitemplate.New()

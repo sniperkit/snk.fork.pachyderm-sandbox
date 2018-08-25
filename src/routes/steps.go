@@ -1,21 +1,26 @@
+/*
+Sniperkit-Bot
+- Status: analyzed
+*/
+
 package routes
 
-import(
-	"fmt"
+import (
 	"encoding/json"
 	e "errors"
+	"fmt"
 	"strconv"
 
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	pfs_client "github.com/pachyderm/pachyderm/src/client/pfs"
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/segmentio/analytics-go"
 
-	"github.com/pachyderm/sandbox/src/model/example"	
-	"github.com/pachyderm/sandbox/src/session"	
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/model/example"
+	"github.com/sniperkit/snk.fork.pachyderm-sandbox/src/session"
 )
 
-func step1(c *gin.Context) (ex *example.Example, errors []error){
+func step1(c *gin.Context) (ex *example.Example, errors []error) {
 	s := sessions.Default(c)
 	session.TagUserSession(analyticsClient, s)
 
@@ -26,7 +31,7 @@ func step1(c *gin.Context) (ex *example.Example, errors []error){
 		errors = append(errors, err)
 	} else {
 		// Silly ... but go compiler doesn't know I'm using it in a view
-		fmt.Printf("Loaded %v\n", ex.Name)			
+		fmt.Printf("Loaded %v\n", ex.Name)
 	}
 
 	repos, err := pfs_client.ListRepo(APIClient)
@@ -64,7 +69,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 
 	code := c.PostForm("code")
 	if len(code) == 0 {
-		errors = append(errors, e.New("No code submitted") )
+		errors = append(errors, e.New("No code submitted"))
 		return nil, errors
 	}
 
@@ -84,7 +89,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 				"code": code,
 			},
 			Context: map[string]interface{}{
-				"integrations" : map[string]interface{}{
+				"integrations": map[string]interface{}{
 					"All": true,
 				},
 			},
@@ -105,7 +110,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 				"pipelines": pipelines,
 			},
 			Context: map[string]interface{}{
-				"integrations" : map[string]interface{}{
+				"integrations": map[string]interface{}{
 					"All": true,
 				},
 			},
@@ -118,7 +123,7 @@ func step1submit(c *gin.Context) (ex *example.Example, errors []error) {
 
 	if err != nil {
 		fmt.Printf("ERR! %v\n", err)
-		errors = append(errors, err)		
+		errors = append(errors, err)
 	}
 
 	pipelineJSON, _ := json.Marshal(pipelines)
